@@ -28,8 +28,37 @@
       <div class="shadow-bottom"></div>
       <div class="main-menu-content">
       <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="lines">
-       
-          @if(!empty($menuData[0]) && isset($menuData[0]))
+        
+          <?php $menuDatas = json_decode(json_encode(Session::get('userMenu')),false) ; ?>
+          @if(!empty($menuDatas) && isset($menuDatas))
+          @foreach ($menuDatas as $menu)
+              @if(isset($menu->navheader))
+                  <li class="navigation-header"><span>{{$menu->navheader}}</span></li>
+              @else
+              <li class="nav-item {{(request()->is($menu->url.'*')) ? 'active' : '' }}">
+              <a href="@if(isset($menu->url)){{asset($menu->url)}} @endif" @if(isset($menu->newTab)){{"target=_blank"}}@endif>
+                  @if(isset($menu->icon))
+                      <i class="menu-livicon" data-icon="{{$menu->icon}}"></i>
+                  @endif
+                  
+                  @if(isset($menu->name))
+                      <span class="menu-title">{{ $menu->name }}</span>
+                  @endif
+                  @if(isset($menu->tag))
+                  <span class="{{$menu->tagcustom}}">{{$menu->tag}}</span>
+                  @endif
+              </a>
+              @if(isset($menu->submenu))
+                  @include('panels.sidebar-submenu',['menu' => $menu->submenu])
+              @endif
+              </li>
+              @endif
+          @endforeach
+          @endif
+
+          <li class="navigation-header"><span>BATAS</span></li>
+
+          @if(!empty($menuData) && isset($menuData))
           @foreach ($menuData[0]->menu as $menu)
               @if(isset($menu->navheader))
                   <li class="navigation-header"><span>{{$menu->navheader}}</span></li>
@@ -39,6 +68,7 @@
                   @if(isset($menu->icon))
                       <i class="menu-livicon" data-icon="{{$menu->icon}}"></i>
                   @endif
+                  
                   @if(isset($menu->name))
                       <span class="menu-title">{{ __('locale.'.$menu->name)}}</span>
                   @endif
