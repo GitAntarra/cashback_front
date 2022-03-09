@@ -18,16 +18,16 @@ class UsersController extends Controller
 
     $param = [
       'page'  => 2,
-      'limit' => 5
+      'limit' => 1
     ];
     $data_user = $this->HttpRequest->service("GET", "/users/shows", $param);
     $data = [
       'msg'   => '',
       'users' => $data_user,
     ];
-    echo "<pre>";
-    print_r($data_user);
-    die;
+    // echo "<pre>";
+    // print_r($data_user);
+    // die;
     return view('users.page-users-list')->with($data);
   }
 
