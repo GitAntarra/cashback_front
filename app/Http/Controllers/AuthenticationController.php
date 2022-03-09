@@ -50,7 +50,9 @@ class AuthenticationController extends Controller
       'longitude'=>"324234"
     ];
 
-    $res = Http::post('http://localhost:3000/api/v1/auth/signin', $req);
+    $url = env('API_URL')."/auth/signin";
+
+    $res = Http::post($url, $req);
 
 
     if($res->successful()){
