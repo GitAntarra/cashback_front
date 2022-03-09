@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/vendors-rtl.min.css')}}">
     @endif
     @yield('vendor-styles')
+    
+<link rel="stylesheet" type="text/css" href="{{asset('vendors/css/extensions/toastr.css')}}">
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -29,6 +31,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/core/menu/menu-types/vertical-menu.css')}}">
     @endif
     @yield('page-styles')
+    
+<link rel="stylesheet" type="text/css" href="{{asset('css/plugins/extensions/toastr.css')}}">
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
@@ -38,3 +42,6 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style-rtl.css')}}">
     @endif
     <!-- END: Custom CSS-->
+
+    @section('vendor-styles')
+@endsection

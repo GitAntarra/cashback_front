@@ -57,33 +57,16 @@ class AuthenticationController extends Controller
           'app-owner' => '$(@uRn]*v`g[(^]LC)cR~?_<^YjcG?/X^9FH6Tg(j-SMmw+wd9t+r'
         ])->post('http://172.18.135.224:3004/auth/signin', $req_param);
 
-        // return $response;
-
-        // if(isset($response['error'])){
-        //   $request->session()->flash('status', $response['error']);
-        //   $pageConfigs = ['bodyCustomClass'=> 'bg-full-screen-image'];
-        //   return view('pages.auth-login',['pageConfigs' => $pageConfigs]);
-        // }else{
-        //   // Session::set('accessToken', $response['accessToken']);
-        //   // Session::set('userdata', $response['user']);
-
-        //   // $data = session()->all();
-        //   // var_dump($data);
-        //   // Session::put('set_accessToken', $response['accessToken']);
-        //   // Session::put('set_userdata', $response['user']);
-        //   // Session::put('set_menu', $response['menu']);
+        
+        if(isset($response['accessToken'])){
           Session::put('isLogin', $response);
-
-        //   // Session::get('accessToken');
-        //   // echo "<pre>";
-        //   // $userData = $request->session()->get('userdata');
-        //   // $menus = $request->session()->get('menu');
-        //   // var_dump($menus);
-        //   // echo $userData['pernr'];
-        //   // print_r($request->session()->get('accessToken'));  
-        //   return $response;
-          return redirect('/');
-        // }
+            Session::put('accessToken', $response['accessToken']);
+            Session::put('set_userdata', $response['user']);
+            Session::put('menu', $response['menu']);
+            return redirect('/');
+        }else{
+            return redirect('/auth-login');
+        }
     }
 
     public function logout(Request $request){

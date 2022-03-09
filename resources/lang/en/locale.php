@@ -133,5 +133,9 @@ return [
   "Floating navbar" => "Floating navbar",
   "Error" => "Error",
   "Access Control" => "Access Control",
+  "User Management" => "User Management",
+  "Menu Management" => "Menu Management", 
+  "Menu List" => "Menu List",
+  "Menu Selected" => "Menu Selected"
 ];
 ?>

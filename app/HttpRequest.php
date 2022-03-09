@@ -1,55 +1,46 @@
 <?php
 
 namespace App;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Redirect;
 
 use Illuminate\Database\Eloquent\Model;
+use Session;
 
 class HttpRequest extends Model
 {
-    public function apiWithoutKey($method = "POST", $endpoint, $param = [])
+    public function service($method, $endpoint, $param = [])
     {
-        $client = new Client();
-        $url = config('app.urlapi');
-        $uri = $url."/".$endpoint;
+      // print_r($param['pernr']);die;
+      $api_url = env("API_URL").$endpoint;
+      $token = Session::get("accessToken");
+      $response = Http::withToken($token);
 
+      // echo $method;
 
-        $response = $client->request('GET', $uri, [
-            'verify'  => false,
-        ]);
+      if($method == "GET"){
+        $response = $response->get($api_url);
+      }else if($method == "POST"){
+        $response = $response->post($api_url,$param);
+      }
+      $res = json_decode($response, true);
+      return $res;die;
 
-        $responseBody = json_decode($response->getBody());
-        return $responseBody;
+      if($response->successful()){
+        return $res;
+      }
+      else{
+          if($response->status() == '401'){
+            return Redirect::to('/logout');
+          }
+          return "error";
+      }
     }
 
-    public function apiWithKey($method = "POST", $endpoint, $param = [])
-    {
-        $client = new Client();
-        $url = config('app.urlapi');
-
-        $uri = $url."/".$endpoint;
-
-        $params = [
-            //If you have any Params Pass here
-        ];
-
-        $headers = [
-            'Authorization' => 'k3Hy5qr73QhXrmHLXhpEh6CQ'
-        ];
-
-        $response = $client->request('GET', $url, [
-            // 'json' => $params,
-            'headers' => $headers,
-            'verify'  => false,
-        ]);
-
-        // $responseBody = json_decode($response->getBody());
-
-        return $response;
-    }
-
-    public function login(Request $response){
-        $response = (object) Http::withHeaders([
-            'app-owner' => '$(@uRn]*v`g[(^]LC)cR~?_<^YjcG?/X^9FH6Tg(j-SMmw+wd9t+r'
-          ])->post('http://172.18.135.224:3004/auth/signin', $req_param);
-    }
+    // public function login(Request $response){
+    //     $response = (object) Http::withHeaders([
+    //         'app-owner' => '$(@uRn]*v`g[(^]LC)cR~?_<^YjcG?/X^9FH6Tg(j-SMmw+wd9t+r'
+    //       ])->post('http://172.18.135.224:3004/auth/signin', $req_param);
+    // }
 }
