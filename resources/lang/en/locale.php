@@ -14,6 +14,7 @@ return [
   "Invoice" => "Invoice",
   "Invoice Edit" => "Invoice Edit",
   "Invoice Add" => "Invoice Add",
+  "Invoice Map" => "Invoice Map",
   "File Manager" => "File Manager",
   "UI" => "UI",
   "Content" => "Content",
@@ -133,9 +134,11 @@ return [
   "Floating navbar" => "Floating navbar",
   "Error" => "Error",
   "Access Control" => "Access Control",
-  "User Management" => "User Management",
-  "Menu Management" => "Menu Management", 
+  "Users Management" => "Users Management",
+  "Menus Management" => "Users Management",
+  "List Menu" => "List Menu",
+  "Select Menu" => "Select Menu",
   "Menu List" => "Menu List",
-  "Menu Selected" => "Menu Selected"
+  "Menu Selected" => "Menu Selected",
 ];
 ?>

@@ -25,9 +25,9 @@ class UsersController extends Controller
       'msg'   => '',
       'users' => $data_user,
     ];
-    // echo "<pre>";
-    // print_r($data_user);
-    // die;
+      // echo "<pre>";
+      // print_r($data_user);
+      // die;
     return view('users.page-users-list')->with($data);
   }
 

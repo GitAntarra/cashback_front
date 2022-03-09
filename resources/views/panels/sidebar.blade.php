@@ -24,67 +24,61 @@
       <div class="shadow-bottom"></div>
       <div class="main-menu-content">
       <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="lines">
-        <?php 
-          $json['menu'] =json_decode(json_encode(Session::get('menu')),false);
-          $menuData = (object) $json;
-          // echo "<pre>";
-          // print_r($menuData);
-          if(!empty($menuData) && isset($menuData)){
-            foreach ($menuData->menu as $menu){
-              if(isset($menu->navheader)){ ?>
-              <li class="navigation-header"><span>{{$menu->navheader}}</span></li>
-
-        <?php
-              }else{?>
+        
+          <?php $menuDatas = json_decode(json_encode(Session::get('userMenu')),false) ; ?>
+          @if(!empty($menuDatas) && isset($menuDatas))
+          @foreach ($menuDatas as $menu)
+              @if(isset($menu->navheader))
+                  <li class="navigation-header"><span>{{$menu->navheader}}</span></li>
+              @else
               <li class="nav-item {{(request()->is($menu->url.'*')) ? 'active' : '' }}">
-              <a href="<?php if(isset($menu->url)){ ?> {{asset($menu->url)}} <?php } ?> " <?php if(isset($menu->newTab)){?>  {{"target=_blank"}} <?php } ?>>
-                   <?php if(isset($menu->icon)){ ?> 
-                       <i class="menu-livicon" data-icon="{{$menu->icon}}"></i>
-                   <?php } ?>
-                   <?php if(isset($menu->name)){ ?>
-                       <span class="menu-title">{{ __('locale.'.$menu->name)}}</span>
-                 <?php } ?>
-                 <?php if(isset($menu->tag)){ ?>
-                 <span class="{{$menu->tagcustom}}">{{$menu->tag}}</span>
-                 <?php } ?>
-             </a>
-        <?php
-              }
-              if(isset($menu->submenu)){ ?>
-              @include('panels.sidebar-submenu',['menu' => $menu->submenu])
-        <?php
-              }
-            }
-          }
+              <a href="@if(isset($menu->url)){{asset($menu->url)}} @endif" @if(isset($menu->newTab)){{"target=_blank"}}@endif>
+                  @if(isset($menu->icon))
+                      <i class="menu-livicon" data-icon="{{$menu->icon}}"></i>
+                  @endif
+                  
+                  @if(isset($menu->name))
+                      <span class="menu-title">{{ $menu->name }}</span>
+                  @endif
+                  @if(isset($menu->tag))
+                  <span class="{{$menu->tagcustom}}">{{$menu->tag}}</span>
+                  @endif
+              </a>
+              @if(isset($menu->submenu))
+                  @include('panels.sidebar-submenu',['menu' => $menu->submenu])
+              @endif
+              </li>
+              @endif
+          @endforeach
+          @endif
 
-        ?>
-        <?php     
-      //  @if(!empty($menuData[0]) && isset($menuData[0]))
-      //     @foreach ($menuData[0]->menu as $menu)
-      //         @if(isset($menu->navheader))
-      //             <li class="navigation-header"><span>{{$menu->navheader}}</span></li>
-      //         @else
-      //         <li class="nav-item {{(request()->is($menu->url.'*')) ? 'active' : '' }}">
-      //         <a href="@if(isset($menu->url)){{asset($menu->url)}} @endif" @if(isset($menu->newTab)){{"target=_blank"}}@endif>
-      //             @if(isset($menu->icon))
-      //                 <i class="menu-livicon" data-icon="{{$menu->icon}}"></i>
-      //             @endif
-      //             @if(isset($menu->name))
-      //                 <span class="menu-title">{{ __('locale.'.$menu->name)}}</span>
-      //             @endif
-      //             @if(isset($menu->tag))
-      //             <span class="{{$menu->tagcustom}}">{{$menu->tag}}</span>
-      //             @endif
-      //         </a>
-      //         @if(isset($menu->submenu))
-      //             @include('panels.sidebar-submenu',['menu' => $menu->submenu])
-      //         @endif
-      //         </li>
-      //         @endif
-      //     @endforeach
-      //     @endif 
-          ?>
-          
+          <li class="navigation-header"><span>BATAS</span></li>
+
+          @if(!empty($menuData) && isset($menuData))
+          @foreach ($menuData[0]->menu as $menu)
+              @if(isset($menu->navheader))
+                  <li class="navigation-header"><span>{{$menu->navheader}}</span></li>
+              @else
+              <li class="nav-item {{(request()->is($menu->url.'*')) ? 'active' : '' }}">
+              <a href="@if(isset($menu->url)){{asset($menu->url)}} @endif" @if(isset($menu->newTab)){{"target=_blank"}}@endif>
+                  @if(isset($menu->icon))
+                      <i class="menu-livicon" data-icon="{{$menu->icon}}"></i>
+                  @endif
+                  
+                  @if(isset($menu->name))
+                      <span class="menu-title">{{ __('locale.'.$menu->name)}}</span>
+                  @endif
+                  @if(isset($menu->tag))
+                  <span class="{{$menu->tagcustom}}">{{$menu->tag}}</span>
+                  @endif
+              </a>
+              @if(isset($menu->submenu))
+                  @include('panels.sidebar-submenu',['menu' => $menu->submenu])
+              @endif
+              </li>
+              @endif
+          @endforeach
+          @endif
       </ul>
       </div>
   </div>
