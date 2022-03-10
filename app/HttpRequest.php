@@ -23,10 +23,12 @@ class HttpRequest extends Model
         $response = $response->get($api_url);
       }else if($method == "POST"){
         $response = $response->post($api_url,$param);
+      }else if ($method == "PATCH"){
+        $response = $response->patch($api_url,$param);
       }
       $res = json_decode($response, true);
-      return $res;die;
-
+      return $response;
+      die;
       if($response->successful()){
         return $res;
       }

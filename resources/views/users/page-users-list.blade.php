@@ -112,13 +112,21 @@
                 @if(!empty($userData) && isset($userData))
                 @foreach ($userData as $row)
                   <td>{{$row['pernr']}}</td>
-                  <td><a href="{{asset('page-users-view')}}">{{$row['name']}}</a>
+                  <td><a href="{{asset('/page-users-view?id=')}}{{$row['id']}}" data="{{$row['pernr']}}">{{$row['name']}}</a>
                   </td>
                   <td>{{$row['uker']}}</td>
                   <td>{{$row['level']}}</td>
                   <td>{{$row['branch']}}</td>
                   <td>{{$row['position']}}</td>
-                  <td><span class="badge badge-light-info">{{$row['status']}}</span></td>
+                  <td>
+                    @if($row['status'] == "ACTIVED")
+                    <span class="badge badge-light-success">{{$row['status']}}</span>
+                    @elseif($row['status'] == "SUSPEND")
+                    <span class="badge badge-light-warning">{{$row['status']}}</span>
+                    @else
+                    <span class="badge badge-light-danger">{{$row['status']}}</span>
+                    @endif
+                  </td>
                   <td><a href="{{asset('page-users-edit')}}"><i
                     class="bx bx-edit-alt"></i></a></td>
                     </tr>

@@ -19,6 +19,33 @@
 @section('content')
 <div class="app-content-overlay"></div>
 <div class="todo-app-area">
+  <!-- datatable start -->
+  <div class="table-responsive">
+  <div class="users-list-table">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body">
+            <table id="user-list" class="table">
+              <thead>
+                <tr>
+                    <th>TYPE</th>
+                    <th>NAME</th>
+                    <th>ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ddd</td>
+                  <td>sdsa</td>
+                  <td>sad</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
   <div class="todo-app-list-wrapper">
     <div class="todo-app-list">
       <div class="todo-fixed-search d-flex justify-content-between align-items-center">

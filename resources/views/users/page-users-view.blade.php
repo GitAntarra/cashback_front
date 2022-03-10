@@ -10,6 +10,7 @@
 <section class="users-view">
   <!-- users view media object start -->
   <div class="row">
+    <?php $data = (object) $detail_user;?>
     <div class="col-12 col-sm-7">
       <div class="media mb-2">
         <a class="mr-1" href="#">
@@ -17,53 +18,73 @@
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">Dean Stanley </span><span
-              class="text-muted font-medium-1"> @</span><span
-              class="users-view-username text-muted font-medium-1 ">candy007</span></h4>
-          <span>ID:</span>
-          <span class="users-view-id">305</span>
+          <h4 class="media-heading"><span>
+            {{$data->name}}
+          </span></h4>
+          <span>Personal Number:</span>
+          <span>{{$data->pernr}}</span>
         </div>
       </div>
     </div>
     <div class="col-12 col-sm-5 px-0 d-flex justify-content-end align-items-center px-1 mb-2">
-      <a href="#" class="btn btn-sm mr-25 border"><i class="bx bx-envelope font-small-3"></i></a>
-      <a href="#" class="btn btn-sm mr-25 border">Profile</a>
-      <a href="{{asset('page-users-edit')}}" class="btn btn-sm btn-primary">Edit</a>
+      <!-- <a href="#" class="btn btn-sm mr-25 border"><i class="bx bx-envelope font-small-3"></i></a>
+      <a href="#" class="btn btn-sm mr-25 border">Profile</a> -->
+      <a href="{{asset('/page-users-edit?id=')}}{{$data->id}}" class="btn btn-sm btn-primary"><i class="bx bx-pencil"></i> Edit</a>
     </div>
   </div>
   <!-- users view media object ends -->
   <!-- users view card data start -->
-  <div class="card">
+  <div class="card col-6">
     <div class="card-content">
       <div class="card-body">
         <div class="row">
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-12">
             <table class="table table-borderless">
               <tbody>
                 <tr>
-                  <td>Registered:</td>
-                  <td>01/01/2019</td>
+                  <td>Organization Unit:</td>
+                  <td>{{$data->uker}}</td>
                 </tr>
                 <tr>
-                  <td>Latest Activity:</td>
-                  <td class="users-view-latest-activity">30/04/2019</td>
+                  <td>Region:</td>
+                  <td class="users-view-latest-activity">{{$data->region}}</td>
                 </tr>
                 <tr>
-                  <td>Verified:</td>
-                  <td class="users-view-verified">Yes</td>
+                  <td>Position:</td>
+                  <td>{{$data->position}}</td>
                 </tr>
                 <tr>
-                  <td>Role:</td>
-                  <td class="users-view-role">Staff</td>
+                  <td>Division:</td>
+                  <td class="users-view-role">{{$data->division}}</td>
+                </tr>
+                <tr>
+                  <td>Uker:</td>
+                  <td>{{$data->uker}}</td>
+                </tr>
+                <tr>
+                  <td>Level:</td>
+                  <td>{{$data->level}}</td>
+                </tr>
+                <tr>
+                  <td>Branch:</td>
+                  <td>{{$data->branch}}</td>
                 </tr>
                 <tr>
                   <td>Status:</td>
-                  <td><span class="badge badge-light-success users-view-status">Active</span></td>
+                  <td>
+                    @if($data->status == "ACTIVED")
+                    <span class="badge badge-light-success">{{$data->status}}</span>
+                    @elseif($data->status == "SUSPEND")
+                    <span class="badge badge-light-warning">{{$data->status}}</span>
+                    @else
+                    <span class="badge badge-light-danger">{{$data->status}}</span>
+                    @endif
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="col-12 col-md-8">
+          <!-- <div class="col-12 col-md-8">
             <div class="table-responsive">
               <table class="table mb-0">
                 <thead>
@@ -100,93 +121,12 @@
                 </tbody>
               </table>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
   </div>
   <!-- users view card data ends -->
-  <!-- users view card details start -->
-  <div class="card">
-    <div class="card-content">
-      <div class="card-body">
-        <div class="row bg-primary bg-lighten-5 rounded mb-2 mx-25 text-center text-lg-left">
-          <div class="col-12 col-sm-4 p-2">
-            <h6 class="text-primary mb-0">Posts: <span class="font-large-1 align-middle">125</span></h6>
-          </div>
-          <div class="col-12 col-sm-4 p-2">
-            <h6 class="text-primary mb-0">Followers: <span class="font-large-1 align-middle">534</span></h6>
-          </div>
-          <div class="col-12 col-sm-4 p-2">
-            <h6 class="text-primary mb-0">Following: <span class="font-large-1 align-middle">256</span></h6>
-          </div>
-        </div>
-        <div class="col-12">
-          <table class="table table-borderless">
-            <tbody>
-              <tr>
-                <td>Username:</td>
-                <td class="users-view-username">dean3004</td>
-              </tr>
-              <tr>
-                <td>Name:</td>
-                <td class="users-view-name">Dean Stanley</td>
-              </tr>
-              <tr>
-                <td>E-mail:</td>
-                <td class="users-view-email">deanstanley@gmail.com</td>
-              </tr>
-              <tr>
-                <td>Comapny:</td>
-                <td>XYZ Corp. Ltd.</td>
-              </tr>
-
-            </tbody>
-          </table>
-          <h5 class="mb-1"><i class="bx bx-link"></i> Social Links</h5>
-          <table class="table table-borderless">
-            <tbody>
-              <tr>
-                <td>Twitter:</td>
-                <td><a href="#">https://www.twitter.com/</a></td>
-              </tr>
-              <tr>
-                <td>Facebook:</td>
-                <td><a href="#">https://www.facebook.com/</a></td>
-              </tr>
-              <tr>
-                <td>Instagram:</td>
-                <td><a href="#">https://www.instagram.com/</a></td>
-              </tr>
-            </tbody>
-          </table>
-          <h5 class="mb-1"><i class="bx bx-info-circle"></i> Personal Info</h5>
-          <table class="table table-borderless mb-0">
-            <tbody>
-              <tr>
-                <td>Birthday:</td>
-                <td>03/04/1990</td>
-              </tr>
-              <tr>
-                <td>Country:</td>
-                <td>USA</td>
-              </tr>
-              <tr>
-                <td>Languages:</td>
-                <td>English</td>
-              </tr>
-              <tr>
-                <td>Contact:</td>
-                <td>+(305) 254 24668</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- users view card details ends -->
-
 </section>
 <!-- users view ends -->
 @endsection

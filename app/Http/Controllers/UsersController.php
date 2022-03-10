@@ -21,6 +21,11 @@ class UsersController extends Controller
       'limit' => 1
     ];
     $data_user = $this->HttpRequest->service("GET", "/users/shows", $param);
+    $type = [
+      'HEADER'  => 'HEADER',
+      'MAIN'    => 'MAIN',
+      'OPTION'  => 'OPTION'
+    ];
     $data = [
       'msg'   => '',
       'users' => $data_user,
@@ -31,30 +36,6 @@ class UsersController extends Controller
     return view('users.page-users-list')->with($data);
   }
 
-  public function saveUser(Request $request)
-  {
-    // echo 'hallo';
-    
-    $data_user = Session::get('set_userdata');
-
-    $param = [
-      'pernr' => $request->post('pernr'),
-      'level' => $request->post('level'),
-      'status' => "INACTIVE",
-      'description' => $request->post('description'),
-    ];
-
-    // return $param;
-    
-    $result = $this->HttpRequest->service("POST", "/users/register", $param);
-    
-    if(isset($result['statusCode'])){
-      return redirect('/user-management')->with(['error' => $result['message']]);
-    }else{
-      return redirect('/user-management')->with(['success' => 'Successfully Add Users']);
-    }
-  }
-
   public function getEmployeeId(Request $request)
   {
     $post_model = new HttpRequest;
@@ -62,8 +43,12 @@ class UsersController extends Controller
       'pernr' => $request->post('pernr')
     ];
     $result = $post_model->service("GET", "/auth/brillian?pernr=".$param['pernr'], $param);
+    echo "<pre>";
+    print_r($param);
+    return $result;
+    die;
 
-    if ($result) {
+    if (isset($result)) {
       if($result['uker']){
         // if($this->session->userdata('level_user') != 'SAD'){
         //   if($this->session->userdata('branch_detail')['REGION'] != $result['DETAIL_UKER']['REGION']){
@@ -124,11 +109,103 @@ class UsersController extends Controller
     return view('users.page-users-add')->with($data);
   }
   //user view
-  public function viewUser(){
-    return view('pages.page-users-view');
+  public function viewUser(Request $request){
+    $user_id = $request->get('id');
+
+    $param = [
+      'id' => $user_id
+    ];
+
+    $detail_user = $this->HttpRequest->service("GET", "/users/".$param['id']."/detail", $param);
+    $data = [
+      'detail_user' => $detail_user,
+    ];
+    // echo "<pre>";
+    // print_r($detail_user);
+    // die;
+
+
+    return view('users.page-users-view')->with($data);
   }
+
+  public function saveUser(Request $request)
+  {
+    $data_user = Session::get('set_userdata');
+
+    $param = [
+      'pernr' => $request->post('pernr'),
+      'level' => $request->post('level'),
+      'status' => "ACTIVED",
+      'description' => $request->post('description'),
+    ];
+    
+    $result = $this->HttpRequest->service("POST", "/users/register", $param);
+    
+    if(isset($result['statusCode'])){
+      return redirect('/user-management')->with(['error' => $result['message']]);
+    }else{
+      return redirect('/user-management')->with(['success' => 'Successfully Add Users']);
+    }
+  }
+
    //user edit
-   public function editUser(){
-    return view('pages.page-users-edit');
+   public function editUser(Request $request){
+    $data = array();
+    $opt_level = [
+      'MAKER'         => 'MAKER',
+      'CHECKER'       => 'CHECKER',
+      'SIGNER'        => 'SIGNER',
+      'ADMINISTRATOR' => 'ADMINISTRATOR',
+      'SUPERADMIN'    => 'SUPERADMIN',
+      'DEVELOPER'     => 'DEVELOPER'
+    ];
+
+    $opt_status = [
+      'ACTIVED'   => 'ACTIVED',
+      'SUSPEND'   => 'SUSPEND',
+      'INACTIVE'  => 'INACTIVE',
+    ];
+    
+    $user_id = $request->get('id');
+    $param = [
+      'id' => $user_id
+    ];
+    $detail_user = $this->HttpRequest->service("GET", "/users/".$param['id']."/detail", $param);
+
+    $data = [
+      'detail_user'   => $detail_user,
+      'opt_level'     => $opt_level,
+      'selectedLevel' => "MAKER",
+      'opt_status'    => $opt_status,
+      'selectedStatus'=> "ACTIVED",
+    ];
+
+    // echo "<pre>";
+    // print_r($detail_user);
+    // die;
+    return view('users.page-users-edit')->with($data);
+  }
+
+  public function saveUpdate(Request $request)
+  {
+
+    $param = [
+      'level' => $request->get('level'),
+      'status' => $request->get('status'),
+      'description' => $request->get('description'),
+    ];
+
+    // echo "<pre>";
+    // print_r($param);
+    // echo $request->get('id');
+    // die;
+
+    $result = $this->HttpRequest->service("PATCH", "/users/".$request->get('id')."/update", $param);
+    
+    if(isset($result['statusCode'])){
+      return redirect('/user-management')->with(['error' => $result['message']]);
+    }else{
+      return redirect('/user-management')->with(['success' => 'Successfully Edit Users']);
+    }
   }
 }

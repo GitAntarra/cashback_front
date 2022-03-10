@@ -20,37 +20,41 @@
                 <h4 class="text-center mb-2">Sign Up</h4>
               </div>
             </div>
-            <div class="text-center">
-              <p> <small> Please enter your details to sign up and be part of our great community</small>
-              </p>
-            </div>
             <div class="card-content">
               <div class="card-body">
                 <form >
-                    <div class="form-row">
-                      <div class="form-group col-md-6 mb-50">
-                        <label for="inputfirstname4">first name</label>
-                        <input type="text" class="form-control" id="inputfirstname4"
-                            placeholder="First name">
-                      </div>
-                      <div class="form-group col-md-6 mb-50">
-                        <label for="inputlastname4">last name</label>
-                        <input type="text" class="form-control" id="inputlastname4"
-                            placeholder="Last name">
-                      </div>
+                  @csrf
+                    <div class="form-group mb-50">
+                        <label>Personal Number</label>
+                        <fieldset>
+                        <div class="input-group">
+                          <input type="text" maxlength="8" id="pernr" name="pernr" class="form-control" data-validation-required-message="This Personal Number field is required" placeholder="Recipient's Personal Number" aria-describedby="button-addon2">
+                          <div class="input-group-append" id="button-addon2">
+                            <button class="btn btn-primary" type="button" value="cari" id="btn_cari">Find</button>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+
+                    <div class="form-group mb-50">
+                      <label>Brilian Name</label>
+                      <input type="text" name="name" id="name" class="form-control" readonly />
                     </div>
                     <div class="form-group mb-50">
-                      <label class="text-bold-600" for="exampleInputUsername1">username</label>
-                      <input type="text" class="form-control" id="exampleInputUsername1"
-                          placeholder="Username"></div>
+                      <label>Unit Work</label>
+                      <input type="text" name="unit_work" id="unit_work" class="form-control" readonly />
+                    </div>
                     <div class="form-group mb-50">
-                      <label class="text-bold-600" for="exampleInputEmail1">Email address</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1"
-                          placeholder="Email address"></div>
-                    <div class="form-group mb-2">
-                      <label class="text-bold-600" for="exampleInputPassword1">Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword1"
-                          placeholder="Password">
+                      <label>Region Code</label>
+                      <input type="text" name="reg_code" id="reg_code" class="form-control" readonly />
+                    </div>
+                    <div class="form-group mb-50">
+                      <label>Regional Name</label>
+                      <input type="text" name="reg_name" id="reg_name" class="form-control" readonly />
+                    </div>
+                    <div class="form-group mb-50">
+                      <label>Branch</label>
+                      <input type="text" name="branch" id="branch" class="form-control" readonly />
                     </div>
                     <a href="{{asset('/')}}" class="btn btn-primary glow position-relative w-100">SIGN UP<i
                       id="icon-arrow" class="bx bx-right-arrow-alt"></i>
@@ -72,5 +76,55 @@
     </div>
   </div>
 </section>
+
+@endsection
+{{-- vendor scripts --}}
+@section('vendor-scripts')
+<script type="text/javascript">
+  $(document).ready(function(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+		$('#btn_cari').click(function(e) {
+			e.preventDefault();
+			if($(this).attr("value")=="cari"){
+				var pn = $("#pernr").val();
+        $.ajax({
+					url: "{{ route('getEmployee.post')}}",
+					data: {
+						pernr: pn
+					},
+					type: 'post',
+					dataType: "JSON",
+					beforeSend:function(){
+						$('#ajax-loader').show();
+					},
+					success:function(res){
+						$('#ajax-loader').hide();
+						console.log(res.error)
+						if(!res.error){
+							$("#pernr").val(res.pernr);
+							$("#pernr").attr('readonly', true);
+							$("#name").val(res.name);
+							$("#unit_work").val(res.uker);
+							$("#reg_code").val(res.region_code);
+							$("#branch").val(res.branch);
+							$("#reg_name").val(res.region_name);
+							$("#btn_cari").attr('disabled', true);
+							$("#back_info").text('Cancel');
+						}else{
+							alert(res.msg);
+						}
+					}
+				});
+			}
+
+		});
+    
+	});
+</script>
 <!-- register section endss -->
 @endsection

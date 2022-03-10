@@ -22,6 +22,7 @@ class AuthenticationController extends Controller
   }
   //Register page
   public function registerPage(){
+    
     $pageConfigs = ['bodyCustomClass'=> 'bg-full-screen-image'];
     return view('pages.auth-register',['pageConfigs' => $pageConfigs]);
   }

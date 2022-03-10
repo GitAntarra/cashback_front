@@ -17,13 +17,20 @@ Route::get('/menu-selected','SetMenu@menuSelect');
 Route::get('/dashboard-analytics','DashboardController@dashboardAnalytics');
 
 // User Route 
-Route::get('/user-management','UsersController@listuser');
-Route::get('/page-users-view','UsersController@viewUser');
-Route::get('/page-users-edit','UsersController@editUser');
-Route::get('/page-users-add','UsersController@addUser');
-Route::post('/adduser','UsersController@saveUser')->name('adduser.post');
+Route::get('/user-management','UsersController@listuser')->middleware("isLogin");
+Route::get('/page-users-view','UsersController@viewUser')->middleware("isLogin");
+Route::get('/page-users-edit','UsersController@editUser')->middleware("isLogin");
+Route::get('/page-users-add','UsersController@addUser')->middleware("isLogin");
+Route::post('/adduser','UsersController@saveUser')->name('adduser.post')->middleware("isLogin");
 Route::post('getEmployee','UsersController@getEmployeeId')->name('getEmployee.post');
+Route::post('saveUpdateUser', 'UsersController@saveUpdate')->name('edituser.post')->middleware("isLogin");
+Route::post('registUser', 'UserController@regiter')->name('register.post');
 
+//Menu Route
+Route::get('/menu-list','MenuController@listMenu');
+Route::get('/menu-selected','MenuController@selectedMenu');
+Route::post('getOption','MenuController@showOption')->name('getOption.post')->middleware("isLogin");
+Route::post('getHref',"MenuController@showHref")->name('getHref.post')->middleware("isLogin");
 
 //Application Routes
 Route::get('/app-email','ApplicationController@emailApplication');
