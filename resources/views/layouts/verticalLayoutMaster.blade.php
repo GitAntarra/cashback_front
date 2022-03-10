@@ -9,6 +9,18 @@
 @if($configData['isCardShadow'] === false){{'no-card-shadow'}}@endif" 
 data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 
+@if ($message = Session::get('success'))
+<div class="jstoast" id="success" val="{{ $message }}"></div>
+@endif
+@if ($message = Session::get('warning'))
+<div class="jstoast" id="warning" val="{{ $message }}"></div>
+@endif
+@if ($message = Session::get('info'))
+<div class="jstoast" id="info" val="{{ $message }}"></div>
+@endif
+@if ($message = Session::get('error'))
+<div class="jstoast" id="error" val="{{ $message }}"></div>
+@endif
   <!-- BEGIN: Header-->
   @include('panels.navbar')
   <!-- END: Header-->

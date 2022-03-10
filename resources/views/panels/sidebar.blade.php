@@ -9,11 +9,7 @@
             <img src="{{asset('images/logo/logo.png')}}" class="logo" alt="">
           </div>
           <h2 class="brand-text mb-0">
-            @if(!empty($configData['templateTitle']) && isset($configData['templateTitle']))
-            {{$configData['templateTitle']}}
-            @else
-            Frest
-            @endif
+            Cashback
           </h2>
           </a>
       </li>

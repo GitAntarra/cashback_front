@@ -13,13 +13,28 @@ use App\Http\Controllers\LanguageController;
 // Cashback Routes
 Route::group(['middleware' => ['isLogin']],function () {
     Route::get('/user-management','UserManagementController@list');
+
+    // Andra Route start from here
+    Route::get('/menu-select','MenuController@selectionmenu');
+    Route::post('/menu-select','MenuController@selectedmenu');
 });
 
 
 
 // dashboard Routes
 Route::get('/','DashboardController@dashboard')->middleware("isLogin");
+Route::get('/menu-list','SetMenu@menuList');
+Route::get('/menu-selected','SetMenu@menuSelect');
 Route::get('/dashboard-analytics','DashboardController@dashboardAnalytics');
+
+// User Route 
+Route::get('/user-management','UsersController@listuser');
+Route::get('/page-users-view','UsersController@viewUser');
+Route::get('/page-users-edit','UsersController@editUser');
+Route::get('/page-users-add','UsersController@addUser');
+Route::post('/adduser','UsersController@saveUser')->name('adduser.post');
+Route::post('getEmployee','UsersController@getEmployeeId')->name('getEmployee.post');
+
 
 //Application Routes
 Route::get('/app-email','ApplicationController@emailApplication');
@@ -100,12 +115,9 @@ Route::get('/page-knowledge-base/categories','PageController@knowledgeCatPage');
 Route::get('/page-knowledge-base/categories/question','PageController@knowledgeQuestionPage');
 Route::get('/page-search','PageController@searchPage');
 Route::get('/page-account-settings','PageController@accountSettingPage');
-// User Route 
-Route::get('/page-users-list','UsersController@listUser');
-Route::get('/page-users-view','UsersController@viewUser');
-Route::get('/page-users-edit','UsersController@editUser');
+
 // Authentication  Route
-Route::get('/auth-login','AuthenticationController@loginPage');
+Route::get('/auth-login','AuthenticationController@loginPage')->name('loginform');
 Route::post('/attemp-login', 'AuthenticationController@attemplogin');
 Route::get('/auth-register','AuthenticationController@registerPage');
 Route::get('/auth-forgot-password','AuthenticationController@forgetPasswordPage');

@@ -10,23 +10,13 @@ class DashboardController extends Controller
 {
     //ecommerce
     public function dashboard(Request $request){
-        // print_r(Session::get('isLogin'));
-        
-        // die;
-        // $value = $request->session()->get('userMenu');
-        
-        //     // echo "<pre>";
-        //     // $data = Session::get('isLogin');
-        //     print_r($value);
-        //     die;
-            // $menu = $data['menu'];
-            // $json_menu = json_encode($data['menu']);
-            // var_dump($menu[0]['menus']);
-            // $menus = $menu[0]['menus'];
-            // foreach($menus as $row){
-            //     echo $row['title'];
-            // }
-        return view('pages.dashboard-ecommerce');
+        // $menuData['menu'] =json_decode(json_encode(Session::get('menu')),false);
+        // $object = (object) $menuData;
+        //   echo "<pre>";
+        //   print_r(Session::get('set_userdata'));
+        //   die;
+
+        return view('home.index');
     }
     // analystic
     // public function dashboardAnalytics(){
