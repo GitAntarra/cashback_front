@@ -10,6 +10,17 @@ use App\Http\Controllers\LanguageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Cashback Routes
+Route::group(['middleware' => ['isLogin']],function () {
+    Route::get('/user-management','UserManagementController@list');
+
+    // Andra Route start from here
+    Route::get('/menu-select','MenuController@selectionmenu');
+    Route::post('/menu-select','MenuController@selectedmenu');
+});
+
+
+
 // dashboard Routes
 Route::get('/','DashboardController@dashboard')->middleware("isLogin");
 Route::get('/menu-list','SetMenu@menuList');
@@ -113,7 +124,7 @@ Route::get('/page-search','PageController@searchPage');
 Route::get('/page-account-settings','PageController@accountSettingPage');
 
 // Authentication  Route
-Route::get('/auth-login','AuthenticationController@loginPage');
+Route::get('/auth-login','AuthenticationController@loginPage')->name('loginform');
 Route::post('/attemp-login', 'AuthenticationController@attemplogin');
 Route::get('/auth-register','AuthenticationController@registerPage');
 Route::get('/auth-forgot-password','AuthenticationController@forgetPasswordPage');

@@ -3,6 +3,9 @@ namespace App\Helpers;
 use Config;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Session;
+use Redirect;
 
 class Helper
 {
@@ -164,4 +167,10 @@ class Helper
             }
         }
     }
+
+    function TestBos($param){
+      return $param;
+    }
+
+    
 }
