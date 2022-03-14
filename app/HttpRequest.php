@@ -27,8 +27,6 @@ class HttpRequest extends Model
         $response = $response->patch($api_url,$param);
       }
       $res = json_decode($response, true);
-      return $response;
-      die;
       if($response->successful()){
         return $res;
       }

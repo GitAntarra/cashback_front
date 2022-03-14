@@ -13,7 +13,28 @@
 <section id="table-transactions">
   <div class="card">
     <div class="card-header">
-
+    <div class="row justify-content-end">
+                    <div class="col-md-4 col-sm-12 form-group">
+                      <label for="Email">Level </label>
+                      <select class="form-control" id="levelSelected" name="levelSelected" required>
+                        @foreach ($opt_level as $key => $value) 
+                        <option value="{{ $key }}" {{ ( $key == $selectedLevel) ? 'selected' : '' }}>  
+                          {{ $value }}  
+                        </option> 
+                          @endforeach
+                      </select>
+                    </div>
+                    <div class="col-md-4 col-sm-12 form-group">
+                      <label for="password">Work Unit</label>
+                      <select class="form-control" id="ukerSelected" name="ukerSelected" required>
+                        @foreach ($opt_uker as $key => $value) 
+                        <option value="{{ $key }}" {{ ( $key == $selectedUker) ? 'selected' : '' }}>  
+                          {{ $value }}  
+                        </option> 
+                          @endforeach
+                      </select>
+                    </div>
+                  </div>
     </div>
     <div class="card-body">
       <table id="table-extended-transactions" class="table mb-0">
@@ -37,7 +58,7 @@
                 <td class="text-bold-600">{{ $row['name'] }}</td>
                 <td>{{ $row['url'] }}</td>
                 <td>{{ $row['icon'] }}</td>
-                <td><?= $row['checked'] ? "<button class='btn btn-light-primary'>Selected</button>" : "<button class='btn btn-light-warning'>Unselect</button>" ?></td>
+                <td><?= $row['checked'] ? "<button idMenu='{$row['id']}' class='btn btn-light-primary selectButton' onClick='selectMenu({$row['id']})' >Selected</button>" : "<button idMenu='{$row['id']}'  class='btn btn-light-warning selectButton' onClick='selectMenu({$row['id']})'>Unselect</button>" ?></td>
               </tr>
             @endforeach
           </tbody>
@@ -53,6 +74,33 @@
 
 {{-- vendor scripts --}}
 @section('vendor-scripts')
+<script type="text/javascript">
+  $(document).ready(function(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    // $('#selectButton').click(function(e) {
+    //   let level = $("#levelSelected").val();
+    //   let uker = $("#ukerSelected").val();
+    //   var elmnt = document.getElementById("selectButton");
+    //   let idMenu = elmnt.getAttribute("idMenu");
+    //   alert(idMenu);
+
+      
+    // });
+
+    
+  });
+  function selectMenu(id)
+    {
+      let level = $("#levelSelected").val();
+      let uker = $("#ukerSelected").val();
+      alert(id+level+uker);
+    }
+</script>
 @endsection
 
 {{-- page scripts --}}

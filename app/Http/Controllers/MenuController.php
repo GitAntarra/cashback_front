@@ -17,8 +17,8 @@ class MenuController extends Controller
     public function selectionmenu(Request $request) {
         $res = $this->HttpRequest("GET", "/menus/selected");
         $getPost = $request->post();
-        $uker = $getPost['uker'] ? $getPost['uker'] : 'Kantor Pusat';
-        $level = $getPost['level'] ? $getPost['level'] : 'SUPERADMIN';
+        $uker = isset($getPost['uker']) ? $getPost['uker'] : 'Kantor Pusat';
+        $level =isset($getPost['level']) ? $getPost['level'] : 'SUPERADMIN';
 
         if( isset( $getPost['id'] ) ){
             $param = array(
@@ -62,6 +62,24 @@ class MenuController extends Controller
             $data['breadcrumbs'] = [
                 ["link" => "/", "name" => "Home"],["name" => "Selecting Menu"]
             ];
+            $data['opt_level'] = [
+                'MAKER'         => 'MAKER',
+                'CHECKER'       => 'CHECKER',
+                'SIGNER'        => 'SIGNER',
+                'ADMINISTRATOR' => 'ADMINISTRATOR',
+                'SUPERADMIN'    => 'SUPERADMIN',
+                'DEVELOPER'     => 'DEVELOPER'
+              ];
+            
+              $data['opt_uker'] = [
+                  'KP'  => 'KANTOR PUSAT',
+                  'KW'  => 'KANTOR WILAYAH',
+                  'KC'  => 'KANTOR CABANG',
+                  'KU'  => 'KANTOR UNIT',
+                  'KCP' => 'KANTOR CABANG PEMBANTU',
+              ];
+              $data['selectedLevel'] = 'MAKER';
+              $data['selectedUker']  = 'KANTOR PUSAT';
             return view('menus.menu-select-list',$data);
         }
 
