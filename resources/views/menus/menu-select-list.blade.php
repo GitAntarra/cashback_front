@@ -96,9 +96,26 @@
   });
   function selectMenu(id)
     {
-      let level = $("#levelSelected").val();
-      let uker = $("#ukerSelected").val();
-      alert(id+level+uker);
+      let levelUser = $("#levelSelected").val();
+      let ukerUser = $("#ukerSelected").val();
+
+      $.ajax({
+        url: "",
+        method: "post",
+        dataType : "JSON",
+        data : {
+          id : id,
+          uker : ukerUser,
+          level : levelUser
+        },
+        beforeSend:function(){
+						$('#ajax-loader').show();
+					},
+					success:function(res){
+						$('#ajax-loader').hide();
+						console.log(res);
+					}
+      });
     }
 </script>
 @endsection
