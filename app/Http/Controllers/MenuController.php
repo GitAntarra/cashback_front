@@ -14,7 +14,7 @@ class MenuController extends Controller
         $this->HttpRequest = new HttpRequest;  
     }
 
-    public function selectionmenu(Request $request) {
+        public function selectionmenu(Request $request) {
         $res = $this->HttpRequest("GET", "/menus/selected");
         $getPost = $request->post();
         $uker = isset($getPost['uker']) ? $getPost['uker'] : 'Kantor Pusat';
@@ -26,7 +26,11 @@ class MenuController extends Controller
                 "uker" => $getPost['uker'],
                 "level" => $getPost['level'],
             );
+            print_r($param);
             $resChecked = $this->HttpRequest("POST", "/menus/check-uncheck", $param);
+
+            return $resChecked;
+            die;
             if(empty($resChecked->ok())){
                 Session::flash('success','action success');
             }else{
