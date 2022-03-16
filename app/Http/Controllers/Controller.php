@@ -33,12 +33,10 @@ class Controller extends BaseController
         }
 
         if($response->status() == 401){
-            Session::flush();
-            return redirect()->to('/auth-login')->with([ 'error' => 'token is expired please login first' ]);
+            abort(401);
         }elseif($response->status() == 404){
-            abort($response->status());
+            abort(404);
         }elseif($response->failed()){
-            // return redirect()->back()->with([ 'error' => $response['message'] ]);
             abort(333, 'mantap');
         }elseif($response->ok()){
             return $response;
