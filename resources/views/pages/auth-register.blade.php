@@ -91,7 +91,7 @@
 		$('#btn_cari').click(function(e) {
 			e.preventDefault();
 			if($(this).attr("value")=="cari"){
-				var pn = $("#pernr").val();
+				let pn = $("#pernr").val();
         $.ajax({
 					url: "{{ route('getEmployee.post')}}",
 					data: {
@@ -114,7 +114,6 @@
 							$("#branch").val(res.branch);
 							$("#reg_name").val(res.region_name);
 							$("#btn_cari").attr('disabled', true);
-							$("#back_info").text('Cancel');
 						}else{
 							alert(res.msg);
 						}

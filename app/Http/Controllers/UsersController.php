@@ -30,9 +30,6 @@ class UsersController extends Controller
       'msg'   => '',
       'users' => $data_user,
     ];
-      // echo "<pre>";
-      // print_r($data_user);
-      // die;
     return view('users.page-users-list')->with($data);
   }
 
@@ -42,25 +39,12 @@ class UsersController extends Controller
     $param = [
       'pernr' => $request->post('pernr')
     ];
-    $result = $post_model->service("GET", "/auth/brillian?pernr=".$param['pernr'], $param);
-    echo "<pre>";
-    print_r($param);
+    $result = $post_model->service("GET", "/auth/brillian?pernr=".$request->post('pernr'),$param);
     return $result;
     die;
 
     if (isset($result)) {
       if($result['uker']){
-        // if($this->session->userdata('level_user') != 'SAD'){
-        //   if($this->session->userdata('branch_detail')['REGION'] != $result['DETAIL_UKER']['REGION']){
-        //     $data = array(
-        //       'error'  => true,
-        //       'data' => null,
-        //       'msg' => 'Region pekerja tidak sesuai dengan region administrator'
-        //     );
-        //     echo json_encode($data); 
-        //     die;
-        //   }
-        // }
       
         $data = array(
           'error'         => false,

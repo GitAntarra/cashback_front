@@ -38,10 +38,11 @@ Route::post('saveUpdateUser', 'UsersController@saveUpdate')->name('edituser.post
 Route::post('registUser', 'UserController@regiter')->name('register.post');
 
 //Menu Route
-Route::get('/menu-list','MenuController@listMenu');
-Route::get('/menu-selected','MenuController@selectedMenu');
+Route::get('/menu-list','MenuController@listMenu')->middleware("isLogin");
+Route::get('/menu-selected','MenuController@selectedMenu')->middleware("isLogin");
 Route::post('getOption','MenuController@showOption')->name('getOption.post')->middleware("isLogin");
 Route::post('getHref',"MenuController@showHref")->name('getHref.post')->middleware("isLogin");
+Route::post('addMenu', "MenuController@listMenu")->name('addMenu.post')->middleware("isLogin");
 
 //Application Routes
 Route::get('/app-email','ApplicationController@emailApplication');
