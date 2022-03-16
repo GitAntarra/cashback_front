@@ -7,6 +7,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 use Session;
 use Redirect;
 
@@ -33,14 +34,14 @@ class Controller extends BaseController
 
         if($response->status() == 401){
             Session::flush();
-            Session::flash('expired','token is expired please login first');
-            return Redirect::to('/auth-login');
+            return redirect()->to('/auth-login')->with([ 'error' => 'token is expired please login first' ]);
+        }elseif($response->status() == 404){
+            abort($response->status());
+        }elseif($response->failed()){
+            // return redirect()->back()->with([ 'error' => $response['message'] ]);
+            abort(333, 'mantap');
+        }elseif($response->ok()){
+            return $response;
         }
-
-        if($response->failed()){
-            Session::flash('warning',$response->message);
-        }
-        
-        return $response;
     }
 }
