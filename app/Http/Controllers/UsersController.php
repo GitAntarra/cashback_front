@@ -35,45 +35,44 @@ class UsersController extends Controller
 
   public function getEmployeeId(Request $request)
   {
-    $post_model = new HttpRequest;
     $param = [
       'pernr' => $request->post('pernr')
     ];
-    $result = $post_model->service("GET", "/auth/brillian?pernr=".$request->post('pernr'),$param);
+    $result = $this->HttpRequest->service("GET", "/auth/brillian?pernr=".$request->post('pernr'),$param);
+
     return $result;
-    die;
 
-    if (isset($result)) {
-      if($result['uker']){
+    // if (isset($result)) {
+    //   if($result['uker']){
       
-        $data = array(
-          'error'         => false,
-          'pernr'         => $result['pernr'],
-          'name'		      => $result['name'],
-          'uker'		      => $result['uker'],
-          'gender'        => $result['gender'],
-          'position'		  => $result['position'],
-          'division'	    => $result['division'],
-          'branch'	      => $result['branch'], 
-          'region_name' => $result['rgdesc'],
-          'region_code'   => $result['region'],
-          'msg'           => 'user ditemukan'
-        );
-      }else{
-        $data = array(
-          'error'  => true,
-          'data' => null,
-          'msg' => 'unit kerja user tidak ditemukan'
-        );
+    //     $data = array(
+    //       'error'         => false,
+    //       'pernr'         => $result['pernr'],
+    //       'name'		      => $result['name'],
+    //       'uker'		      => $result['uker'],
+    //       'gender'        => $result['gender'],
+    //       'position'		  => $result['position'], 
+    //       'division'	    => $result['division'],
+    //       'branch'	      => $result['branch'], 
+    //       'region_name' => $result['rgdesc'],
+    //       'region_code'   => $result['region'],
+    //       'msg'           => 'user ditemukan'
+    //     );
+    //   }else{
+    //     $data = array(
+    //       'error'  => true,
+    //       'data' => null,
+    //       'msg' => 'unit kerja user tidak ditemukan'
+    //     );
 
-      }
-    } else {
-      $data = array(
-        'error'  => true,
-        'pernr' => '',
-        'msg'   => 'Data tidak ditemukan | pastikan pn dan uker terdaftar',
-      );
-    }
+    //   }
+    // } else {
+    //   $data = array(
+    //     'error'  => true,
+    //     'pernr' => '',
+    //     'msg'   => 'Data tidak ditemukan | pastikan pn dan uker terdaftar',
+    //   );
+    // }
 
     echo json_encode($data);
   }

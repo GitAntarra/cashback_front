@@ -143,9 +143,9 @@
 							$("#name").val(res.name);
 							$("#unit_code").val(res.uker);
 							$("#ukerdesc").val(res.uker);
-							$("#region_code").val(res.region_code);
+							$("#region_code").val(res.region);
 							$("#branch").val(res.branch);
-							$("#region_name").val(res.region_name);
+							$("#region_name").val(res.rgdesc);
 							$("#btn_cari").attr('disabled', true);
 							$("#back_info").text('Cancel');
 						}else{

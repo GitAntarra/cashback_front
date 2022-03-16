@@ -42,6 +42,19 @@ License: You must have a valid license purchased only from themeforest(the above
   @if($configData['theme'] === 'dark'){{'dark-layout'}} @elseif($configData['theme'] === 'semi-dark'){{'semi-dark-layout'}} @else {{'light-layout'}} @endif" data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
     <!-- BEGIN: Content-->
 
+    @if ($message = Session::get('success'))
+    <div class="jstoast" id="success" val="{{ $message }}"></div>
+    @endif
+    @if ($message = Session::get('warning'))
+    <div class="jstoast" id="warning" val="{{ $message }}"></div>
+    @endif
+    @if ($message = Session::get('info'))
+    <div class="jstoast" id="info" val="{{ $message }}"></div>
+    @endif
+    @if ($message = Session::get('error'))
+    <div class="jstoast" id="error" val="{{ $message }}"></div>
+    @endif
+
     <div class="app-content content">
       <div class="content-overlay"></div>
       <div class="content-wrapper">

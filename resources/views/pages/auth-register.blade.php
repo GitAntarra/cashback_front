@@ -110,9 +110,9 @@
 							$("#pernr").attr('readonly', true);
 							$("#name").val(res.name);
 							$("#unit_work").val(res.uker);
-							$("#reg_code").val(res.region_code);
+							$("#reg_code").val(res.region);
 							$("#branch").val(res.branch);
-							$("#reg_name").val(res.region_name);
+							$("#reg_name").val(res.rgdesc);
 							$("#btn_cari").attr('disabled', true);
 						}else{
 							alert(res.msg);
