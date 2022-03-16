@@ -30,66 +30,49 @@ class UsersController extends Controller
       'msg'   => '',
       'users' => $data_user,
     ];
-      // echo "<pre>";
-      // print_r($data_user);
-      // die;
     return view('users.page-users-list')->with($data);
   }
 
   public function getEmployeeId(Request $request)
   {
-    $post_model = new HttpRequest;
     $param = [
       'pernr' => $request->post('pernr')
     ];
-    $result = $post_model->service("GET", "/auth/brillian?pernr=".$param['pernr'], $param);
-    echo "<pre>";
-    print_r($param);
+    $result = $this->HttpRequest->service("GET", "/auth/brillian?pernr=".$request->post('pernr'),$param);
+
     return $result;
-    die;
 
-    if (isset($result)) {
-      if($result['uker']){
-        // if($this->session->userdata('level_user') != 'SAD'){
-        //   if($this->session->userdata('branch_detail')['REGION'] != $result['DETAIL_UKER']['REGION']){
-        //     $data = array(
-        //       'error'  => true,
-        //       'data' => null,
-        //       'msg' => 'Region pekerja tidak sesuai dengan region administrator'
-        //     );
-        //     echo json_encode($data); 
-        //     die;
-        //   }
-        // }
+    // if (isset($result)) {
+    //   if($result['uker']){
       
-        $data = array(
-          'error'         => false,
-          'pernr'         => $result['pernr'],
-          'name'		      => $result['name'],
-          'uker'		      => $result['uker'],
-          'gender'        => $result['gender'],
-          'position'		  => $result['position'],
-          'division'	    => $result['division'],
-          'branch'	      => $result['branch'], 
-          'region_name' => $result['rgdesc'],
-          'region_code'   => $result['region'],
-          'msg'           => 'user ditemukan'
-        );
-      }else{
-        $data = array(
-          'error'  => true,
-          'data' => null,
-          'msg' => 'unit kerja user tidak ditemukan'
-        );
+    //     $data = array(
+    //       'error'         => false,
+    //       'pernr'         => $result['pernr'],
+    //       'name'		      => $result['name'],
+    //       'uker'		      => $result['uker'],
+    //       'gender'        => $result['gender'],
+    //       'position'		  => $result['position'], 
+    //       'division'	    => $result['division'],
+    //       'branch'	      => $result['branch'], 
+    //       'region_name' => $result['rgdesc'],
+    //       'region_code'   => $result['region'],
+    //       'msg'           => 'user ditemukan'
+    //     );
+    //   }else{
+    //     $data = array(
+    //       'error'  => true,
+    //       'data' => null,
+    //       'msg' => 'unit kerja user tidak ditemukan'
+    //     );
 
-      }
-    } else {
-      $data = array(
-        'error'  => true,
-        'pernr' => '',
-        'msg'   => 'Data tidak ditemukan | pastikan pn dan uker terdaftar',
-      );
-    }
+    //   }
+    // } else {
+    //   $data = array(
+    //     'error'  => true,
+    //     'pernr' => '',
+    //     'msg'   => 'Data tidak ditemukan | pastikan pn dan uker terdaftar',
+    //   );
+    // }
 
     echo json_encode($data);
   }

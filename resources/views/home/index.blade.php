@@ -25,7 +25,7 @@
                             <div class="row">
                                 <?php $user = Session::get('set_userdata'); ?>
                                 <div class="col-12 col-sm-2 text-center mb-1 mb-sm-0">
-                                    <img src="http://10.35.65.113/bristars/foto/get/MDAyNjM2MjY-" class="rounded"
+                                    <img src="{{ $user['foto'] }}" class="rounded"
                                     alt="group image" height="120" width="120" />
                                 </div>
                                 <div class="col-12 col-sm-10">

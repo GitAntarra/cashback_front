@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Session;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +51,23 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($this->isHttpException($exception)) {
+            if ($exception->getStatusCode() == 401) {
+                Session::flush();
+                return redirect()->to('/auth-login')->with([ 'error' => 'token is expired please login first' ]);
+            }
+
+            if ($exception->getStatusCode() == 333) {
+                return redirect()->back()->with([ 'error' => $exception->getMessage() ]);
+            }
+    
+            // if ($exception->getStatusCode() == 500) {
+            //     print_r($exception->getMessage());
+            //     return $exception->getMessage();
+            //     return response()->view('errors.' . '500');
+            // }
+        }
+
         return parent::render($request, $exception);
     }
 }
