@@ -30,6 +30,20 @@ class UsersController extends Controller
       'msg'   => '',
       'users' => $data_user,
     ];
+    $data['status'] = [
+      'ACTIVE'  => 'ACTIVE',
+      'SUSPEND' => 'SUSPEND',
+      'INACTIVE'  => 'INACTIVE'
+    ];
+    $data['work_unit'] = [
+      'KP'  => 'KANTOR PUSAT',
+      'KW'  => 'KANTOR WILAYAH',
+      'KC'  => 'KANTOR CABANG',
+      'KCP' => 'KANTOR CABANG PEMBANTU',
+      'KCK' => 'KANTOR CABANG KHUSUS',
+      'UN'  => 'KANTOR UNIT'
+    ];
+
     return view('users.page-users-list')->with($data);
   }
 
@@ -38,7 +52,19 @@ class UsersController extends Controller
     $param = [
       'pernr' => $request->post('pernr')
     ];
-    $result = $this->HttpRequest->service("GET", "/auth/brillian?pernr=".$request->post('pernr'),$param);
+    $result = $this->HttpRequest->get_detail_pekerja($request->post('pernr'));
+
+
+    // $result2 = $this->HttpRequest->service("POST","",$result['BRANCH'];);
+
+    $data = [
+        'pernr' =>$result['PERSONAL_NUMBER'],
+        'name'  =>$result['NAMA'],
+        'uker'  =>$result['DESC_SUBAREA'],
+        'region'  =>$result['DESC_GRUP_JABATAN'],
+        'branch'  =>$result['BRANCH'],
+        'rgdesc'  =>$result['DESC_AREA']
+    ];
 
     return $result;
 
@@ -129,6 +155,17 @@ class UsersController extends Controller
     }else{
       return redirect('/user-management')->with(['success' => 'Successfully Add Users']);
     }
+  }
+
+  public function registerUser(Request $request){
+    $param = [
+      'pernr' => $request->post('pernr'),
+      'level' => "ADMINISTRATOR",
+      'status' => "INACTIVE",
+      'description' => $request->post('description'),
+    ];
+    
+    $result = $this->HttpRequest->service("POST", "/users/register", $param);
   }
 
    //user edit

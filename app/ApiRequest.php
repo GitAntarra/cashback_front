@@ -39,7 +39,7 @@ class ApiRequest extends Model
                 return Redirect::to('/auth-login');
                 // return $response->status();
             }
-            return "wqewqeqw";
+            return "error";
         }
     }
 }

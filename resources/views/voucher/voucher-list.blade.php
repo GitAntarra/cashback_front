@@ -1,46 +1,148 @@
 @extends('layouts.contentLayoutMaster')
 {{-- page title --}}
-@section('title','Invoice List')
+@section('title','Voucher List')
 {{-- vendor style --}}
-@section('vendor-styles')
+@section('vendors-styles')
 <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/datatables.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('vendors/css/forms/spinner/jquery.bootstrap-touchspin.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/extensions/dataTables.checkboxes.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/responsive.bootstrap.min.css')}}">
 @endsection
 {{-- page style --}}
 @section('page-styles')
-<link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-invoice.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-voucher.css')}}">
 @endsection
-
 @section('content')
 <!-- invoice list -->
 <section class="invoice-list-wrapper">
   <!-- create invoice button-->
   <div class="invoice-create-btn mb-1">
-    <a href="{{asset('app-invoice-add')}}" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true"
-      >Create Invoice</a
-    >
+    <!-- <a href="{{asset('app-invoice-add')}}" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true"
+      >Create Voucher</a> -->
+    <button type="button" class="btn btn-primary glow" data-toggle="modal"
+              data-target="#exampleModalScrollable">
+              <i class="bx bx-plus"></i>
+              Create Voucher
+            </button>
+
+            <!--scrolling content Modal -->
+            <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Create Voucher</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <i class="bx bx-x"></i>
+                    </button>
+                  </div>
+                  <form method="post" action="{{route('createvoucher.post')}}" id="form_input">
+                    @csrf
+                  <div class="modal-body">
+                    <div class="col-12 pb-1">
+                        <div class="row">
+                            <div class="col-3">
+                                <label>CODE</label>
+                            </div>
+                            <div class="col-9">
+                            <input require class="form-control" name="vouchercode" id="vouchercode" placeholder="Voucher Code" type="text" onkeyup="
+                            var start = this.selectionStart;
+                            var end = this.selectionEnd;
+                            this.value = this.value.toUpperCase();
+                            this.setSelectionRange(start, end);
+                            ">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 pb-1">
+                        <div class="row">
+                            <div class="col-3">
+                                <label>TYPE</label>
+                            </div>
+                            <div class="col-9">
+                            <input require type="text" name="type" id="type" value="CASHBACK" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 pb-1">
+                        <div class="row">
+                            <div class="col-3">
+                                <label>LIMIT</label>
+                            </div>
+                            <div class="col-9">
+                                <input require type="number" name="limit" id="limit" class="touchspin-vertical" value="50">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 pb-1">
+                        <div class="row">
+                            <div class="col-3">
+                                <label>DUE DATE</label>
+                            </div>
+                            <div class="col-9">
+                            <input require type="date" name="duedate" id="duedate" class="form-control" min="1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 pb-1">
+                        <div class="row">
+                            <div class="col-3">
+                                <label>MINIMAL TRANSACTION</label>
+                            </div>
+                            <div class="col-9">
+                                <input require type="number" name="mintransaction" id="mintransaction" class="form-control"  data-bts-prefix="Rp">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 pb-1">
+                        <div class="row">
+                            <div class="col-3">
+                                <label>MAXIMAL POTENCY</label>
+                            </div>
+                            <div class="col-9">
+                                <input require type="number" name="maxpotency" id="maxpotency" class="form-control" data-bts-prefix="Rp">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 pb-1">
+                        <div class="row">
+                            <div class="col-3">
+                                <label>PERCENT</label>
+                            </div>
+                            <div class="col-9">
+                            <input require type="text" name="percent" id="percent" class="touchspin" value="55" data-bts-postfix="%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 pb-1">
+                        <div class="row">
+                            <div class="col-3">
+                                <label>MAXIMAL REDEEM</label>
+                            </div>
+                            <div class="col-9">
+                                <input require type="number" name="maxredeem" id="maxredeem" class="touchspin-vertical" value="50">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
+                      <i class="bx bx-x d-block d-sm-none"></i>
+                      <span class="d-none d-sm-block">Close</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary ml-1">
+                      <i class="bx bx-check d-block d-sm-none"></i>
+                      <span class="d-none d-sm-block">Accept</span>
+                    </button>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
   </div>
+
   <!-- Options and filter dropdown button-->
   <div class="action-dropdown-btn d-none">
-    <div class="dropdown invoice-filter-action">
-      <button
-        class="btn border dropdown-toggle mr-1"
-        type="button"
-        id="invoice-filter-btn"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        Filter Invoice
-      </button>
-      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="invoice-filter-btn">
-        <a class="dropdown-item" href="#">Downloaded</a>
-        <a class="dropdown-item" href="#">Sent</a>
-        <a class="dropdown-item" href="#">Partial Payment</a>
-        <a class="dropdown-item" href="#">Paid</a>
-      </div>
-    </div>
     <div class="dropdown invoice-options">
       <button
         class="btn border dropdown-toggle mr-2"
@@ -48,8 +150,7 @@
         id="invoice-options-btn"
         data-toggle="dropdown"
         aria-haspopup="true"
-        aria-expanded="false"
-      >
+        aria-expanded="false">
         Options
       </button>
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="invoice-options-btn">
@@ -57,6 +158,8 @@
         <a class="dropdown-item" href="#">Edit</a>
         <a class="dropdown-item" href="#">View</a>
         <a class="dropdown-item" href="#">Send</a>
+      </div>
+      <div>
       </div>
     </div>
   </div>
@@ -67,32 +170,30 @@
           <th></th>
           <th></th>
           <th>
-            <span class="align-middle">Invoice#</span>
+            <span class="align-middle">Code</span>
           </th>
-          <th>Amount</th>
+          <th>Type</th>
           <th>Date</th>
-          <th>Customer</th>
-          <th>Tags</th>
+          <th>Limit</th>
+          <th>Min</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
+        <?php $voucherData = $list_voucher['data']; ?>
+        @if(isset($voucherData) && !empty($voucherData))
+        @foreach($voucherData as $row)
         <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00956</a>
-          </td>
-          <td><span class="invoice-amount">$459.30</span></td>
-          <td><small class="text-muted">12-08-19</small></td>
-          <td><span class="invoice-customer">Pixinvent PVT. LTD</span></td>
-          <td>
-            <span class="bullet bullet-success bullet-sm"></span>
-            <small class="text-muted">Technology</small>
-          </td>
-          <td><span class="badge badge-light-danger badge-pill">UNPAID</span></td>
-          <td>
+            <td></td>
+            <td></td>
+            <td><a href="{{asset('app-invoice-view')}}">{{$row['code']}}</a></td>
+            <td><span>{{$row['type']}}</span></td>
+            <td><span>{{date('d-m-Y', strtotime($row['dueDate']))}}</span></td>
+            <td><span>{{$row['limit']}}</span></td>
+            <td><span>Rp. {{$row['minTransaction']}}</span></td>
+            <td><span class="badge badge-light-success badge-pill">ACTIVE</span></td>
+            <td>
             <div class="invoice-action">
               <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
                 <i class="bx bx-show-alt"></i>
@@ -103,281 +204,8 @@
             </div>
           </td>
         </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00349</a>
-          </td>
-          <td><span class="invoice-amount">$125.00</span></td>
-          <td><small class="text-muted">08-08-19</small></td>
-          <td><span class="invoice-customer">Volkswagen</span></td>
-          <td>
-            <span class="bullet bullet-primary bullet-sm"></span>
-            <small class="text-muted">Car</small>
-          </td>
-          <td><span class="badge badge-light-success badge-pill">PAID</span></td>
-          <td>
-            <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00853</a>
-          </td>
-          <td><span class="invoice-amount">$10,503</span></td>
-          <td><small class="text-muted">02-08-19</small></td>
-          <td><span class="invoice-customer">Chevron Corporation</span></td>
-          <td>
-            <span class="bullet bullet-dark bullet-sm"></span>
-            <small class="text-muted">Corporation</small>
-          </td>
-          <td><span class="badge badge-light-danger badge-pill">UNPAID</span></td>
-          <td>
-            <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00452</a>
-          </td>
-          <td><span class="invoice-amount">$90</span></td>
-          <td><small class="text-muted">28-07-19</small></td>
-          <td><span class="invoice-customer">Alphabet</span></td>
-          <td>
-            <span class="bullet bullet-info bullet-sm"></span>
-            <small class="text-muted">Electronic</small>
-          </td>
-          <td><span class="badge badge-light-warning badge-pill">Partially Paid</span></td>
-          <td>
-            <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00123</a>
-          </td>
-          <td><span class="invoice-amount">$15,900</span></td>
-          <td><small class="text-muted">23-07-19</small></td>
-          <td><span class="invoice-customer">Toyota Motor</span></td>
-          <td>
-            <span class="bullet bullet-primary bullet-sm"></span>
-            <small class="text-muted">Car</small>
-          </td>
-          <td><span class="badge badge-light-success badge-pill">PAID</span></td>
-          <td>
-            <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00853</a>
-          </td>
-          <td><span class="invoice-amount">$115.06</span></td>
-          <td><small class="text-muted">24-06-19</small></td>
-          <td><span class="invoice-customer">Samsung Electronics</span></td>
-          <td>
-            <span class="bullet bullet-info bullet-sm"></span>
-            <small class="text-muted">Electronic</small>
-          </td>
-          <td><span class="badge badge-light-success badge-pill">PAID</span></td>
-          <td>
-            <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00153</a>
-          </td>
-          <td><span class="invoice-amount">$1,090</span></td>
-          <td><small class="text-muted">23-05-19</small></td>
-          <td><span class="invoice-customer">Pixinvent PVT. LTD</span></td>
-          <td>
-            <span class="bullet bullet-dark bullet-sm"></span>
-            <small class="text-muted">Corporation</small>
-          </td>
-          <td><span class="badge badge-light-danger badge-pill">UNPAID</span></td>
-          <td>
-            <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00788</a>
-          </td>
-          <td><span class="invoice-amount">$555.50</span></td>
-          <td><small class="text-muted">10-06-19</small></td>
-          <td><span class="invoice-customer">ExxonMobil</span></td>
-          <td>
-            <span class="bullet bullet-warning bullet-sm"></span>
-            <small class="text-muted">Mobile</small>
-          </td>
-          <td><span class="badge badge-light-danger badge-pill">UNPAID</span></td>
-          <td>
-            <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00326</a>
-          </td>
-          <td><span class="invoice-amount">$8,563</span></td>
-          <td><small class="text-muted">06-01-19</small></td>
-          <td><span class="invoice-customer">Wells Fargo</span></td>
-          <td>
-            <span class="bullet bullet-danger bullet-sm"></span>
-            <small class="text-muted">Food</small>
-          </td>
-          <td><span class="badge badge-light-success badge-pill">PAID</span></td>
-          <td>
-            <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00759</a>
-          </td>
-          <td><span class="invoice-amount">$10,960.20</span></td>
-          <td><small class="text-muted">22-05-19</small></td>
-          <td><span class="invoice-customer">Ping An Insurance</span></td>
-          <td>
-            <span class="bullet bullet-dark bullet-sm"></span>
-            <small class="text-muted">Corporation</small>
-          </td>
-          <td><span class="badge badge-light-warning badge-pill">Partially Paid</span></td>
-          <td>
-            <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00999</a>
-          </td>
-          <td><span class="invoice-amount">$886.90</span></td>
-          <td><small class="text-muted">12-05-19</small></td>
-          <td><span class="invoice-customer">Apple</span></td>
-          <td>
-            <span class="bullet bullet-success bullet-sm"></span>
-            <small class="text-muted">Electronic</small>
-          </td>
-          <td><span class="badge badge-light-danger badge-pill">UNPAID</span></td>
-          <td>
-            <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <a href="{{asset('app-invoice-view')}}">INV-00223</a>
-          </td>
-          <td><span class="invoice-amount">$459.30</span></td>
-          <td><small class="text-muted">28-04-19</small></td>
-          <td><span class="invoice-customer">Communications</span></td>
-          <td>
-            <span class="bullet bullet-success bullet-sm"></span>
-            <small class="text-muted">Technology</small>
-          </td>
-          <td><span class="badge badge-light-success badge-pill">PAID</span></td>
-          <td>
-            <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
+        @endforeach
+        @endif
       </tbody>
     </table>
   </div>
@@ -391,8 +219,10 @@
 <script src="{{asset('vendors/js/tables/datatable/datatables.checkboxes.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/responsive.bootstrap.min.js')}}"></script>  
+<script src="{{asset('vendors/js/forms/spinner/jquery.bootstrap-touchspin.js')}}"></script>
 @endsection
 {{-- page scripts --}}
 @section('page-scripts')
-<script src="{{asset('js/scripts/pages/app-invoice.js')}}"></script>
+<script src="{{asset('js/scripts/pages/app-voucher.js')}}"></script>
+<script src="{{asset('js/scripts/forms/number-input.js')}}"></script>
 @endsection

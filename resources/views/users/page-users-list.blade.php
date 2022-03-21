@@ -24,10 +24,8 @@
                   </div>  
                   <div class="col-md-9">
                     <fieldset class="form-group">
-                      <select class="form-control" id="basicSelect">
+                      <select class="custom-select" id="basicSelect">
                         <option>All Region</option>
-                        <option>Blade Runner</option>
-                        <option>Thor Ragnarok</option>
                       </select>
                     </fieldset>
                   </div>
@@ -40,10 +38,10 @@
                   </div>  
                   <div class="col-md-9">
                     <fieldset class="form-group">
-                      <select class="form-control" id="basicSelect">
-                        <option>All Working Unit</option>
-                        <option>Blade Runner</option>
-                        <option>Thor Ragnarok</option>
+                      <select class="custom-select" id="basicSelect">
+                        @foreach($work_unit as $key => $value)
+                          <option value="{{$key}}">{{$value}}</option>
+                        @endforeach
                       </select>
                     </fieldset>
                   </div>
@@ -56,10 +54,10 @@
                   </div>  
                   <div class="col-md-9">
                     <fieldset class="form-group">
-                      <select class="form-control" id="basicSelect">
-                        <option>Active</option>
-                        <option>Blade Runner</option>
-                        <option>Thor Ragnarok</option>
+                      <select class="custom-select" id="statusSelect">
+                        @foreach ($status as $key => $value)
+                          <option value="{{$key}}">{{$value}}</option>
+                        @endforeach
                       </select>
                     </fieldset>
                   </div>
@@ -71,8 +69,7 @@
                     <label class="pt-1">Keyword</label>
                   </div>  
                   <div class="col-md-9">
-                    <input type="text" class="form-control" required
-                        data-validation-required-message="This username field is required">
+                    <input type="text" class="form-control">
                   </div>
                 </div>
               </div>
@@ -127,7 +124,7 @@
                     <span class="badge badge-light-danger">{{$row['status']}}</span>
                     @endif
                   </td>
-                  <td><a href="{{asset('page-users-edit')}}"><i
+                  <td><a href="{{asset('/page-users-edit?id=')}}{{$row['id']}}"><i
                     class="bx bx-edit-alt"></i></a></td>
                     </tr>
                       @endforeach
