@@ -49,6 +49,7 @@ Route::get('detailMenu','MenuController@detailListMenu')->name('detailMenu')->mi
 Route::post('addhrefMenu','MenuController@detailListMenu')->name('addhrefMenu.post')->middleware("isLogin");
 Route::post('getHref',"MenuController@showHref")->name('getHref.post')->middleware("isLogin");
 Route::post('addMenu', "MenuController@listMenu")->name('addMenu.post')->middleware("isLogin");
+Route::post('editMenu', "MenuController@listMenu")->name('editMenu.post')->middleware("isLogin");
 
 //Application Routes
 Route::get('/app-email','ApplicationController@emailApplication');

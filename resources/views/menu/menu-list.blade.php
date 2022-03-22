@@ -27,8 +27,8 @@
                   @endforeach    
                 </select>       
                 <div class="input-group-append">
-                  <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"></i> Find</button>
-                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModalform"><i class="bx bx-plus text-white"></i> Add Menu</button>
+                  <button type="submit" class="btn btn-primary" title="Find"><i class="bx bx-search text-white"></i> Find</button>
+                  <button type="button" class="btn btn-success" title="Add Menu" data-toggle="modal" data-target="#addModalform"><i class="bx bx-plus text-white"></i> Add Menu</button>
                 </div>
               </div>
             </div>
@@ -40,9 +40,9 @@
             <table id="user-list" class="table nowrap scroll-horizontal-vertical">
               <thead>
                 <tr>
-                    <th>TYPE</th>
-                    <th>NAME</th>
-                    <th>ACTION</th>
+                    <th width="30%">TYPE</th>
+                    <th width="45%">NAME</th>
+                    <th width="25%">ACTION</th>
                 </tr>
               </thead>
               <tbody>
@@ -59,8 +59,10 @@
                       <p data="{{$row['id']}}"> {{$row['name']}} </p>
                       @endif
                   </td>
-                  <td><a href="{{asset('page-users-edit')}}"><i
-                    class="bx bx-edit-alt"></i></a></td>
+                  <td>
+                    <button class="btn btn-primary" title="Edit Menu"><i class="bx bx-edit-alt" idMenu="{{$row['id']}}" type="$row['type']" data-toggle="modal" data-target="#editModalform"></i></button>
+                    <button class="btn btn-danger" title="Delete Menu"><i class="bx bx-trash" id="deleteMenu" idMenu="{{$row['id']}}" type="$row['type']"></i></button>
+                  </td>
                     </tr>
                       @endforeach
                 @endif
@@ -74,7 +76,7 @@
   </div>
 </section>
 
-<!--scrolling content Modal -->
+<!--Add Menu Modal -->
 <div class="modal fade text-left" id="addModalform" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -122,6 +124,69 @@
             <button type="submit" class="btn btn-primary ml-1">
               <i class="bx bx-check d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Add</span>
+            </button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Edit Modal -->
+<div class="modal fade text-left" id="editModalform" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h4 class="modal-title" id="exampleModalScrollableTitle">Edit Menu </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="bx bx-x"></i>
+          </button>
+      </div>
+      <div class="modal-body">
+      <form action="{{ route('editMenu.post') }}" name="editmenu" method="post">
+          @csrf
+        <input type="text" value="editmenu" id="editmenu" name="editmenu" hidden require>
+        <input type="text" value="typeMenu" id="typeMenu" name="typeMenu" hidden require>
+        <input type="text" value="idMenu" id="idMenu" name="idMenu" hidden require>
+        <div class="col-12" id="formname">
+          <label>Nama Menu </label>
+          <div class="form-group">
+            <input name="menuName" id="menuName" type="text" value="Nama Menu" class="form-control" require>
+          </div>
+        </div>
+        <div class="col-12" id="formurl">
+        <label>Url Menu </label>
+          <div class="form-group">
+            <input name="urlMenu" id="urlMenu" type="text" value="Url Menu" class="form-control" require>
+          </div>
+        </div>
+        <div class="col-12" id="formlng">
+        <label>I18n Menu </label>
+          <div class="form-group">
+            <input name="lngMenu" id="lngMenu" type="text" value="l18n Menu" class="form-control" require>
+          </div>
+        </div>
+        <div class="col-12" id="formicon">
+        <label>Icon Menu </label>
+          <div class="form-group">
+            <input name="iconMenu" id="iconMenu" type="text" value="Icon Menu" class="form-control" require>
+          </div>
+        </div>
+        <div class="col-12" id="formtag">
+          <label>Custom Tag Menu </label>
+          <div class="form-group">
+            <input name="customTag" id="customTag" type="text" value="Custom Tag Menu" class="form-control" require>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
+              <i class="bx bx-x d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Close</span>
+            </button>
+            <button type="submit" class="btn btn-primary ml-1">
+              <i class="bx bx-check d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Save</span>
             </button>
       </form>
       </div>

@@ -124,7 +124,7 @@ class MenuController extends Controller
                     if($b['uker']== $uker && $b['level']==$level){
                         $checked = 1;
                         $idSelected = $b['id'];
-                    }
+                        }
                     }
                     $mtp[$i++] = array(
                     "id" => $row['id'],
@@ -206,6 +206,30 @@ class MenuController extends Controller
         }
 
         return Redirect::to('/menu-list');
+    }
+
+    if(isset($getPost['editmenu'])){
+        if($getPost['typeMenu'] == 'HEADER'){
+            $param =[
+                'name'  => $getPost['menuName'],
+            ];
+        }else if($getPost['typeMenu'] == "OPTION"){
+            $param = [
+                'name'  => $getPost['menuName'],
+                'i18n'  => $getPost['lngMenu'],
+                'icon'  => $getPost['iconMenu']
+            ];
+        }else{
+            $param = [
+                'name'      => $getPost['menuName'],
+                'url'       => $getPost['urlMenu'],
+                'i18n'      => $getPost['lngMenu'],
+                'icon'      => $getPost['iconMenu'],
+                'tagcustom' => $getPost['customTag']
+            ];
+        }
+        print_r($param);
+        die;
     }
 
     $data_menu = $this->HttpRequest->service("GET", "/menus/show", null);

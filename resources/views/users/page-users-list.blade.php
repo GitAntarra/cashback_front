@@ -78,9 +78,9 @@
                   <div class="col-md-3">
                   </div>  
                   <div class="col-md-9">
-                  <button type="submit" class="btn btn-primary glow mr-sm-1 mb-1"><i class="bx bx-search"></i> Find</button>
-                  <button type="submit" class="btn btn-success glow mr-sm-1 mb-1"><i class="bx bx-list-ul"></i> Show All</button>
-                  <a href="{{asset('page-users-add')}}" class="btn btn-warning glow mr-sm-1 mb-1"><i class="bx bx-plus"></i> Add</a>
+                  <button type="submit" title="Find User" class="btn btn-primary glow mr-sm-1 mb-1"><i class="bx bx-search"></i> Find</button>
+                  <button type="submit" title="Show All User" class="btn btn-success glow mr-sm-1 mb-1"><i class="bx bx-list-ul"></i> Show All</button>
+                  <a href="{{asset('page-users-add')}}" title="Add User" class="btn btn-warning glow mr-sm-1 mb-1"><i class="bx bx-plus"></i> Add</a>
                   </div>
                 </div>
               </div>
@@ -124,7 +124,8 @@
                     <span class="badge badge-light-danger">{{$row['status']}}</span>
                     @endif
                   </td>
-                  <td><a href="{{asset('/page-users-edit?id=')}}{{$row['id']}}"><i
+                  <td>
+                    <a class="btn btn-primary" title="Edit User" href="{{asset('/page-users-edit?id=')}}{{$row['id']}}"><i
                     class="bx bx-edit-alt"></i></a></td>
                     </tr>
                       @endforeach

@@ -9,14 +9,14 @@
       <div class="card-header">
         <div class="row ">
             <div class="col-6">
-                <a href="javascript:history.back()" class="btn btn-primary"><i class="bx bx-left-arrow-alt"></i> Back</a>
+                <a href="javascript:history.back()" class="btn btn-primary" title="Back"><i class="bx bx-left-arrow-alt"></i> Back</a>
             </div>
             <div class="col-lg-6 col-md-12">
                 <div class="input-group">
                     <input class="form-control" type="text" placeholder="Nama menu..."/>    
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary"><i class="bx bx-search"></i> Find</button>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addSecondModalform"><i class="bx bx-plus"></i> Add</button>
+                        <button type="submit" class="btn btn-primary" title="Find"><i class="bx bx-search"></i> Find</button>
+                        <button type="button" class="btn btn-success" title="Add Menu" data-toggle="modal" data-target="#addSecondModalform"><i class="bx bx-plus"></i> Add</button>
                     </div>
                 </div>
             </div>
@@ -41,8 +41,8 @@
                     <td class="text-bold-500">{{$listOpt[$i]['type']}}</td>
                     <td>{{$listOpt[$i]['name']}}</td>
                     <td>
-                        <button class="btn btn-primary"><i class="bx bx-pencil"></i> Edit</button>
-                        <button class="btn btn-warning"><i class="bx bx-trash"></i> Delete</button>
+                        <button class="btn btn-primary" title="Edit Menu"><i class="bx bx-edit-alt"></i></button>
+                        <button class="btn btn-danger" title="Delete Menu"><i class="bx bx-trash"></i> </button>
                     </td>
                 </tr>
                 @endfor

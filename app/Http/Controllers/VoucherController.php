@@ -17,6 +17,7 @@ class VoucherController extends Controller
     {
         $getPost = $request->post();
         $list_voucher = $this->HttpRequest->service("GET","/vouchers/show",null);
+
         // echo "<pre>";
         // print_r($list_voucher);
         $data = [
@@ -25,13 +26,15 @@ class VoucherController extends Controller
         ];
         
         if(isset($getPost['vouchercode'])){
+            $minTrans = preg_replace("/[^0-9]/", "", $getPost['mintransaction']);
+            $maxPotency = preg_replace("/[^0-9]/", "", $getPost['maxpotency']);
             $param = [
                 'code'  => $getPost['vouchercode'],
                 'type'  => $getPost['type'],
                 'limit' => (int) $getPost['limit'],
                 'dueDate'   => "2022-04-08 12:57:18",
-                'minTransaction'    => (int) $getPost['mintransaction'],
-                'maxPotency'        => (int) $getPost['maxpotency'],
+                'minTransaction'    => (int) $minTrans,
+                'maxPotency'        => (int) $maxPotency,
                 'percent'   => (int) $getPost['percent'],
                 'maxRedeem' => (int) $getPost['maxredeem']
             ];

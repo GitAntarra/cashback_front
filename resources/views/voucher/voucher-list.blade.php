@@ -70,7 +70,7 @@
                                 <label>LIMIT</label>
                             </div>
                             <div class="col-9">
-                                <input require type="number" name="limit" id="limit" class="touchspin-vertical" value="50">
+                                <input require type="number" name="limit" id="limit" class="touchspin">
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                                 <label>MINIMAL TRANSACTION</label>
                             </div>
                             <div class="col-9">
-                                <input require type="number" name="mintransaction" id="mintransaction" class="form-control"  data-bts-prefix="Rp">
+                                <input require type="text" name="mintransaction" id="mintransaction" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                                 <label>MAXIMAL POTENCY</label>
                             </div>
                             <div class="col-9">
-                                <input require type="number" name="maxpotency" id="maxpotency" class="form-control" data-bts-prefix="Rp">
+                                <input require type="text" name="maxpotency" id="maxpotency" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                                 <label>PERCENT</label>
                             </div>
                             <div class="col-9">
-                            <input require type="text" name="percent" id="percent" class="touchspin" value="55" data-bts-postfix="%" />
+                            <input require type="text" name="percent" id="percent" class="touchspin"  data-bts-postfix="%" />
                             </div>
                         </div>
                     </div>
@@ -120,7 +120,7 @@
                                 <label>MAXIMAL REDEEM</label>
                             </div>
                             <div class="col-9">
-                                <input require type="number" name="maxredeem" id="maxredeem" class="touchspin-vertical" value="50">
+                                <input require type="number" name="maxredeem" id="maxredeem" class="touchspin">
                             </div>
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                     </button>
                     <button type="submit" class="btn btn-primary ml-1">
                       <i class="bx bx-check d-block d-sm-none"></i>
-                      <span class="d-none d-sm-block">Accept</span>
+                      <span class="d-none d-sm-block">Create</span>
                     </button>
                   </div>
                   </form>
@@ -214,6 +214,60 @@
 
 {{-- vendor scripts --}}
 @section('vendor-scripts')
+<script type="text/javascript">
+  $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+  var mintrans = document.getElementById("mintransaction");
+  
+  mintrans.addEventListener("keyup", function(e) {
+    mintrans.value = formatMinTrans(this.value, "Rp. ");
+  });
+
+  /* Fungsi formatMinTrans */
+  function formatMinTrans(angka, prefix) {
+    var number_string = angka.replace(/[^,\d]/g, "").toString(),
+      split = number_string.split(","),
+      sisa = split[0].length % 3,
+      mintrans = split[0].substr(0, sisa),
+      ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+      separator = sisa ? "." : "";
+      mintrans += separator + ribuan.join(".");
+    }
+
+    mintrans = split[1] != undefined ? mintrans + "," + split[1] : mintrans;
+    return prefix == undefined ? mintrans : mintrans ? "Rp. " + mintrans : "";
+  }
+
+  /* Fungsi formatMaxPotency */
+  var maxpotency = document.getElementById("maxpotency");
+
+  maxpotency.addEventListener("keyup", function(e){
+    maxpotency.value = formatMaxPotency(this.value, "Rp. ");
+  });
+
+  function formatMaxPotency(angka, prefix){
+    var number_string = angka.replace(/[^,\d]/g, "").toString(),
+        split         = number_string.split(","),
+        sisa          = split[0].length % 3,
+        maxpotency    = split[0].substr(0, sisa),
+        ribuan        = split[0].substr(sisa).match(/\d{3}/gi);
+    if(ribuan){
+      separator = sisa ? "." : "";
+      maxpotency += separator + ribuan.join(".");
+    }
+
+    maxpotency = split[1] != undefined ? maxpotency + "," + split[1] : maxpotency;
+    return prefix == undefined ? maxpotency : maxpotency ? "Rp. " + maxpotency : "";
+
+  }
+
+</script>
 <script src="{{asset('vendors/js/tables/datatable/datatables.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/datatables.checkboxes.min.js')}}"></script>
