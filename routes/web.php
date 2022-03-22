@@ -37,12 +37,19 @@ Route::post('getEmployee','UsersController@getEmployeeId')->name('getEmployee.po
 Route::post('saveUpdateUser', 'UsersController@saveUpdate')->name('edituser.post')->middleware("isLogin");
 Route::post('registUser', 'UserController@regiter')->name('register.post');
 
+//Voucher Route
+Route::get('/list-voucher','VoucherController@listVoucher')->middleware("isLogin");
+Route::post('create-voucher','VoucherController@listVoucher')->name("createvoucher.post")->middleware("isLogin");
+
 //Menu Route
 Route::get('/menu-list','MenuController@listMenu')->middleware("isLogin");
 Route::get('/menu-selected','MenuController@selectedMenu')->middleware("isLogin");
 Route::post('getOption','MenuController@showOption')->name('getOption.post')->middleware("isLogin");
+Route::get('detailMenu','MenuController@detailListMenu')->name('detailMenu')->middleware("isLogin");
+Route::post('addhrefMenu','MenuController@detailListMenu')->name('addhrefMenu.post')->middleware("isLogin");
 Route::post('getHref',"MenuController@showHref")->name('getHref.post')->middleware("isLogin");
 Route::post('addMenu', "MenuController@listMenu")->name('addMenu.post')->middleware("isLogin");
+Route::post('editMenu', "MenuController@listMenu")->name('editMenu.post')->middleware("isLogin");
 
 //Application Routes
 Route::get('/app-email','ApplicationController@emailApplication');
