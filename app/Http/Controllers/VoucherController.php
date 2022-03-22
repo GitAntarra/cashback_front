@@ -8,8 +8,10 @@ use Session;
 
 class VoucherController extends Controller
 {
-    public function __construct()
+  public function __construct()
   {
     $this->HttpRequest = new HttpRequest;
 	}
+
+
 }
