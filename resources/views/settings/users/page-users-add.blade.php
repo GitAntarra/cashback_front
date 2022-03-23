@@ -40,7 +40,7 @@
                                 <label>Personal Number</label>
                                 <fieldset>
                                 <div class="input-group">
-                                  <input type="text" maxlength="8" id="pernr" name="pernr" class="form-control" data-validation-required-message="This Personal Number field is required" placeholder="Recipient's Personal Number" aria-describedby="button-addon2">
+                                  <input type="text" require maxlength="8" id="pernr" name="pernr" class="form-control" data-validation-required-message="This Personal Number field is required" placeholder="Recipient's Personal Number" aria-describedby="button-addon2">
                                   <div class="input-group-append" id="button-addon2">
                                     <button class="btn btn-primary" type="button" value="cari" id="btn_cari">Find</button>
                                   </div>
@@ -56,25 +56,21 @@
                         </div>
                         <div class="form-group">
                             <div class="controls">
-                                <label>Unit Code</label>
-                                <input type="text" name="unit_code" id="unit_code" class="form-control" readonly />
+                                <label>Unit Work</label>
+                                <input type="text" name="ukerdesc" id="ukerdesc" class="form-control" readonly />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="controls">
-                                <label>Unit Work</label>
-                                <input type="text" name="ukerdesc" id="ukerdesc" class="form-control" readonly />
+                                <label>Organization</label>
+                                <input type="text" name="organization" id="organization" class="form-control" readonly />
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">
                         <div class="form-group">
-                            <label>Region Code</label>
-                            <input type="text" name="region_code" id="region_code" class="form-control" readonly />
-                        </div>
-                        <div class="form-group">
-                        <label>Regional Name</label>
-                            <input type="text" name="region_name" id="region_name" class="form-control" readonly />
+                            <label>Position</label>
+                            <input type="text" name="position" id="position" class="form-control" readonly />
                         </div>
                         <div class="form-group">
                         <label>Branch</label>
@@ -138,14 +134,13 @@
 						$('#ajax-loader').hide();
 						console.log(res.error)
 						if(!res.error){
-							$("#pernr").val(res.pernr);
+							$("#pernr").val(res.PERSONAL_NUMBER);
 							$("#pernr").attr('readonly', true);
-							$("#name").val(res.name);
-							$("#unit_code").val(res.uker);
-							$("#ukerdesc").val(res.uker);
-							$("#region_code").val(res.region_code);
-							$("#branch").val(res.branch);
-							$("#region_name").val(res.region_name);
+							$("#name").val(res.NAMA);
+							$("#position").val(res.DESC_POSISI);
+							$("#ukerdesc").val(res.DESC_AREA);
+							$("#organization").val(res.DESC_ORGANIZATION_UNIT);
+							$("#branch").val(res.BRANCH);
 							$("#btn_cari").attr('disabled', true);
 							$("#back_info").text('Cancel');
 						}else{

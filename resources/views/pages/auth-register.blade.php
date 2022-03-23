@@ -45,12 +45,12 @@
                       <input type="text" name="unit_work" id="unit_work" class="form-control" readonly />
                     </div>
                     <div class="form-group mb-50">
-                      <label>Region Code</label>
-                      <input type="text" name="reg_code" id="reg_code" class="form-control" readonly />
+                      <label>Organization</label>
+                      <input type="text" name="organization" id="organization" class="form-control" readonly />
                     </div>
                     <div class="form-group mb-50">
                       <label>Regional Name</label>
-                      <input type="text" name="reg_name" id="reg_name" class="form-control" readonly />
+                      <input type="text" name="position" id="position" class="form-control" readonly />
                     </div>
                     <div class="form-group mb-50">
                       <label>Branch</label>
@@ -91,7 +91,7 @@
 		$('#btn_cari').click(function(e) {
 			e.preventDefault();
 			if($(this).attr("value")=="cari"){
-				var pn = $("#pernr").val();
+				let pn = $("#pernr").val();
         $.ajax({
 					url: "{{ route('getEmployee.post')}}",
 					data: {
@@ -106,15 +106,14 @@
 						$('#ajax-loader').hide();
 						console.log(res.error)
 						if(!res.error){
-							$("#pernr").val(res.pernr);
+							$("#pernr").val(res.PERSONAL_NUMBER);
 							$("#pernr").attr('readonly', true);
-							$("#name").val(res.name);
-							$("#unit_work").val(res.uker);
-							$("#reg_code").val(res.region_code);
-							$("#branch").val(res.branch);
-							$("#reg_name").val(res.region_name);
+							$("#name").val(res.NAMA);
+							$("#unit_work").val(res.DESC_AREA);
+							$("#organization").val(res.DESC_ORGANIZATION_UNIT);
+							$("#branch").val(res.BRANCH);
+							$("#position").val(res.DESC_POSISI);
 							$("#btn_cari").attr('disabled', true);
-							$("#back_info").text('Cancel');
 						}else{
 							alert(res.msg);
 						}

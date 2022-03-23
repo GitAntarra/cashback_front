@@ -142,6 +142,64 @@ class MenuController extends Controller
 
     //Menu List
     public function listMenu(Request $request){
+    $getPost = $request->post();
+    if(isset($getPost['addmenu'])){
+        if($getPost['typeMenu'] == "HEADER"){
+            $param = [
+                'name' => $getPost['menuName'],
+            ];
+            $url_addMenu = $this->HttpRequest->service("POST","/menus/create-header", $param);
+
+        }else if($getPost['typeMenu'] == "OPTION"){
+            $param = [
+                'name'  => $getPost['menuName'],
+                'i18n'  => $getPost['lngMenu'],
+                'icon'  => $getPost['iconMenu']
+            ];
+            $url_addMenu = $this->HttpRequest->service("POST","/menus/create-main-option", $param);
+        }else{
+            $param = [
+                'name'  => $getPost['menuName'],
+                'url'   => $getPost['urlMenu'],
+                'i18n'  => $getPost['lngMenu'],
+                'icon'  => $getPost['iconMenu'],
+                'tagcustom' => $getPost['tagMenu'],
+            ];
+            $url_addMenu = $this->HttpRequest->service("POST","/menus/create-main-href", $param);
+        }
+
+        if(!empty($url_addMenu)){
+            Session::flash('success','action success');
+        }else{
+            Session::flash('failed','action failed');
+        }
+
+        return Redirect::to('/menu-list');
+    }
+
+    if(isset($getPost['editmenu'])){
+        if($getPost['typeMenu'] == 'HEADER'){
+            $param =[
+                'name'  => $getPost['menuName'],
+            ];
+        }else if($getPost['typeMenu'] == "OPTION"){
+            $param = [
+                'name'  => $getPost['menuName'],
+                'i18n'  => $getPost['lngMenu'],
+                'icon'  => $getPost['iconMenu']
+            ];
+        }else{
+            $param = [
+                'name'      => $getPost['menuName'],
+                'url'       => $getPost['urlMenu'],
+                'i18n'      => $getPost['lngMenu'],
+                'icon'      => $getPost['iconMenu'],
+                'tagcustom' => $getPost['customTag']
+            ];
+        }
+        print_r($param);
+        die;
+    }
 
     $data_menu = $this->HttpRequest->service("GET", "/menus/show", null);
     $type = [
@@ -156,9 +214,7 @@ class MenuController extends Controller
         'opt_type'      => $type,
         'selectedType'   => 'HEADER'
     ];
-    // echo "<pre>";
-    // print_r($data['menus']);
-    // die;
+    
 
     return view('settings.menu.menu-list')->with($data);
     }
@@ -179,6 +235,7 @@ class MenuController extends Controller
         // }die;
         
         if(isset($opt_menu)){
+            echo "<tr hidden><td colspan='3'><input class='form-control' name='menuID' id='menuID' type='text' value='".$opt_menu[0]['menuId']."'></td></tr>";
             for($i = 0; $i < count($opt_menu); $i++ ){
                 echo "<tr>";
                 echo "<td>{$opt_menu[$i]['type']}</td>";
@@ -187,5 +244,47 @@ class MenuController extends Controller
                 echo "</tr>";
             }
         }
+    }
+
+    //Deatil List Menu
+    public function detailListMenu(Request $request)
+    {
+        $getPost = $request->post();
+        $idMenu = $request->get("data");
+        $data_menu = $this->HttpRequest->service("GET", "/menus/show", null);
+        $opt_menu = array();
+        foreach($data_menu as $row){
+            if($row['id'] == $idMenu){
+                $opt_menu = $row['submenu'];
+            }
+        }
+
+        if(isset($getPost['addmenusec'])){
+            $param = [
+                'name'  => $getPost['menuNameSec'],
+                'url'   => $getPost['urlMenuSec'],
+                'i18n'  => $getPost['lngMenuSec'],
+                'icon'  => $getPost['iconMenuSec'],
+                'tagcustom' => $getPost['tagMenuSec'],
+                'id'        => $getPost['idMenu']
+            ];
+    
+            $res = $this->HttpRequest->service("POST","/menus/create-second-option", $param);
+    
+            if(!empty($res)){
+                Session::flash('success','action success');
+            }else{
+                Session::flash('failed','action failed');
+            }
+
+            return Redirect::to('detailMenu?data='.$getPost['idMenu']);
+        }
+
+        $data = [
+            'listOpt' => $opt_menu,
+            'idMenu'    => $idMenu
+        ];
+
+        return view('menu.detail-menu')->with($data);
     }
 }
