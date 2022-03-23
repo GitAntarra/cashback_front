@@ -195,7 +195,7 @@
             <td><span class="badge badge-light-success badge-pill">ACTIVE</span></td>
             <td>
             <div class="invoice-action">
-              <a href="{{asset('app-invoice-view')}}" class="invoice-action-view mr-1">
+              <a href="{{asset('/view-voucher')}}" class="invoice-action-view mr-1">
                 <i class="bx bx-show-alt"></i>
               </a>
               <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
@@ -266,6 +266,32 @@
     return prefix == undefined ? maxpotency : maxpotency ? "Rp. " + maxpotency : "";
 
   }
+
+  $('#confirm-delete').on('click', function () {
+    Swal.fire({
+      title: 'Are you suddre?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Your text here!',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn btn-danger ml-1',
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire(
+          {
+            type: "success",
+            title: 'Deleted!',
+            text: 'Your file has been deleted.',
+            confirmButtonClass: 'btn btn-success',
+          }
+        )
+      }
+    })
+  });
 
 </script>
 <script src="{{asset('vendors/js/tables/datatable/datatables.min.js')}}"></script>

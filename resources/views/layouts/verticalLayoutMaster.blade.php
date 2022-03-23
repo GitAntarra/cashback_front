@@ -75,10 +75,6 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
   </div>
   <!-- End: Customizer-->
 
-  <!-- Buynow Button-->
-  <div class="buy-now">
-    @include('pages.buy-now')
-  </div>
   @endif
   <!-- demo chat-->
   <div class="widget-chat-demo">

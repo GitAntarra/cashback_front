@@ -27,7 +27,7 @@
                   @endforeach    
                 </select>       
                 <div class="input-group-append">
-                  <button type="submit" class="btn btn-primary" title="Find"><i class="bx bx-search text-white"></i> Find</button>
+                  <button type="submit" class="btn btn-primary" id="findData" title="Find"><i class="bx bx-search text-white"></i> Find</button>
                   <button type="button" class="btn btn-success" title="Add Menu" data-toggle="modal" data-target="#addModalform"><i class="bx bx-plus text-white"></i> Add Menu</button>
                 </div>
               </div>
@@ -61,7 +61,7 @@
                   </td>
                   <td>
                     <button class="btn btn-primary" title="Edit Menu"><i class="bx bx-edit-alt" idMenu="{{$row['id']}}" type="$row['type']" data-toggle="modal" data-target="#editModalform"></i></button>
-                    <button class="btn btn-danger" title="Delete Menu"><i class="bx bx-trash" id="deleteMenu" idMenu="{{$row['id']}}" type="$row['type']"></i></button>
+                    <button class="btn btn-danger" id="confirmdel" title="Delete Menu"><i class="bx bx-trash" id="deleteMenu" idMenu="{{$row['id']}}" type="$row['type']"></i></button>
                   </td>
                     </tr>
                       @endforeach
@@ -206,32 +206,39 @@
         }
     });
 
-    // $(".detail_main").click(function() {
-    //     var x = document.getElementById('main_menu');
-    //     var y = document.getElementById('option_menu');
-    //     let datas = $(this).attr('data');
-    //     $.ajax({
-    //         url:"{{ route('getOption.post') }}",
-    //         type: 'POST',
-    //         data:{
-    //             data:datas,
-    //         },
-    //         success: function(res){
-    //             $("#panBody").html(res);
-    //             if (x.style.display == 'none') {
-    //                 x.style.display = 'block';
-    //                 y.style.display = 'none';
-                    
-    //             } else {
-    //                 x.style.display = 'none';
-    //                 y.style.display = 'block';
-    //             }
-    //         },
-    //         error: function(err){
-    //             console.log(err);
-    //         }
-    //     });
-    // });
+    $(document).ready(function () {
+      $('#confirmdel').on('click', function () {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You want to delete this Menu?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!',
+          confirmButtonClass: 'btn btn-warning',
+          cancelButtonClass: 'btn btn-danger ml-1',
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            Swal.fire({
+              type: "success",
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              confirmButtonClass: 'btn btn-success',
+            })
+          }
+          else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+              title: 'Cancelled',
+              text: 'Your Menu is safe :)',
+              type: 'error',
+              confirmButtonClass: 'btn btn-success',
+            })
+          }
+        })
+      });
+    });
 
     function typeSelect(){
       let type = $('#typeMenu').val();
@@ -267,6 +274,8 @@
 </script>
 <script src="{{asset('vendors/js/tables/datatable/datatables.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
+<script src="{{asset('vendors/js/extensions/polyfill.min.js')}}"></script>
 @endsection
 
 {{-- page scripts --}}
