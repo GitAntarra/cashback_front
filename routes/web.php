@@ -17,6 +17,8 @@ Route::group(['middleware' => ['isLogin']],function () {
     // Andra Route start from here
     Route::get('/menu-select','MenuController@selectionmenu');
     Route::post('/menu-select','MenuController@selectionmenu');
+    Route::get('/manage-coupon','CouponController@index');
+    Route::post('/manage-coupon','CouponController@index');
 });
 
 

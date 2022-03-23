@@ -38,7 +38,7 @@ class Controller extends BaseController
             abort(404);
         }elseif($response->failed()){
             abort(333, 'mantap');
-        }elseif($response->ok()){
+        }else{
             return $response;
         }
     }

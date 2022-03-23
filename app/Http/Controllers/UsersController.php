@@ -33,7 +33,7 @@ class UsersController extends Controller
       // echo "<pre>";
       // print_r($data_user);
       // die;
-    return view('users.page-users-list')->with($data);
+    return view('settings.users.page-users-list')->with($data);
   }
 
   public function getEmployeeId(Request $request)
