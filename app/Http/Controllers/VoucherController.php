@@ -52,6 +52,11 @@ class VoucherController extends Controller
         return view('voucher.voucher-list')->with($data);
     }
 
+    public function viewVoucher(Request $request)
+    {
+        return view('voucher.voucher-view');
+    }
+
     public function editVoucher(Request $request)
     {
 

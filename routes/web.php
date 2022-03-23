@@ -40,6 +40,7 @@ Route::post('registUser', 'UserController@regiter')->name('register.post');
 //Voucher Route
 Route::get('/list-voucher','VoucherController@listVoucher')->middleware("isLogin");
 Route::post('create-voucher','VoucherController@listVoucher')->name("createvoucher.post")->middleware("isLogin");
+Route::get('/view-voucher','VoucherController@viewVoucher')->middleware("isLogin");
 
 //Menu Route
 Route::get('/menu-list','MenuController@listMenu')->middleware("isLogin");
