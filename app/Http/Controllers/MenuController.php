@@ -18,7 +18,6 @@ class MenuController extends Controller
     public function selectionmenu(Request $request){
         // Get list menu
         
-
         $getPost = $request->post();
         $data = array();
         $data['selectedUker'] = isset($getPost['uker']) ? $getPost['uker'] : 'Kantor Pusat';
@@ -51,12 +50,30 @@ class MenuController extends Controller
                 "level" => $getPost['level']
             );
             $getmenus = $this->HttpRequest("POST", "/menus/check-uncheck", $param);
-            Session::flash('success', 'action success');
+            if($getmenus->status() == 201){
+                Session::flash('success', 'menu selected/unselected');
+            }
         }
+        
+        if(isset($getPost['sorted'])){
+
+            $param = array();
+            $i=0;
+            foreach($getPost['menusort'] as $row => $key){
+                $param[$i++] = array(
+                    "id"    => $key,
+                    "order"  => $row,
+                );
+            }
+            $getmenus = $this->HttpRequest("POST", "/menus/ordered", $param);
+            if($getmenus->status() == 201){
+                Session::flash('success', 'menu sorted sucessfull');
+            }
+        }
+
         $getmenus = $this->HttpRequest("GET", "/menus/selected");
         $data['lists'] = $this->processmenu($getmenus->json(), $data['selectedUker'] , $data['selectedLevel'] );
-
-        return view('menu.menu-select-list',$data);
+        return view('settings.menu.menu-select-list',$data);
     }
 
     public function processmenu($data, $uker, $level){
@@ -66,110 +83,62 @@ class MenuController extends Controller
             $checked = 0;
             $idSelected = null;
             foreach($row['menuSelected'] as $b){
-            if($b['uker']== $uker && $b['level']==$level){
-                $checked = 1;
-                $idSelected = $b['id'];
-            }
-            }
-            $mtp[$i++] = array(
-            "id" => $row['id'],
-            "type" => $row['type'],
-            "name" => $row['name'],
-            "url" => $row['url'],
-            "i18n" => $row['i18n'],
-            "icon" => $row['icon'],
-            "checked" => $checked,
-            "idselected" => $idSelected
-            );
-        }
-
-        return $mtp;
-    }
-
-
-    public function selectionmenus(Request $request) {
-
-        $res = $this->HttpRequest("GET", "/menus/selected");
-
-        try {
-            $getPost = $request->post();
-            $uker = isset($getPost['uker']) ? $getPost['uker'] : 'Kantor Pusat';
-            $level =isset($getPost['level']) ? $getPost['level'] : 'SUPERADMIN';
-    
-            if( isset( $getPost['id'] ) ){
-                $param = array(
-                    "id" => $getPost['id'],
-                    "uker" => $getPost['uker'],
-                    "level" => $getPost['level'],
-                );
-                print_r($param);
-                $resChecked = $this->HttpRequest("POST", "/menus/check-uncheck", $param);
-    
-                return $resChecked;
-                die;
-                if(empty($resChecked->ok())){
-                    Session::flash('success','action success');
-                }else{
-                    return $res;
+                if($b['uker']== $uker && $b['level']==$level){
+                    $checked = 1;
+                    $idSelected = $b['id'];
                 }
             }
-    
-            if(!empty($res->json())){
-                $i=0;
-                $mtp = array();
-                foreach($res->json() as $row){
-                    $checked = 0;
-                    $idSelected = null;
-                    foreach($row['menuSelected'] as $b){
-                    if($b['uker']== $uker && $b['level']==$level){
-                        $checked = 1;
-                        $idSelected = $b['id'];
+            $href = array();
+            $x=0;
+            if($row['type'] == 'OPTION'){
+                foreach($data as $child){
+                    $ccheked = 0;
+                    $cidSelected = null;
+                    foreach($child['menuSelected'] as $d){
+                        if($d['uker']== $uker && $d['level']==$level){
+                            $ccheked = 1;
+                            $cidSelected = $d['id'];
                         }
                     }
-                    $mtp[$i++] = array(
+                    
+                    if($child['menuId'] == $row['id']){
+                        $href[$x++] = array(
+                            "id" => $child['id'],
+                            "type" => $child['type'],
+                            "name" => $child['name'],
+                            "url" => $child['url'],
+                            "i18n" => $child['i18n'],
+                            "icon" => $child['icon'],
+                            "menuId" => $child['menuId'],
+                            "order" => $child['order'],
+                            "checked" => $ccheked,
+                            "idselected" => $cidSelected
+                        );
+                    }
+                }
+            }
+            if($row['type'] != 'HREF'){
+                $mtp[$i++] = array(
                     "id" => $row['id'],
                     "type" => $row['type'],
                     "name" => $row['name'],
                     "url" => $row['url'],
                     "i18n" => $row['i18n'],
                     "icon" => $row['icon'],
+                    "menuId" => $row['menuId'],
+                    "order" => $row['order'],
                     "checked" => $checked,
-                    "idselected" => $idSelected
-                    );
-                }
-                $data['lists'] = $mtp;
-                $data['pageConfigs'] = ['pageHeader' => true];
-                $data['breadcrumbs'] = [
-                    ["link" => "/", "name" => "Home"],["name" => "Selecting Menu"]
-                ];
-                $data['opt_level'] = [
-                    'MAKER'         => 'MAKER',
-                    'CHECKER'       => 'CHECKER',
-                    'SIGNER'        => 'SIGNER',
-                    'ADMINISTRATOR' => 'ADMINISTRATOR',
-                    'SUPERADMIN'    => 'SUPERADMIN',
-                    'DEVELOPER'     => 'DEVELOPER'
-                ];
-                
-                  $data['opt_uker'] = [
-                      'KP'  => 'KANTOR PUSAT',
-                      'KW'  => 'KANTOR WILAYAH',
-                      'KC'  => 'KANTOR CABANG',
-                      'KU'  => 'KANTOR UNIT',
-                      'KCP' => 'KANTOR CABANG PEMBANTU',
-                  ];
-                  $data['selectedLevel'] = 'MAKER';
-                  $data['selectedUker']  = 'KANTOR PUSAT';
-                return view('menus.menu-select-list',$data);
+                    "idselected" => $idSelected,
+                    "child"     => $href
+                );
             }
-    
-            return $res;
-        } catch (\Throwable $th) {
-            return $res;
         }
-        
-        
+
+        return $mtp;
     }
+
+
+    
 
     //Menu List
     public function listMenu(Request $request){
@@ -247,7 +216,7 @@ class MenuController extends Controller
     ];
     
 
-    return view('menu.menu-list')->with($data);
+    return view('settings.menu.menu-list')->with($data);
     }
 
     //Show Option Menu
