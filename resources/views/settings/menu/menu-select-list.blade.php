@@ -111,20 +111,20 @@
 
     </div>
   </div>
-  <div class="modal fade text-left" id="large" tabindex="-1" role="dialog" aria-labelledby="myModalLabel17"
+  <div class="modal fade text-left" id="large" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-dialog  modal-dialog-scrollable modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="myModalLabel17">Large Modal</h4>
+          <h4 class="modal-title" id="myModalLabel17">Order Menu</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <i class="bx bx-x"></i>
           </button>
         </div>
+        
+        <div class="modal-body">
         <form method="POST">
           <input type="hidden" name="sorted" value="1" />
-        <div class="modal-body">
-          <section id="dd-with-handle">
             <div class="row">
               <div class="col-sm-12">                
                 <ul class="list-group" id="handle-list-1">
@@ -151,9 +151,9 @@
                 </ul>
 
               </div>
-            </div>                      
-          </section>
+            </div>
         </div>
+
         <div class="modal-footer">
           <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
             <i class="bx bx-x d-block d-sm-none"></i>
@@ -163,8 +163,8 @@
             <i class="bx bx-check d-block d-sm-none"></i>
             <span class="d-none d-sm-block">Accept</span>
           </button>
-        </div>
         </form>
+        </div>
       </div>
     </div>
   </div>
