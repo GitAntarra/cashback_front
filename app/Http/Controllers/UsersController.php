@@ -195,14 +195,10 @@ class UsersController extends Controller
     $data = [
       'detail_user'   => $detail_user,
       'opt_level'     => $opt_level,
-      'selectedLevel' => "MAKER",
+      'selectedLevel' => $detail_user['level'] ? $detail_user['level'] : "",
       'opt_status'    => $opt_status,
-      'selectedStatus'=> "ACTIVED",
+      'selectedStatus'=> $detail_user['status'] ? $detail_user['status'] : "",
     ];
-
-    // echo "<pre>";
-    // print_r($detail_user);
-    // die;
     return view('users.page-users-edit')->with($data);
   }
 
@@ -214,11 +210,6 @@ class UsersController extends Controller
       'status' => $request->get('status'),
       'description' => $request->get('description'),
     ];
-
-    // echo "<pre>";
-    // print_r($param);
-    // echo $request->get('id');
-    // die;
 
     $result = $this->HttpRequest->service("PATCH", "/users/".$request->get('id')."/update", $param);
     

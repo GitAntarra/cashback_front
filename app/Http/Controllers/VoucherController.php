@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\HttpRequest;
 use Illuminate\Http\Request;
 use Session;
+use Redirect;
 
 class VoucherController extends Controller
 {
@@ -54,6 +55,7 @@ class VoucherController extends Controller
 
     public function viewVoucher(Request $request)
     {
+        
         return view('voucher.voucher-view');
     }
 
