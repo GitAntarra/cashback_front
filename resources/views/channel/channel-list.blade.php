@@ -22,7 +22,7 @@
     <button type="button" class="btn btn-primary glow" data-toggle="modal"
               data-target="#exampleModalScrollable">
               <i class="bx bx-plus"></i>
-              Create Voucher
+              Add Channel
             </button>
 
             <!--scrolling content Modal -->
@@ -31,7 +31,7 @@
               <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Create Voucher</h5>
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Add Channel</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <i class="bx bx-x"></i>
                     </button>
@@ -177,8 +177,6 @@
     <table class="table invoice-data-table dt-responsive nowrap" style="width:100%">
       <thead>
         <tr>
-          <th></th>
-          <th></th>
           <th>
             <span class="align-middle">Code</span>
           </th>
@@ -191,31 +189,19 @@
         </tr>
       </thead>
       <tbody>
-        <?php $voucherData = $list_voucher['data']; ?>
-        @if(isset($voucherData) && !empty($voucherData))
-        @foreach($voucherData as $row)
         <tr>
-            <td></td>
-            <td></td>
-            <td><a href="{{asset('app-invoice-view')}}">{{$row['code']}}</a></td>
-            <td><span>{{$row['type']}}</span></td>
-            <td><span>{{date('d-m-Y', strtotime($row['dueDate']))}}</span></td>
-            <td><span>{{$row['limit']-$row['count']}}</span></td>
-            <td><span>Rp. {{$row['minTransaction']}}</span></td>
-            <td><span class="badge badge-light-success badge-pill">ACTIVE</span></td>
+            <td>test</td>
+            <td>test</td>
+            <td>test</td>
+            <td>test</td>
+            <td>test</td>
+            <td>test</td>
             <td>
-            <div class="invoice-action">
-              <a href="{{asset('/view-voucher')}}" class="invoice-action-view mr-1">
-                <i class="bx bx-show-alt"></i>
-              </a>
-              <a href="{{asset('app-invoice-edit')}}" class="invoice-action-edit cursor-pointer">
+            <a href="" class="invoice-action-edit cursor-pointer">
                 <i class="bx bx-edit"></i>
               </a>
-            </div>
-          </td>
+            </td>
         </tr>
-        @endforeach
-        @endif
       </tbody>
     </table>
   </div>

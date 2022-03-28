@@ -20,20 +20,6 @@
               <div class="col-12 pt-1">
                 <div class="row">
                   <div class="col-md-3">
-                    <label class="pt-1">Region</label>
-                  </div>  
-                  <div class="col-md-9">
-                    <fieldset class="form-group">
-                      <select class="custom-select" id="basicSelect">
-                        <option>All Region</option>
-                      </select>
-                    </fieldset>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 pt-1">
-                <div class="row">
-                  <div class="col-md-3">
                     <label class="pt-1">Working Unit</label>
                   </div>  
                   <div class="col-md-9">

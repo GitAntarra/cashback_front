@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\LanguageController;
+use Illuminate\Support\Facades\Redis;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +20,23 @@ Route::group(['middleware' => ['isLogin']],function () {
     Route::post('/menu-select','MenuController@selectionmenu');
     Route::get('/manage-coupon','CouponController@index');
     Route::post('/manage-coupon','CouponController@index');
+
+    //Channel Routes
+    Route::get('/list-channel', 'ChannelController@listChannel');
+
+    //Menu Route
+    Route::get('/delete-menu',"MenuController@deleteMenu");
+
+});
+
+
+ 
+Route::get('/publish', function () {
+    // ...
+ 
+    Redis::publish('redistest', json_encode([
+        'name' => 'Adam Wathan'
+    ]));
 });
 
 
@@ -53,6 +71,8 @@ Route::post('addhrefMenu','MenuController@detailListMenu')->name('addhrefMenu.po
 Route::post('getHref',"MenuController@showHref")->name('getHref.post')->middleware("isLogin");
 Route::post('addMenu', "MenuController@listMenu")->name('addMenu.post')->middleware("isLogin");
 Route::post('editMenu', "MenuController@listMenu")->name('editMenu.post')->middleware("isLogin");
+Route::get('/viewMenu',"MenuController@getMenuById");
+
 
 //Application Routes
 Route::get('/app-email','ApplicationController@emailApplication');
