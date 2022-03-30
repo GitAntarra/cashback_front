@@ -41,6 +41,7 @@ class MenuController extends Controller
             'Kantor Wilayah'    => 'KANTOR WILAYAH',
             'Kantor Cabang'     => 'KANTOR CABANG',
             'Kantor Unit'       => 'KANTOR UNIT',
+            'Kantor Cabang Khusus' => 'KANTOR CABANG KHUSUS',
             'Kantor Cabang Pembantu' => 'KANTOR CABANG PEMBANTU',
         ];
         if(isset($getPost['id'])){
