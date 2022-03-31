@@ -17,13 +17,24 @@
   <div class="card">
     <form method="POST">
       @csrf
-    <div class="card-header">
+    <div class="card-header pl-0">
       <div class="row justify-content-end">
+        <div class="col-lg-1 p-0">
+              <select name="showing" id="showing" class="custom-select">
+                <option class="custom-select" value="1">1</option>
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+              </select>
+        </div>
+        <div class="col-lg-3 p-0">
+          <input type="number" class="currentPage" id="currentPage" name="currentPage" value="{{$page}}" hidden>
+        </div>
         <div class="col-lg-8 col-md-12 row">
           <div class="input-group">
             <input type="text" Placeholder="Search" class="form-control">   
             <div class="input-group-append">
-              <button type="submit" class="btn btn-primary" title="Find"><i class="bx bx-search text-white"> Find</i></button>
+              <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModalform" title="Add Feature"><i class="bx bx-plus text-white">Add Channel</i></button>
             </div>
           </div>
@@ -45,11 +56,10 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $a = 1; ?>
                 @if(!empty($data_channel) && isset($data_channel))
                 @foreach($data_channel as $row)
                 <tr>
-                    <td>{{$a++}}</td>
+                    <td>{{$number++}}</td>
                     <td>{{$row['channel_id']}}</td>
                     <td>{{$row['channel_key']}}</td>
                     <td>{{$row['description']}}</td>
@@ -79,22 +89,20 @@
       </div>
       <div class="row pt-5">
         <div class="col-sm-12 col-md-5">
-          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 10 of 29 entries</div>
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{$take}} of {{$meta->pageCount}} entries</div>
         </div>
         <div class="col-sm-12 col-md-7">
           <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
             <ul class="pagination">
-              <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
-                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link"> Previous</a>
+              <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
+                <button class="page-link">
+                  <a href="<?php echo asset('/list-channel').'?page='.$prevPage.'&take='.$take; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
+                </button>
               </li>
-              <li class="paginate_button page-item active">
-                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a>
-              </li>
-              <li class="paginate_button page-item ">
-                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">2</a>
-              </li>
-              <li class="paginate_button page-item next" id="DataTables_Table_0_next">
-                <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0" class="page-link"> Next</a>
+              <li class="paginate_button page-item next <?php if($meta->hasNextPage == false) { echo "disabled"; }?>" id="DataTables_Table_0_next">
+                <button class="page-link">
+                  <a href="<?php echo asset('/list-channel').'?page='.$nextPage.'&take='.$take; ?>">Next<i class='bx bx-chevrons-right'></i></a>
+                </button>
               </li>
             </ul>
           </div>
