@@ -1,211 +1,236 @@
 @extends('layouts.contentLayoutMaster')
 {{-- page title --}}
-@section('title','Voucher List')
-{{-- vendor style --}}
-@section('vendors-styles')
-<link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/datatables.min.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('vendors/css/forms/spinner/jquery.bootstrap-touchspin.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/extensions/dataTables.checkboxes.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/responsive.bootstrap.min.css')}}">
+@section('title','List Channel')
+{{-- vendor styles --}}
+@section('vendor-styles')
+<link rel="stylesheet" type="text/css" href="{{asset('vendors/css/extensions/dragula.min.css')}}">
 @endsection
-{{-- page style --}}
+
+{{-- page styles --}}
 @section('page-styles')
-<link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-voucher.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('css/plugins/extensions/drag-and-drop.css')}}">
 @endsection
+
 @section('content')
-<!-- invoice list -->
-<section class="invoice-list-wrapper">
-  <!-- create invoice button-->
-  <div class="invoice-create-btn mb-1">
-    <!-- <a href="{{asset('app-invoice-add')}}" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true"
-      >Create Voucher</a> -->
-    <button type="button" class="btn btn-primary glow" data-toggle="modal"
-              data-target="#exampleModalScrollable">
-              <i class="bx bx-plus"></i>
-              Add Channel
-            </button>
-
-            <!--scrolling content Modal -->
-            <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
-              aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Add Channel</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <i class="bx bx-x"></i>
-                    </button>
-                  </div>
-                  <form method="post" action="{{route('createvoucher.post')}}" id="form_input">
-                    @csrf
-                  <div class="modal-body">
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>CODE</label>
-                            </div>
-                            <div class="col-9">
-                            <input require class="form-control" name="vouchercode" id="vouchercode" placeholder="Voucher Code" type="text" onkeyup="
-                            var start = this.selectionStart;
-                            var end = this.selectionEnd;
-                            this.value = this.value.toUpperCase();
-                            this.setSelectionRange(start, end);
-                            ">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>TYPE</label>
-                            </div>
-                            <div class="col-9">
-                            <input require type="text" name="type" id="type" value="CASHBACK" class="form-control" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>QUOTA</label>
-                            </div>
-                            <div class="col-9">
-                                <input require type="number" name="limit" id="limit" class="touchspin">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                      <div class="row">
-                        <div class="col-3">
-                            <label for="start_date">START DATE</label>
-                        </div>
-                        <div class="col-9">
-                          <input type="datetime-local" name="startdate" id="startdate" class="form-control" min="<?= date("Y-m-dTH:i:s");?>" max="2022-11-16T21:25:33"/>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>DUE DATE</label>
-                            </div>
-                            <div class="col-9">
-                            <input require type="datetime-local" name="duedate" id="duedate" class="form-control" min="1">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>MINIMAL TRANSACTION</label>
-                            </div>
-                            <div class="col-9">
-                                <input require type="text" name="mintransaction" id="mintransaction" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>MAXIMAL CASHBACK</label>
-                            </div>
-                            <div class="col-9">
-                                <input require type="text" name="maxpotency" id="maxpotency" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>PERCENT</label>
-                            </div>
-                            <div class="col-9">
-                            <input require type="text" name="percent" id="percent" class="touchspin"  data-bts-postfix="%" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>MAXIMAL REDEEM</label>
-                            </div>
-                            <div class="col-9">
-                                <input require type="number" name="maxredeem" id="maxredeem" class="touchspin" min="1" value="1">
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
-                      <i class="bx bx-x d-block d-sm-none"></i>
-                      <span class="d-none d-sm-block">Close</span>
-                    </button>
-                    <button type="submit" class="btn btn-primary ml-1">
-                      <i class="bx bx-check d-block d-sm-none"></i>
-                      <span class="d-none d-sm-block">Create</span>
-                    </button>
-                  </div>
-                  </form>
-                </div>
-              </div>
+<!-- table Transactions start -->
+<section id="table-transactions">
+  <div class="card">
+    <form method="POST">
+      @csrf
+    <div class="card-header pl-0">
+      <div class="row justify-content-end">
+        <div class="col-lg-1 p-0">
+              <select name="showing" id="showing" class="custom-select">
+                <option class="custom-select" value="1">1</option>
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+              </select>
+        </div>
+        <div class="col-lg-3 p-0">
+          <input type="number" class="currentPage" id="currentPage" name="currentPage" value="{{$page}}" hidden>
+        </div>
+        <div class="col-lg-8 col-md-12 row">
+          <div class="input-group">
+            <input type="text" Placeholder="Search" class="form-control">   
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
+              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModalform" title="Add Feature"><i class="bx bx-plus text-white">Add Channel</i></button>
             </div>
-  </div>
-
-  <!-- Options and filter dropdown button-->
-  <div class="action-dropdown-btn d-none">
-    <div class="dropdown invoice-options">
-      <button
-        class="btn border dropdown-toggle mr-2"
-        type="button"
-        id="invoice-options-btn"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false">
-        Options
-      </button>
-      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="invoice-options-btn">
-        <a class="dropdown-item" href="#">Delete</a>
-        <a class="dropdown-item" href="#">Edit</a>
-        <a class="dropdown-item" href="#">View</a>
-        <a class="dropdown-item" href="#">Send</a>
+          </div>
+        </div>
       </div>
-      <div>
+    </div>
+    </form>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                <th width="5%">No. </th>
+                <th width="20%">Channel Name</th>
+                <th width="20%">Channel Key</th>
+                <th width="15%">Description</th>
+                <th width="20%">Status</th>
+                <th width="20%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(!empty($data_channel) && isset($data_channel))
+                @foreach($data_channel as $row)
+                <tr>
+                    <td>{{$number++}}</td>
+                    <td>{{$row['channel_id']}}</td>
+                    <td>{{$row['channel_key']}}</td>
+                    <td>{{$row['description']}}</td>
+                    <td>
+                      @if($row['status'] == "ACTIVE")
+                      <span class="badge badge-light-success">{{$row['status']}}</span>
+                      @elseif($row['status'] == "SUSPEND")
+                      <span class="badge badge-light-warning">{{$row['status']}}</span>
+                      @else
+                      <span class="badge badge-light-danger">{{$row['status']}}</span>
+                      @endif
+                    </td>
+                    <td>
+                        <!-- <a href="{{asset('/sub-feature?id=')}}{{$row['channel_id']}}" class="btn btn-success btn-sm viewFeatureButton" title="View Feature"  idFeature="{{$row['channel_id']}}"><i class="bx bx-show-alt"></i></a> -->
+                        <button class="btn btn-primary btn-sm EditChannelButton" title="Edit Feature"  idChannel="{{$row['channel_id']}}"><i class="bx bx-edit-alt"></i></button>
+                        <button class="btn btn-danger btn-sm confirmdel" idChannel="{{$row['channel_id']}}" title="Delete Feature"><i class="bx bx-trash" id="deleteFeature"></i></button>
+                    </td>
+                </tr>
+                @endforeach
+                @else
+                <tr>
+                    <td colspan="6" align="center"><span>No Result Data</span></td>
+                </tr>
+                @endif
+            </tbody>
+        </table>
+      </div>
+      <div class="row pt-5">
+        <div class="col-sm-12 col-md-5">
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{$take}} of {{$meta->pageCount}} entries</div>
+        </div>
+        <div class="col-sm-12 col-md-7">
+          <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+            <ul class="pagination">
+              <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
+                <button class="page-link">
+                  <a href="<?php echo asset('/list-channel').'?page='.$prevPage.'&take='.$take; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
+                </button>
+              </li>
+              <li class="paginate_button page-item next <?php if($meta->hasNextPage == false) { echo "disabled"; }?>" id="DataTables_Table_0_next">
+                <button class="page-link">
+                  <a href="<?php echo asset('/list-channel').'?page='.$nextPage.'&take='.$take; ?>">Next<i class='bx bx-chevrons-right'></i></a>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="table-responsive">
-    <table class="table invoice-data-table dt-responsive nowrap" style="width:100%">
-      <thead>
-        <tr>
-          <th>
-            <span class="align-middle">Code</span>
-          </th>
-          <th>Type</th>
-          <th>Date</th>
-          <th>Quota</th>
-          <th>Min</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>
-            <a href="" class="invoice-action-edit cursor-pointer">
-                <i class="bx bx-edit"></i>
-              </a>
-            </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 </section>
+
+<!--Add Channel Modal -->
+<div class="modal fade text-left" id="addModalform" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h4 class="modal-title" id="exampleModalScrollableTitle">Add Channel </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="bx bx-x"></i>
+          </button>
+      </div>
+      <div class="modal-body">
+      <form action="{{ route('add-channel.post') }}" method="post">
+          @csrf
+        <input type="text" name="addChannel" id="addChannel" value="addChannel" hidden> 
+        <div class="col-12" id="formname">
+          <label>Channel ID</label>
+          <div class="form-group">
+            <input name="channelIdAdd" id="channelIdAdd" type="text" placeholder="Channel ID" class="form-control" require>
+          </div>
+        </div>
+        <div class="col-12" id="formname">
+          <label>Channel Key </label>
+          <div class="form-group">
+            <input name="channelKeyAdd" id="channelKeyAdd" type="text" placeholder="Channel Key" class="form-control" require>
+          </div>
+        </div>
+        <div class="col-12" id="formname">
+          <label>Status</label>
+          <div class="form-group">
+            <select name="statusAdd" id="statusAdd" class="custom-select">
+              <option value="ACTIVE"> ACTIVE </option>
+              <option value="SUSPEND"> SUSPEND </option>            
+            </select>
+          </div>
+        </div>
+        <div class="col-12" id="formurl">
+            <div class="form-group">
+                <label>Description</label>
+                <fieldset class="form-group">
+                    <textarea class="form-control" id="descriptionAdd" name="descriptionAdd" rows="3" placeholder="Description"></textarea>
+                </fieldset>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
+              <i class="bx bx-x d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Close</span>
+            </button>
+            <button type="submit" class="btn btn-primary ml-1">
+              <i class="bx bx-check d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Add</span>
+            </button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Edit Channel Modal -->
+<div class="modal fade text-left" id="editModalForm" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h4 class="modal-title" id="exampleModalScrollableTitle">Edit Channel </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="bx bx-x"></i>
+          </button>
+      </div>
+      <div class="modal-body">
+      <form action="{{ route('edit-channel.post') }}" method="post">
+          @csrf
+        <input type="text" name="editChannel" id="editChannel" value="editChannel" hidden> 
+        <div class="col-12" id="formname">
+          <label>Channel ID</label>
+          <div class="form-group">
+            <input name="channelIdEdit" id="channelIdEdit" type="text" placeholder="Channel ID" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="col-12" id="formname">
+          <label>Channel Key </label>
+          <div class="form-group">
+            <input name="channelKeyEdit" id="channelKeyEdit" type="text" placeholder="Channel Key" class="form-control" require>
+          </div>
+        </div>
+        <div class="col-12" id="formname">
+          <label>Status</label>
+          <div class="form-group">
+            <select name="statusEdit" id="statusEdit" class="custom-select">
+              <option value="ACTIVE"> ACTIVE </option>
+              <option value="SUSPEND"> SUSPEND </option>           
+            </select>
+          </div>
+        </div>
+        <div class="col-12" id="formurl">
+            <div class="form-group">
+                <label>Description</label>
+                <fieldset class="form-group">
+                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3" placeholder="Description"></textarea>
+                </fieldset>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
+              <i class="bx bx-x d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Close</span>
+            </button>
+            <button type="submit" class="btn btn-primary ml-1">
+              <i class="bx bx-check d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Save</span>
+            </button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 {{-- vendor scripts --}}
@@ -213,97 +238,91 @@
 <script type="text/javascript">
   $.ajaxSetup({
     headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  });
+
+  $(document).ready(function () {
+    $('.EditChannelButton').on('click', function (){
+      
+      let idChannel = $(this).attr("idChannel");
+      console.log(idChannel);
+      
+      $.ajax({
+        type: "GET",
+        url : "{{asset('/view-channel')}}?id="+idChannel,
+        success : function(data){
+          console.log(data.status);
+          console.log(data.description);
+          $('#editModalForm').modal('show');
+          $('#channelIdEdit').val(data.channel_id)
+          $('#channelKeyEdit').val(data.channel_key);
+          $('#statusEdit').val(data.status);
+          $('#descriptionEdit').val(data.description);
         }
+      });
+      return false;
     });
 
-  var mintrans = document.getElementById("mintransaction");
-  
-  mintrans.addEventListener("keyup", function(e) {
-    mintrans.value = formatMinTrans(this.value, "Rp. ");
-  });
-
-  /* Format Tanggal*/
-  function myFunction() {
-    var x = document.getElementById("startdate").min = "2006-05-05T16:15:23";
-  }
-
-  /* Fungsi formatMinTrans */
-  function formatMinTrans(angka, prefix) {
-    var number_string = angka.replace(/[^,\d]/g, "").toString(),
-      split = number_string.split(","),
-      sisa = split[0].length % 3,
-      mintrans = split[0].substr(0, sisa),
-      ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-    if (ribuan) {
-      separator = sisa ? "." : "";
-      mintrans += separator + ribuan.join(".");
-    }
-
-    mintrans = split[1] != undefined ? mintrans + "," + split[1] : mintrans;
-    return prefix == undefined ? mintrans : mintrans ? "Rp. " + mintrans : "";
-  }
-
-  /* Fungsi formatMaxPotency */
-  var maxpotency = document.getElementById("maxpotency");
-
-  maxpotency.addEventListener("keyup", function(e){
-    maxpotency.value = formatMaxPotency(this.value, "Rp. ");
-  });
-
-  function formatMaxPotency(angka, prefix){
-    var number_string = angka.replace(/[^,\d]/g, "").toString(),
-        split         = number_string.split(","),
-        sisa          = split[0].length % 3,
-        maxpotency    = split[0].substr(0, sisa),
-        ribuan        = split[0].substr(sisa).match(/\d{3}/gi);
-    if(ribuan){
-      separator = sisa ? "." : "";
-      maxpotency += separator + ribuan.join(".");
-    }
-
-    maxpotency = split[1] != undefined ? maxpotency + "," + split[1] : maxpotency;
-    return prefix == undefined ? maxpotency : maxpotency ? "Rp. " + maxpotency : "";
-
-  }
-
-  $('#confirm-delete').on('click', function () {
-    Swal.fire({
-      title: 'Are you suddre?',
-      text: "You won't be able to revert this!",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Your text here!',
-      confirmButtonClass: 'btn btn-primary',
-      cancelButtonClass: 'btn btn-danger ml-1',
-      buttonsStyling: false,
-    }).then(function (result) {
-      if (result.value) {
-        Swal.fire(
-          {
-            type: "success",
-            title: 'Deleted!',
-            text: 'Your file has been deleted.',
-            confirmButtonClass: 'btn btn-success',
+  $('.confirmdel').on('click', function () {
+        let idChannel = $(this).attr("idChannel");
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You want to delete this Channel?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!',
+          confirmButtonClass: 'btn btn-warning',
+          cancelButtonClass: 'btn btn-danger ml-1',
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            $.ajax({
+              type  : "GET",
+              url   : "{{asset('/delete-channel')}}",
+              data  : {
+                  idChannel : idChannel,
+              },
+              success: function(response) {
+                Swal.fire({
+                  type: "success",
+                  title: 'Deleted!',
+                  text: 'Your file has been deleted.',
+                  confirmButtonClass: 'btn btn-success',
+                }).then((w) =>{
+                    location.reload(true);
+                });
+              },
+              failure: function (response) {
+                  swal(
+                  "Internal Error",
+                  "Oops, your note was not saved.", // had a missing comma
+                  "error"
+                  )
+              }
+            });
           }
-        )
-      }
-    })
-  });
-
+          else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+              title: 'Cancelled',
+              text: 'Your Channel is safe :)',
+              type: 'error',
+              confirmButtonClass: 'btn btn-success',
+            })
+          }
+        });
+      });
+    });
 </script>
+<script src="{{asset('vendors/js/extensions/dragula.min.js')}}"></script>
+<script src="{{asset('vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/datatables.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('vendors/js/tables/datatable/datatables.checkboxes.min.js')}}"></script>
-<script src="{{asset('vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('vendors/js/tables/datatable/responsive.bootstrap.min.js')}}"></script>  
-<script src="{{asset('vendors/js/forms/spinner/jquery.bootstrap-touchspin.js')}}"></script>
 @endsection
+
 {{-- page scripts --}}
 @section('page-scripts')
-<script src="{{asset('js/scripts/pages/app-voucher.js')}}"></script>
-<script src="{{asset('js/scripts/forms/number-input.js')}}"></script>
+<script src="{{asset('js/scripts/extensions/drag-drop.js')}}"></script>
 @endsection

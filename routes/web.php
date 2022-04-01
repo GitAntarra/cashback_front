@@ -23,9 +23,24 @@ Route::group(['middleware' => ['isLogin']],function () {
 
     //Channel Routes
     Route::get('/list-channel', 'ChannelController@listChannel');
+    Route::post('/add-channel', "ChannelController@listChannel")->name('add-channel.post');
+    Route::post('/edit-channel', "ChannelController@listChannel")->name('edit-channel.post');
+    Route::get('/delete-channel',"ChannelController@deleteChannel");
+    Route::get('/view-channel',"ChannelController@getChannelById");
 
     //Menu Route
     Route::get('/delete-menu',"MenuController@deleteMenu");
+
+    //Feature Route
+    Route::get('/main-feature',"FeatureController@mainFeature");
+    Route::get('/sub-feature',"FeatureController@subFeature");
+    Route::post('/addFeature',"FeatureController@mainFeature")->name('addFeature.post');
+    Route::post('/addsubFeature',"FeatureController@subFeature")->name('addsubFeature.post');
+    Route::get('/delete-feature',"FeatureController@deleteFeature");
+    Route::get('/view-feature',"FeatureController@getFeatureById");
+    Route::post('/edit-feature',"FeatureController@mainFeature")->name('edit-feature.post');
+    Route::post('/edit-subfeature',"FeatureController@subFeature")->name('edit-subfeature.post');
+
 
 });
 

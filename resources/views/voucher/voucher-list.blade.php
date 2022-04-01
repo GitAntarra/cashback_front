@@ -151,28 +151,6 @@
             </div>
   </div>
 
-  <!-- Options and filter dropdown button-->
-  <div class="action-dropdown-btn d-none">
-    <div class="dropdown invoice-options">
-      <button
-        class="btn border dropdown-toggle mr-2"
-        type="button"
-        id="invoice-options-btn"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false">
-        Options
-      </button>
-      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="invoice-options-btn">
-        <a class="dropdown-item" href="#">Delete</a>
-        <a class="dropdown-item" href="#">Edit</a>
-        <a class="dropdown-item" href="#">View</a>
-        <a class="dropdown-item" href="#">Send</a>
-      </div>
-      <div>
-      </div>
-    </div>
-  </div>
   <div class="table-responsive">
     <table class="table invoice-data-table dt-responsive nowrap" style="width:100%">
       <thead>
@@ -219,6 +197,7 @@
       </tbody>
     </table>
   </div>
+  
 </section>
 @endsection
 

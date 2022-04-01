@@ -43,11 +43,9 @@ class VoucherController extends Controller
             if(empty($url_addVoucher)){
                 Session::flash('success','action success');
                 return Redirect::to('/list-voucher');
-                die;
             }else{
                 Session::flash('failed','action failed');
                 return Redirect::to('/list-voucher');
-                die;
             }
         }
         return view('voucher.voucher-list')->with($data);
