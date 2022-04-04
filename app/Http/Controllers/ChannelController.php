@@ -22,6 +22,8 @@ class ChannelController extends Controller
         $take = $request->get("take") ? $request->get("take") : 1;
         echo $request->get("take");
 
+        $url_api = env('API_URL');
+
         if(isset($postParam['addChannel'])){
             $params = [
                 "channel_id"    => $postParam['channelIdAdd'],
@@ -73,8 +75,8 @@ class ChannelController extends Controller
             "number"        => (int) ($page * $take)-($take -1),
             "prevPage"      => $prevPage,
             "nextPage"      => $nextPage,
-            "buttonprev"    => "<button class='page-link'><a href='http://172.18.135.222/cashback/list-channel?page=".$prevPage."&take=".$take."'><i class='bx bx-chevrons-left'></i>Prev</a></button>", 
-            "buttonnext"    => "<button class='page-link'><a href='http://172.18.135.222/cashback/list-channel?page=".$nextPage."&take=".$take."'><i class='bx bx-chevrons-right'></i>Next</a></button>", 
+            "buttonprev"    => "<button class='page-link'><a href='".$url_api."/list-channel?page=".$prevPage."&take=".$take."'><i class='bx bx-chevrons-left'></i>Prev</a></button>", 
+            "buttonnext"    => "<button class='page-link'><a href='".$url_api."/list-channel?page=".$nextPage."&take=".$take."'><i class='bx bx-chevrons-right'></i>Next</a></button>", 
         ];
         return view('channel.channel-list')->with($data);
     }

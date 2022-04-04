@@ -120,22 +120,26 @@
             </table>
           </div>
           <div class="row pt-5">
-            <div class="col-sm-12 col-md-5">
-              <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to  of  entries</div>
-            </div>
-            <div class="col-sm-12 col-md-7">
-              <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                <ul class="pagination">
-                  <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
-                    <a href="#" data-dt-idx="0" tabindex="0" class="page-link"><i class="bx bx-chevrons-left"></i> Prev</a>
-                  </li>
-                  <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
-                    <a href="#" data-dt-idx="4" tabindex="0" class="page-link">Next <i class="bx bx-chevrons-right"></i></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
+        <div class="col-sm-12 col-md-5">
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{$limit}} of {{$meta->totalItems}} entries</div>
+        </div>
+        <div class="col-sm-12 col-md-7">
+          <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+            <ul class="pagination">
+              <li class="paginate_button page-item previous " id="DataTables_Table_0_previous">
+                <button class="page-link">
+                  <a href="<?php echo asset('/user-management').'?page='.$prevPage.'&take='.$limit; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
+                </button>
+              </li>
+              <li class="paginate_button page-item next " id="DataTables_Table_0_next">
+                <button class="page-link">
+                  <a href="<?php echo asset('/user-management').'?page='.$nextPage.'&take='.$limit; ?>">Next<i class='bx bx-chevrons-right'></i></a>
+                </button>
+              </li>
+            </ul>
           </div>
+        </div>
+      </div>
           <!-- datatable ends -->
         </div>
       </div>

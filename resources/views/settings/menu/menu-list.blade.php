@@ -100,7 +100,7 @@
 <!--Add Menu Modal -->
 <div class="modal fade text-left" id="addModalform" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
       <h4 class="modal-title" id="exampleModalScrollableTitle">Add Menu </h4>

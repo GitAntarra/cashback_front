@@ -16,20 +16,34 @@ class UsersController extends Controller
   //user List
   public function listUser(Request $request){
 
-    $param = [
-      'page'  => 2,
-      'limit' => 1
-    ];
-    $data_user = $this->HttpRequest->service("GET", "/users/shows", $param);
+    $page = $request->get('page') ? $request->get('page') : 1;
+    $limit = $request->get('limit') ? $request->get('limit') : 5;
+
+    $url_api = env('API_URL');
+
     $type = [
       'HEADER'  => 'HEADER',
       'MAIN'    => 'MAIN',
       'OPTION'  => 'OPTION'
     ];
+
+    $nextPage = (int) $page + 1;
+    $prevPage = (int) $page - 1;
+
+    $data_user = $this->HttpRequest->service("GET", "/users/shows?page=".$page."&limit=".$limit, null);
+
     $data = [
       'msg'   => '',
       'users' => $data_user,
+      'meta'  => (object) $data_user['meta'],
+      'limit' => $limit,
+      'nextPage'  => $nextPage,
+      'prevPage'  => $prevPage, 
+      'number'    => (int) ($page * $limit) - ($limit - 1),
+      "buttonprev"    => "<button class='page-link'><a href='".$url_api."/users/shows?page=".$prevPage."&limit=".$limit."'><i class='bx bx-chevrons-left'></i>Prev</a></button>", 
+      "buttonnext"    => "<button class='page-link'><a href='".$url_api."/users/shows?page=".$nextPage."&limit=".$limit."'><i class='bx bx-chevrons-right'></i>Next</a></button>", 
     ];
+
     $data['status'] = [
       'ACTIVE'  => 'ACTIVE',
       'SUSPEND' => 'SUSPEND',
@@ -65,42 +79,7 @@ class UsersController extends Controller
         'branch'  =>$result['BRANCH'],
         'rgdesc'  =>$result['DESC_AREA']
     ];
-
     return $result;
-
-    // if (isset($result)) {
-    //   if($result['uker']){
-      
-    //     $data = array(
-    //       'error'         => false,
-    //       'pernr'         => $result['pernr'],
-    //       'name'		      => $result['name'],
-    //       'uker'		      => $result['uker'],
-    //       'gender'        => $result['gender'],
-    //       'position'		  => $result['position'], 
-    //       'division'	    => $result['division'],
-    //       'branch'	      => $result['branch'], 
-    //       'region_name' => $result['rgdesc'],
-    //       'region_code'   => $result['region'],
-    //       'msg'           => 'user ditemukan'
-    //     );
-    //   }else{
-    //     $data = array(
-    //       'error'  => true,
-    //       'data' => null,
-    //       'msg' => 'unit kerja user tidak ditemukan'
-    //     );
-
-    //   }
-    // } else {
-    //   $data = array(
-    //     'error'  => true,
-    //     'pernr' => '',
-    //     'msg'   => 'Data tidak ditemukan | pastikan pn dan uker terdaftar',
-    //   );
-    // }
-
-    echo json_encode($data);
   }
 
   //User Add

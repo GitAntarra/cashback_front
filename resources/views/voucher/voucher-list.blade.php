@@ -20,135 +20,10 @@
     <!-- <a href="{{asset('app-invoice-add')}}" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true"
       >Create Voucher</a> -->
     <button type="button" class="btn btn-primary glow" data-toggle="modal"
-              data-target="#exampleModalScrollable">
+              data-target="#addVoucherModal">
               <i class="bx bx-plus"></i>
               Create Voucher
             </button>
-
-            <!--scrolling content Modal -->
-            <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
-              aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Create Voucher</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <i class="bx bx-x"></i>
-                    </button>
-                  </div>
-                  <form method="post" action="{{route('createvoucher.post')}}" id="form_input">
-                    @csrf
-                  <div class="modal-body">
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>CODE</label>
-                            </div>
-                            <div class="col-9">
-                            <input require class="form-control" name="vouchercode" id="vouchercode" placeholder="Voucher Code" type="text" onkeyup="
-                            var start = this.selectionStart;
-                            var end = this.selectionEnd;
-                            this.value = this.value.toUpperCase();
-                            this.setSelectionRange(start, end);
-                            ">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>TYPE</label>
-                            </div>
-                            <div class="col-9">
-                            <input require type="text" name="type" id="type" value="CASHBACK" class="form-control" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>QUOTA</label>
-                            </div>
-                            <div class="col-9">
-                                <input require type="number" name="limit" id="limit" class="touchspin">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                      <div class="row">
-                        <div class="col-3">
-                            <label for="start_date">START DATE</label>
-                        </div>
-                        <div class="col-9">
-                          <input type="datetime-local" name="startdate" id="startdate" class="form-control" min="<?= date("Y-m-dTH:i:s");?>" max="2022-11-16T21:25:33"/>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>DUE DATE</label>
-                            </div>
-                            <div class="col-9">
-                            <input require type="datetime-local" name="duedate" id="duedate" class="form-control" min="1">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>MINIMAL TRANSACTION</label>
-                            </div>
-                            <div class="col-9">
-                                <input require type="text" name="mintransaction" id="mintransaction" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>MAXIMAL CASHBACK</label>
-                            </div>
-                            <div class="col-9">
-                                <input require type="text" name="maxpotency" id="maxpotency" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>PERCENT</label>
-                            </div>
-                            <div class="col-9">
-                            <input require type="text" name="percent" id="percent" class="touchspin"  data-bts-postfix="%" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 pb-1">
-                        <div class="row">
-                            <div class="col-3">
-                                <label>MAXIMAL REDEEM</label>
-                            </div>
-                            <div class="col-9">
-                                <input require type="number" name="maxredeem" id="maxredeem" class="touchspin" min="1" value="1">
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
-                      <i class="bx bx-x d-block d-sm-none"></i>
-                      <span class="d-none d-sm-block">Close</span>
-                    </button>
-                    <button type="submit" class="btn btn-primary ml-1">
-                      <i class="bx bx-check d-block d-sm-none"></i>
-                      <span class="d-none d-sm-block">Create</span>
-                    </button>
-                  </div>
-                  </form>
-                </div>
-              </div>
-            </div>
   </div>
 
   <div class="table-responsive">
@@ -197,8 +72,160 @@
       </tbody>
     </table>
   </div>
-  
 </section>
+
+<!--scrolling content Modal -->
+<div class="modal fade text-left" id="addVoucherModal" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">Create Voucher</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="bx bx-x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form method="post" action="{{route('createvoucher.post')}}" id="form_input">
+        @csrf
+        <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>CODE</label>
+                </div>
+                <div class="col-9">
+                <input require class="form-control" name="vouchercode" id="vouchercode" placeholder="Voucher Code" type="text" onkeyup="
+                var start = this.selectionStart;
+                var end = this.selectionEnd;
+                this.value = this.value.toUpperCase();
+                this.setSelectionRange(start, end);
+                ">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>TYPE</label>
+                </div>
+                <div class="col-9">
+                <input require type="text" name="type" id="type" value="CASHBACK" class="form-control" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>CHANNEL</label>
+                </div>
+                <div class="col-9">
+                <select name="channel" id="channel" class="custom-select">
+                  @foreach ($list_channel as $row)
+                    <option value="{{$row['channel_id']}}">{{$row['channel_id']}}</option>
+                  @endforeach
+                </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>FEATURE</label>
+                </div>
+                <div class="col-9">
+                <select name="channel" id="channel" class="custom-select">
+                  @foreach ($list_feature as $row)
+                    <option value="{{$row['id']}}">{{$row['feature_id']}}</option>
+                  @endforeach
+                </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>QUOTA</label>
+                </div>
+                <div class="col-9">
+                    <input require type="number" name="limit" id="limit" class="touchspin">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pb-1">
+          <div class="row">
+            <div class="col-3">
+                <label for="start_date">START DATE</label>
+            </div>
+            <div class="col-9">
+              <input type="datetime-local" name="startdate" id="startdate" class="form-control" min="<?= date("Y-m-dTH:i:s");?>" max="2022-11-16T21:25:33"/>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>DUE DATE</label>
+                </div>
+                <div class="col-9">
+                <input require type="datetime-local" name="duedate" id="duedate" class="form-control" min="1">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>MINIMAL TRANSACTION</label>
+                </div>
+                <div class="col-9">
+                    <input require type="text" name="mintransaction" id="mintransaction" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>MAXIMAL CASHBACK</label>
+                </div>
+                <div class="col-9">
+                    <input require type="text" name="maxpotency" id="maxpotency" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>PERCENT</label>
+                </div>
+                <div class="col-9">
+                <input require type="text" name="percent" id="percent" class="touchspin"  data-bts-postfix="%" />
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>MAXIMAL REDEEM</label>
+                </div>
+                <div class="col-9">
+                    <input require type="number" name="maxredeem" id="maxredeem" class="touchspin" min="1" value="1">
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
+          <i class="bx bx-x d-block d-sm-none"></i>
+          <span class="d-none d-sm-block">Close</span>
+        </button>
+        <button type="submit" class="btn btn-primary ml-1">
+          <i class="bx bx-check d-block d-sm-none"></i>
+          <span class="d-none d-sm-block">Create</span>
+        </button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 {{-- vendor scripts --}}

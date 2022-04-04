@@ -17,13 +17,16 @@ class VoucherController extends Controller
     public function listVoucher(Request $request)
     {
         $getPost = $request->post();
-        $list_voucher = $this->HttpRequest->service("GET","/vouchers/show",null);
+        $list_voucher = $this->HttpRequest("GET","/vouchers/show",null)->json();
+        $list_channel = $this->HttpRequest("GET","/channel?page=1", null)->json();
+        $list_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
 
-        // echo "<pre>";
-        // print_r($list_voucher);
+
         $data = [
             'msg'   => '',
             'list_voucher' => $list_voucher,
+            'list_channel' => $list_channel['data'],
+            'list_feature' => $list_feature['data']
         ];
         
         if(isset($getPost['vouchercode'])){
