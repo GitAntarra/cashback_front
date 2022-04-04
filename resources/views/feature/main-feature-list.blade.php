@@ -47,7 +47,7 @@
                 @if(!empty($data_feature) && isset($data_feature))
                 @foreach($data_feature as $row)
                 <tr>
-                    <td>{{$a++}}</td>
+                    <td>{{$number++}}</td>
                     <td>{{$row['feature_id']}}</td>
                     <td>{{$row['description']}}</td>
                     <td>
@@ -57,9 +57,9 @@
                     </td>
                 </tr>
                 @endforeach
-                @else if
+                @else
                 <tr>
-                    <td colspan="4"><span>No Result Data</span></td>
+                    <td colspan="4" align="center"><span>No Result Data</span></td>
                 </tr>
                 @endif
             </tbody>
@@ -67,20 +67,20 @@
         </div>
         <div class="row pt-5">
           <div class="col-sm-12 col-md-5">
-            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to  of  entries</div>
+            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$page}} of {{$meta->pageCount}} | Total Data : {{$meta->itemCount}}</div>
           </div>
           <div class="col-sm-12 col-md-7">
-            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-              <ul class="pagination">
-                <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
-                  <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link prev"><i class="bx bx-chevrons-left"></i> Prev</a>
-                </li>
-                <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
-                  <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0" class="page-link next">Next <i class="bx bx-chevrons-right"></i></a>
-                </li>
-              </ul>
-            </div>
+          <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+            <ul class="pagination">
+              <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
+                  <a class="page-link" href="<?php echo asset('/main-feature').'?page='.$prevPage.'&take='.$take; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
+              </li>
+              <li class="paginate_button page-item next <?php if($meta->hasNextPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
+                  <a class="page-link" href="<?php echo asset('/main-feature').'?page='.$nextPage.'&take='.$take; ?>">Next<i class='bx bx-chevrons-right'></i></a>
+              </li>
+            </ul>
           </div>
+        </div>
         </div>
     </div>
   </div>

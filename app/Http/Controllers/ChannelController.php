@@ -19,8 +19,7 @@ class ChannelController extends Controller
         $postParam = $request->post();
 
         $page = $request->get('page') ? $request->get('page') : 1;
-        $take = $request->get("take") ? $request->get("take") : 1;
-        echo $request->get("take");
+        $take = $request->get("take") ? $request->get("take") : 5;
 
         $url_api = env('API_URL');
 
@@ -64,19 +63,14 @@ class ChannelController extends Controller
 
         $list_channel = $this->HttpRequest("GET","/channel?page=".$page."&take=".$take, null)->json();
 
-        $nextPage = (int) $page + 1;
-        $prevPage = (int) $page - 1;
-
         $data = [
             "data_channel"  => $list_channel['data'],
             "meta"          => (object) $list_channel['meta'],
             "take"          => $take,
             "page"          => $page,
             "number"        => (int) ($page * $take)-($take -1),
-            "prevPage"      => $prevPage,
-            "nextPage"      => $nextPage,
-            "buttonprev"    => "<button class='page-link'><a href='".$url_api."/list-channel?page=".$prevPage."&take=".$take."'><i class='bx bx-chevrons-left'></i>Prev</a></button>", 
-            "buttonnext"    => "<button class='page-link'><a href='".$url_api."/list-channel?page=".$nextPage."&take=".$take."'><i class='bx bx-chevrons-right'></i>Next</a></button>", 
+            "prevPage"      => (int) $page - 1,
+            "nextPage"      => (int) $page + 1
         ];
         return view('channel.channel-list')->with($data);
     }

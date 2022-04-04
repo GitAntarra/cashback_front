@@ -18,7 +18,7 @@
             <div class="row">
               <div class="col-xl-4 col-md-12">
                 <span class="invoice-number mr-50">voucher#</span>
-                <span>BRICERIA30</span>
+                <span>BRICERIA3d0</span>
               </div>
               <div class="col-xl-8 col-md-12">
                 <div class="d-flex align-items-center justify-content-xl-end flex-wrap">

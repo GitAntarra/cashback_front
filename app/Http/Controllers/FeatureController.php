@@ -17,8 +17,11 @@ class FeatureController extends Controller
     public function mainFeature(Request $request)
     {
         $postParam = $request->post();
+        $page = $request->get('page') ? $request->get('page') : 1;
+        $take = $request->get('take') ? $request->get('take') : 5;
 
-        $data_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
+        $data_feature = $this->HttpRequest("GET", "/feature?page=".$page."&take=".$take, null)->json();
+
 
         if(isset($postParam['addFeature']))
         {
@@ -54,12 +57,17 @@ class FeatureController extends Controller
             }else{
                 Session::flash('failed','action failed');
             }
-    
             return Redirect::to('/main-feature');
         }
 
         $data = [
             'data_feature'  => $data_feature['data'],
+            'meta'          => (object) $data_feature['meta'],
+            'page'          => $page,
+            'take'          => $take,
+            "number"        => (int) ($page * $take)-($take -1),
+            'prevPage'      => (int) $page - 1,
+            'nextPage'      => (int) $page + 1,
         ];
 
         return view('feature.main-feature-list')->with($data);
@@ -69,6 +77,8 @@ class FeatureController extends Controller
     {
         $postParam = $request->post();
         $idmain =  $request->get('id');
+        $page = $request->get('page') ? $request->get('page') : 1;
+        $take = $request->get('take') ? $request->get('take') : 5;
 
         // Add Sub Feature
         if(isset($postParam['addsubFeature'])){
@@ -119,7 +129,7 @@ class FeatureController extends Controller
 
         $data = [
             'main_featureid'    => $idmain ? $idmain : $param['id'],
-            'data_subfeature'   => $data_subfeature
+            'data_subfeature'   => $data_subfeature,
         ];
 
         return view('feature.sub-feature-list')->with($data);

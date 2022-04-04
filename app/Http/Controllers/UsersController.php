@@ -37,6 +37,7 @@ class UsersController extends Controller
       'users' => $data_user,
       'meta'  => (object) $data_user['meta'],
       'limit' => $limit,
+      'page'  => $page,
       'nextPage'  => $nextPage,
       'prevPage'  => $prevPage, 
       'number'    => (int) ($page * $limit) - ($limit - 1),

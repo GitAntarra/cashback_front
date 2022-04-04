@@ -121,20 +121,16 @@
           </div>
           <div class="row pt-5">
         <div class="col-sm-12 col-md-5">
-          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{$limit}} of {{$meta->totalItems}} entries</div>
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$meta->currentPage}} of {{$meta->totalPages}} | Total Data : {{$meta->totalItems}}</div>
         </div>
         <div class="col-sm-12 col-md-7">
           <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
             <ul class="pagination">
-              <li class="paginate_button page-item previous " id="DataTables_Table_0_previous">
-                <button class="page-link">
-                  <a href="<?php echo asset('/user-management').'?page='.$prevPage.'&take='.$limit; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
-                </button>
+              <li class="paginate_button page-item previous <?php if($page == 1){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
+                  <a class="page-link" href="<?php echo asset('/user-management').'?page='.$prevPage.'&take='.$limit; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
               </li>
-              <li class="paginate_button page-item next " id="DataTables_Table_0_next">
-                <button class="page-link">
-                  <a href="<?php echo asset('/user-management').'?page='.$nextPage.'&take='.$limit; ?>">Next<i class='bx bx-chevrons-right'></i></a>
-                </button>
+              <li class="paginate_button page-item next <?php if($page == $meta->totalPages){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
+                  <a class="page-link" href="<?php echo asset('/user-management').'?page='.$nextPage.'&take='.$limit; ?>">Next<i class='bx bx-chevrons-right'></i></a>
               </li>
             </ul>
           </div>

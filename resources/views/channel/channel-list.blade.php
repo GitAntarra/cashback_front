@@ -21,7 +21,8 @@
       <div class="row justify-content-end">
         <div class="col-lg-1 p-0">
               <select name="showing" id="showing" class="custom-select">
-                <option class="custom-select" value="1">1</option>
+                <option value="{{$take}}" selected>{{$take}}</option>
+                <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="5">5</option>
                 <option value="10">10</option>
@@ -89,20 +90,16 @@
       </div>
       <div class="row pt-5">
         <div class="col-sm-12 col-md-5">
-          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{$take}} of {{$meta->pageCount}} entries</div>
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$page}} of {{$meta->pageCount}} | Total Data : {{$meta->itemCount}}</div>
         </div>
         <div class="col-sm-12 col-md-7">
           <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
             <ul class="pagination">
               <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
-                <button class="page-link">
-                  <a href="<?php echo asset('/list-channel').'?page='.$prevPage.'&take='.$take; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
-                </button>
+                  <a class="page-link" href="<?php echo asset('/list-channel').'?page='.$prevPage.'&take='.$take; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
               </li>
               <li class="paginate_button page-item next <?php if($meta->hasNextPage == false) { echo "disabled"; }?>" id="DataTables_Table_0_next">
-                <button class="page-link">
-                  <a href="<?php echo asset('/list-channel').'?page='.$nextPage.'&take='.$take; ?>">Next<i class='bx bx-chevrons-right'></i></a>
-                </button>
+                  <a class="page-link" href="<?php echo asset('/list-channel').'?page='.$nextPage.'&take='.$take; ?>">Next<i class='bx bx-chevrons-right'></i></a>
               </li>
             </ul>
           </div>
