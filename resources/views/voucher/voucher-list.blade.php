@@ -33,46 +33,70 @@
     </form>
     <div class="card-body">
       <div class="row">
+        <?php $voucherData = $list_voucher['data'];?>
+        @if(!empty($voucherData) && isset($voucherData))
+        @foreach($voucherData as $row)
         <div class="col-xl-4 col-sm-6 col-12">
-          <div class="card border-info bg-transparent">
-            <div class="card-content">
-              <div class="row">
-                <div class="col-lg-4 ">
-                  <div class="row">
-                    <div class="col-12 text-center justify-content-center">
-                      <h2 class="">30%</h2>
+          <a href="">
+            <div class="card border-info bg-transparent">
+              <div class="card-content">
+                <div class="row">
+                  <div class="col-lg-4 ">
+                    <div class="row">
+                      <div class="col-12 text-center justify-content-center">
+                        <h2 class="">30%</h2>
+                      </div>
+                      <div class="col-12 text-center">
+                        <span class="badge badge-light-primary">CODE123</span>
+                      </div>
+                      <div class="col-12 text-center p-1">
+                        <label for="">BRIMO</label>
+                      </div>
                     </div>
-                    <div class="col-12 text-center">
-                      <span class="badge badge-light-primary">CODE123</span>
-                    </div>
-                    <div class="col-12 text-center p-1">
-                      <label for="">BRIMO</label>
-                    </div>
+                  
                   </div>
-                
-                </div>
-                <div class="col-lg-8 col-md-12">
-                  <div class="row pt-1 ">
-                    <div class="col-md-5 p-0 m-0 profile-widget-name"> Limit  </div>
-                    <div class="col-md-7 text-left m-0 p-0">: 3 </div>
-                    <div class="col-md-5 p-0 m-0 profile-widget-name"> Min Transaction  </div>
-                    <div class="col-md-7 text-left m-0 p-0">: 50.000 </div>
-                    <div class="col-md-5 p-0 m-0 profile-widget-name"> Max Redeem </div>
-                    <div class="col-md-7 text-left m-0 p-0">: 3 </div>
-                    <div class="col-md-5 p-0 m-0 profile-widget-name"> Code  </div>
-                    <div class="col-md-7 text-left m-0 p-0">: CODE123 </div>
-                    <div class="col-md-5 p-0 m-0 profile-widget-name"> Due Date  </div>
-                    <div class="col-md-7 text-left m-0 p-0">: 21 April 2022 </div>
+                  <div class="col-lg-8 col-md-12">
+                    <div class="row pt-1 ">
+                      <div class="col-md-5 p-0 m-0 profile-widget-name"> Limit  </div>
+                      <div class="col-md-7 text-left m-0 p-0">: 3 </div>
+                      <div class="col-md-5 p-0 m-0 profile-widget-name"> Min Transaction  </div>
+                      <div class="col-md-7 text-left m-0 p-0">: 50.000 </div>
+                      <div class="col-md-5 p-0 m-0 profile-widget-name"> Max Redeem </div>
+                      <div class="col-md-7 text-left m-0 p-0">: 3 </div>
+                      <div class="col-md-5 p-0 m-0 profile-widget-name"> Code  </div>
+                      <div class="col-md-7 text-left m-0 p-0">: CODE123 </div>
+                      <div class="col-md-5 p-0 m-0 profile-widget-name"> Due Date  </div>
+                      <div class="col-md-7 text-left m-0 p-0">: 21 April 2022 </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </a>
+        </div>
+        @endforeach
+        @else
+        <div class="col-xl-12 col-sm-12 col-12 text-center">
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">No Result Data</div>
+        </div>
+        @endif
+      </div>
+      <div class="row pt-5">
+        <div class="col-sm-12 col-md-5">
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$meta->currentPage}} of {{$meta->totalPages}}  | Total Data : {{$meta->totalItems }}</div>
+        </div>
+        <div class="col-sm-12 col-md-7">
+        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+          <ul class="pagination">
+            <li class="paginate_button page-item previous <?php if($page == 1){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
+                <a class="page-link" href=""><i class='bx bx-chevrons-left'></i>Prev</a>
+            </li>
+            <li class="paginate_button page-item next <?php if($page == $meta->totalPages){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
+                <a class="page-link" href="">Next<i class='bx bx-chevrons-right'></i></a>
+            </li>
+          </ul>
         </div>
       </div>
-        <div class="row pt-5">
-        </div>
-        </div>
     </div>
   </div>
 </section>
