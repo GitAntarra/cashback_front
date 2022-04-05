@@ -30,7 +30,7 @@ class UsersController extends Controller
     $nextPage = (int) $page + 1;
     $prevPage = (int) $page - 1;
 
-    $data_user = $this->HttpRequest->service("GET", "/users/shows?page=".$page."&limit=".$limit, null);
+    $data_user = $this->HttpRequest("GET", "/users/shows?page=".$page."&limit=".$limit, null)->json();
 
     $data = [
       'msg'   => '',
@@ -105,7 +105,7 @@ class UsersController extends Controller
       'id' => $user_id
     ];
 
-    $detail_user = $this->HttpRequest->service("GET", "/users/".$param['id']."/detail", $param);
+    $detail_user = $this->HttpRequest("GET", "/users/".$param['id']."/detail", $param)->json();
     $data = [
       'detail_user' => $detail_user,
     ];
@@ -128,7 +128,7 @@ class UsersController extends Controller
       'description' => $request->post('description'),
     ];
     
-    $result = $this->HttpRequest->service("POST", "/users/register", $param);
+    $result = $this->HttpRequest("POST", "/users/register", $param);
     
     if(isset($result['statusCode'])){
       return redirect('/user-management')->with(['error' => $result['message']]);

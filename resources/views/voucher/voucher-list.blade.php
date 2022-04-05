@@ -37,7 +37,7 @@
         <?php $voucherData = $list_voucher['data'];?>
         @if(!empty($voucherData) && isset($voucherData))
         @foreach($voucherData as $row)
-        <div class="col-xl-4 col-sm-6 col-12">
+        <div class="col-xl-3 col-sm-6 col-12">
           <div class="card border-info">
             <div class="card-content">
               <div class="row no-gutters">
@@ -127,7 +127,7 @@
                     <label>CHANNEL</label>
                 </div>
                 <div class="col-9">
-                <select name="channel" id="channel" class="custom-select">
+                <select name="channel" id="channel" class="custom-select" >
                   @foreach ($list_channel as $row)
                     <option value="{{$row['channel_id']}}">{{$row['channel_id']}}</option>
                   @endforeach
@@ -141,13 +141,15 @@
                     <label>FEATURE</label>
                 </div>
                 <div class="col-9">
-                <select name="channel" id="channel" class="custom-select">
+                <select name="channel" id="channel" class="custom-select" onchange="subFeatureSelect()">
                   @foreach ($list_feature as $row)
                     <option value="{{$row['id']}}">{{$row['feature_id']}}</option>
                   @endforeach
                 </select>
                 </div>
             </div>
+        </div>
+        <div class="col-12 pb-1" id="formSubFeature">
         </div>
         <div class="col-12 pb-1">
             <div class="row">
@@ -294,6 +296,10 @@
     maxpotency = split[1] != undefined ? maxpotency + "," + split[1] : maxpotency;
     return prefix == undefined ? maxpotency : maxpotency ? "Rp. " + maxpotency : "";
 
+  }
+
+  function subFeatureSelect(){
+    let idFeature = $(this).attr("idMenu");
   }
 
   $('#confirm-delete').on('click', function () {
