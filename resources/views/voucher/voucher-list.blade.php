@@ -136,20 +136,21 @@
             </div>
         </div>
         <div class="col-12 pb-1">
-            <div class="row">
-                <div class="col-3">
-                    <label>FEATURE</label>
-                </div>
-                <div class="col-9">
-                <select name="channel" id="channel" class="custom-select" onchange="subFeatureSelect()">
-                  @foreach ($list_feature as $row)
-                    <option value="{{$row['id']}}">{{$row['feature_id']}}</option>
-                  @endforeach
-                </select>
-                </div>
-            </div>
+          <div class="row">
+              <div class="col-3">
+                  <label>FEATURE</label>
+              </div>
+              <div class="col-9">
+              <select name="idFeature" id="idFeature" class="custom-select" onchange="subFeatureSelect()">
+                @foreach ($list_feature as $row)
+                  <option value="{{$row['id']}}">{{$row['feature_id']}}</option>
+                @endforeach
+              </select>
+              </div>
+          </div>
         </div>
         <div class="col-12 pb-1" id="formSubFeature">
+
         </div>
         <div class="col-12 pb-1">
             <div class="row">
@@ -258,6 +259,22 @@
     var x = document.getElementById("startdate").min = "2006-05-05T16:15:23";
   }
 
+  function subFeatureSelect(){
+    let idFeature = $('#idFeature').val();
+
+    $.ajax({
+      type : "GET",
+      url  : "{{asset('/getsubFeature')}}?id="+idFeature,
+      success : function(data){
+          
+          for(let i=0; i<data.length;i++){
+            
+          }
+        }
+    });
+  }
+
+
   /* Fungsi formatMinTrans */
   function formatMinTrans(angka, prefix) {
     var number_string = angka.replace(/[^,\d]/g, "").toString(),
@@ -298,9 +315,7 @@
 
   }
 
-  function subFeatureSelect(){
-    let idFeature = $(this).attr("idMenu");
-  }
+  
 
   $('#confirm-delete').on('click', function () {
     Swal.fire({

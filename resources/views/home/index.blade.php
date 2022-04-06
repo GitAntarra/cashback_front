@@ -87,8 +87,8 @@
                     <div class="col-lg-8 col-md-12">
                     <div class="card-body text-center">
                         <h4 class="card-title white">USER</h4>
-                        <p class="card-text white">13 User aktif</p>
-                        <button class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</button>
+                        <p class="card-text white">{{$users->totalItems}} User aktif</p>
+                        <a href="{{asset('/user-management')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
                     </div>
                     </div>
                 </div>
@@ -106,8 +106,8 @@
                     <div class="col-lg-8 col-md-12">
                     <div class="card-body text-center">
                         <h4 class="card-title white">VOUCHER</h4>
-                        <p class="card-text white">20 Voucher Aktif</p>
-                        <button class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</button>
+                        <p class="card-text white">{{$vouchers->totalItems}} Voucher Aktif</p>
+                        <a href="{{asset('/list-voucher')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
                     </div>
                     </div>
                 </div>
@@ -125,8 +125,8 @@
                     <div class="col-lg-8 col-md-12">
                     <div class="card-body text-center">
                         <h4 class="card-title white">CHANNEL</h4>
-                        <p class="card-text white">10 Channel Aktif</p>
-                        <button class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</button>
+                        <p class="card-text white">{{$channels->itemCount}} Channel Aktif</p>
+                        <a href="{{asset('/list-channel')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
                     </div>
                     </div>
                 </div>
@@ -144,8 +144,8 @@
                     <div class="col-lg-8 col-md-12">
                     <div class="card-body text-center">
                         <h4 class="card-title white">FEATURE</h4>
-                        <p class="card-text white">12 Feature Aktif</p>
-                        <button class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</button>
+                        <p class="card-text white">{{$features->itemCount}} Feature Aktif</p>
+                        <a href="{{asset('/main-feature')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
                     </div>
                     </div>
                 </div>

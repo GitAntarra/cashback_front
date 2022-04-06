@@ -143,6 +143,13 @@ class FeatureController extends Controller
         return $view_url;
     }
 
+    public function getsubFeature(Request $request)
+    {
+        $data = $this->HttpRequest("GET","/feature/".$request->get('id')."/sub",null)->json();
+        
+        return $data;
+    }
+
     public function deleteFeature(Request $request)
     {
         $id = $request->get('idFeature');

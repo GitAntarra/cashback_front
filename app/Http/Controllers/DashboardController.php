@@ -3,23 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Helper;
+namespace App\Http\Controllers;
+use App\HttpRequest;
+use Illuminate\Http\Request;
 use Session;
 
 class DashboardController extends Controller
 {
-    //ecommerce
     public function dashboard(Request $request){
-        // $menuData['menu'] =json_decode(json_encode(Session::get('menu')),false);
-        // $object = (object) $menuData;
-        //   echo "<pre>";
-        //   print_r(Session::get('set_userdata'));
-        //   die;
+        $data_user = $this->HttpRequest("GET", "/users/shows", null)->json();
+        $list_voucher = $this->HttpRequest("GET","/vouchers/show",null)->json();
+        $list_channel = $this->HttpRequest("GET","/channel?page=1", null)->json();
+        $list_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
+        
+        $data = [
+            'users'      => (object) $data_user['meta'],
+            'vouchers'   => (object) $list_voucher['meta'],
+            'channels'   => (object) $list_channel['meta'],
+            'features'   => (object) $list_feature['meta']
+        ];
 
-        return view('home.index');
+        return view('home.index')->with($data);
     }
-    // analystic
-    // public function dashboardAnalytics(){
-    //     return view('pages.dashboard-analytics');
-    // }
 }

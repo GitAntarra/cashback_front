@@ -40,8 +40,7 @@ Route::group(['middleware' => ['isLogin']],function () {
     Route::get('/view-feature',"FeatureController@getFeatureById");
     Route::post('/edit-feature',"FeatureController@mainFeature")->name('edit-feature.post');
     Route::post('/edit-subfeature',"FeatureController@subFeature")->name('edit-subfeature.post');
-
-
+    Route::get('/getsubFeature', "FeatureController@getsubFeature");
 });
 
 
