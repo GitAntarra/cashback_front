@@ -26,7 +26,7 @@
           <div class="input-group">
             <input type="text" Placeholder="Search" class="form-control">   
             <div class="input-group-append">
-              <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white">find</i></button>
+              <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModalform"><i class="bx bx-plus text-white">Add Sub Feature</i></button>
             </div>
           </div>
@@ -131,7 +131,7 @@
   <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
-      <h4 class="modal-title" id="exampleModalScrollableTitle">Add Feature </h4>
+      <h4 class="modal-title" id="exampleModalScrollableTitle">Edit Feature </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <i class="bx bx-x"></i>
           </button>
@@ -139,8 +139,9 @@
       <div class="modal-body">
       <form action="{{ route('edit-subfeature.post') }}" method="post">
           @csrf
-        <input type="text" name="editFeature" id="editFeature" value="editFeature" hidden> 
+        <input type="text" name="editsubFeature" id="editsubFeature" value="editsubFeature" hidden> 
         <input type="text" name="idFeatureEdit" id="idFeatureEdit" value="idFeatureEdit" class="form-control" hidden>
+        <input type="text" name="idmainFeatureEdit" id="idmainFeatureEdit" value="{{$main_featureid}}" hidden>
         <div class="col-12" id="formname">
           <label>Nama Feature </label>
           <div class="form-group">

@@ -102,6 +102,7 @@
                     <label>CODE</label>
                 </div>
                 <div class="col-9">
+                <input type="text" name="createVoucher" id="createVoucher" value="createVoucher" hidden/>
                 <input require class="form-control" name="vouchercode" id="vouchercode" placeholder="Voucher Code" type="text" onkeyup="
                 var start = this.selectionStart;
                 var end = this.selectionEnd;
@@ -127,7 +128,8 @@
                     <label>CHANNEL</label>
                 </div>
                 <div class="col-9">
-                <select name="channel" id="channel" class="custom-select" >
+                <select name="channel" id="channel" class="custom-select" required>
+                  <option value="">-- Choose Channel --</option>
                   @foreach ($list_channel as $row)
                     <option value="{{$row['channel_id']}}">{{$row['channel_id']}}</option>
                   @endforeach
@@ -138,10 +140,11 @@
         <div class="col-12 pb-1">
           <div class="row">
               <div class="col-3">
-                  <label>FEATURE</label>
+                  <label>MAIN FEATURE</label>
               </div>
               <div class="col-9">
-              <select name="idFeature" id="idFeature" class="custom-select" onchange="subFeatureSelect()">
+              <select name="idmainFeature" id="idmainFeature" class="custom-select" onchange="subFeatureSelect()" required>
+                  <option value="">-- Choose Feature --</option>
                 @foreach ($list_feature as $row)
                   <option value="{{$row['id']}}">{{$row['feature_id']}}</option>
                 @endforeach
@@ -150,7 +153,7 @@
           </div>
         </div>
         <div class="col-12 pb-1" id="formSubFeature">
-
+          
         </div>
         <div class="col-12 pb-1">
             <div class="row">
@@ -260,15 +263,33 @@
   }
 
   function subFeatureSelect(){
-    let idFeature = $('#idFeature').val();
+    let idFeature = $('#idmainFeature').val();
 
     $.ajax({
       type : "GET",
       url  : "{{asset('/getsubFeature')}}?id="+idFeature,
       success : function(data){
-          
-          for(let i=0; i<data.length;i++){
-            
+        console.log(data);
+          $('#formSubFeature').empty();
+          if(data.length !== 0){
+
+            var html = `<div class="row">
+                <div class="col-3">
+                    <label>SUB FEATURE</label>
+                </div>
+                <div class="col-9" id="optionSelect" required>
+                  <select name="idsubFeatureoption" id="idsubFeaturepotion" class="custom-select">
+                  </select>
+                </div>
+            </div>`;
+
+            $("#formSubFeature").append(html);
+
+            for(let i=0; i<data.length;i++){
+              let id = data[i]['id'];
+              let featid = data[i]['feature_id'];
+              $('#idsubFeaturepotion').append('<option value="'+ id +'">' + featid + '</option>');
+            }
           }
         }
     });

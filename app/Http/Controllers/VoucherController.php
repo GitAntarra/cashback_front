@@ -35,9 +35,10 @@ class VoucherController extends Controller
             'take'         => $take,
         ];
         
-        if(isset($getPost['vouchercode'])){
+        if(isset($getPost['createVoucher'])){
             $minTrans = preg_replace("/[^0-9]/", "", $getPost['mintransaction']);
             $maxPotency = preg_replace("/[^0-9]/", "", $getPost['maxpotency']);
+
             $param = [
                 'code'  => $getPost['vouchercode'],
                 'type'  => $getPost['type'],
@@ -46,8 +47,15 @@ class VoucherController extends Controller
                 'minTransaction'    => (int) $minTrans,
                 'maxPotency'        => (int) $maxPotency,
                 'percent'   => (int) $getPost['percent'],
-                'maxRedeem' => (int) $getPost['maxredeem']
+                'maxRedeem' => (int) $getPost['maxredeem'],
+                'channel'   => $getPost['channel'],
+                'mainfeature'   => $getPost['idmainFeature'],
+                'subfeature'    => $getPost['idsubFeatureoption'] ? $getPost['idsubFeatureoption'] : " "
             ];
+
+            echo "<pre>";
+            print_r($param);
+            die;
             $url_addVoucher = $this->HttpRequest->service("POST","/vouchers", $param);
             if(empty($url_addVoucher)){
                 Session::flash('success','action success');

@@ -82,6 +82,7 @@ class FeatureController extends Controller
 
         // Add Sub Feature
         if(isset($postParam['addsubFeature'])){
+
             $params = [
                 'id'         => $postParam['idmainFeature'],
                 'feature_id' => $postParam['subfeatureName'],
@@ -89,7 +90,6 @@ class FeatureController extends Controller
                 'description'=> $postParam['description']
 
             ];
-
 
             $add_subfeature = $this->HttpRequest("POST","/feature/sub",$params);
 
@@ -100,12 +100,14 @@ class FeatureController extends Controller
                 Session::flash('failed','action failed');
             }
     
-            return Redirect::to('/main-feature');
+            return Redirect::to('/sub-feature?id='.$params['id']);
         }
 
         //Edit Sub Feature
         if(isset($postParam['editsubFeature'])){
+
             $id = $postParam['idFeatureEdit'];
+            $idmain = $postParam['idmainFeatureEdit'];
             $params = [
                 'feature_id' => $postParam['featureNameEdit'],
                 'fee'        => (int) $postParam['featureFeeEdit'],
@@ -120,7 +122,7 @@ class FeatureController extends Controller
                 Session::flash('failed','action failed');
             }
     
-            return Redirect::to('/main-feature');
+            return Redirect::to('/sub-feature?id='.$idmain);
 
         }
    
