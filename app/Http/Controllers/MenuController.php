@@ -303,7 +303,7 @@ class MenuController extends Controller
             'idMenu'    => $idMenu
         ];
 
-        return view('menu.detail-menu')->with($data);
+        return view('settings.menu.detail-menu')->with($data);
     }
 
     public function deleteMenu(Request $request)

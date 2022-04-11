@@ -20,20 +20,6 @@
               <div class="col-12 pt-1">
                 <div class="row">
                   <div class="col-md-3">
-                    <label class="pt-1">Region</label>
-                  </div>  
-                  <div class="col-md-9">
-                    <fieldset class="form-group">
-                      <select class="custom-select" id="basicSelect">
-                        <option>All Region</option>
-                      </select>
-                    </fieldset>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 pt-1">
-                <div class="row">
-                  <div class="col-md-3">
                     <label class="pt-1">Working Unit</label>
                   </div>  
                   <div class="col-md-9">
@@ -133,6 +119,23 @@
               </tbody>
             </table>
           </div>
+          <div class="row pt-5">
+        <div class="col-sm-12 col-md-5">
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$meta->currentPage}} of {{$meta->totalPages}} | Total Data : {{$meta->totalItems}}</div>
+        </div>
+        <div class="col-sm-12 col-md-7">
+          <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+            <ul class="pagination">
+              <li class="paginate_button page-item previous <?php if($page == 1){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
+                  <a class="page-link" href="<?php echo asset('/user-management').'?page='.$prevPage.'&take='.$limit; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
+              </li>
+              <li class="paginate_button page-item next <?php if($page == $meta->totalPages){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
+                  <a class="page-link" href="<?php echo asset('/user-management').'?page='.$nextPage.'&take='.$limit; ?>">Next<i class='bx bx-chevrons-right'></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
           <!-- datatable ends -->
         </div>
       </div>

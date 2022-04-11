@@ -19,15 +19,6 @@
       @csrf
     <div class="card-header pl-0">
       <div class="row justify-content-end">
-        <div class="col-lg-1 p-0">
-              <select name="showing" id="showing" class="custom-select">
-                <option value="{{$take}}" selected>{{$take}}</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-              </select>
-        </div>
         <div class="col-lg-3 p-0">
           <input type="number" class="currentPage" id="currentPage" name="currentPage" value="{{$page}}" hidden>
         </div>
@@ -132,8 +123,11 @@
         </div>
         <div class="col-12" id="formname">
           <label>Channel Key </label>
-          <div class="form-group">
+          <div class="input-group">
             <input name="channelKeyAdd" id="channelKeyAdd" type="text" placeholder="Channel Key" class="form-control" require>
+            <div class="input-group-append">
+              <button type="button" title="Generate Key" onclick="generateKey(10)" class="btn btn-primary"><i class="bx bx-key text-white"> </i></button>
+            </div>
           </div>
         </div>
         <div class="col-12" id="formname">
@@ -192,8 +186,11 @@
         </div>
         <div class="col-12" id="formname">
           <label>Channel Key </label>
-          <div class="form-group">
+          <div class="input-group">
             <input name="channelKeyEdit" id="channelKeyEdit" type="text" placeholder="Channel Key" class="form-control" require>
+            <div class="input-group-append">
+              <button type="button" title="Generate Key" onclick="generateKey(12)" class="btn btn-primary"><i class="bx bx-key text-white"> </i></button>
+            </div>
           </div>
         </div>
         <div class="col-12" id="formname">
@@ -238,6 +235,23 @@
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
   });
+
+  const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  function generateKey(length) {
+
+      let result = ' ';
+      const charactersLength = characters.length;
+      for ( let i = 0; i < length; i++ ) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+
+      console.log(result);
+      $('#channelKeyAdd').val(result);
+      $('#channelKeyEdit').val(result);
+  }
+
+  
 
   $(document).ready(function () {
     $('.EditChannelButton').on('click', function (){

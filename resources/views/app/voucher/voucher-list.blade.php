@@ -44,11 +44,12 @@
                 <div class="col-md-12 col-lg-3">
                   <img src="{{asset('images/banner/banner-35.jpg')}}" class="h-100 w-100 rounded-left">
                 </div>
-                <div class="col-md-12 col-lg-9">
-                  <div class="card-body pt-1 pl-1">
+                <div class="col-md-12 col-lg-9 pb-0">
+                  <div class="card-body p-1">
                     <span><b>{{$row['type']}} {{$row['percent']}} %</b></span>
                     <p>s/d : {{date('d-m-Y', strtotime($row['dueDate']))}}</p>
-                    Code : <span class="badge badge-light-info">{{$row['code']}}</span>
+                    <p class="p-0">{{$row['featuremain']}}</p>
+                    <span class="badge badge-light-info">{{$row['code']}}</span>
                   </div>
                 </div>
               </div>
@@ -64,16 +65,16 @@
       </div>
       <div class="row pt-5">
         <div class="col-sm-12 col-md-5">
-          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$meta->currentPage}} of {{$meta->totalPages}}  | Total Data : {{$meta->totalItems }}</div>
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$meta->page}} of {{$meta->pageCount}}  | Total Data : {{$meta->itemCount }}</div>
         </div>
         <div class="col-sm-12 col-md-7">
         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
           <ul class="pagination">
-            <li class="paginate_button page-item previous <?php if($page == 1){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
-                <a class="page-link" href=""><i class='bx bx-chevrons-left'></i>Prev</a>
+            <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false ){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
+                <a class="page-link" href="{{asset('/list-voucher?page=')}}{{$prevPage}}"><i class='bx bx-chevrons-left'></i>Prev</a>
             </li>
-            <li class="paginate_button page-item next <?php if($page == $meta->totalPages){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
-                <a class="page-link" href="">Next<i class='bx bx-chevrons-right'></i></a>
+            <li class="paginate_button page-item next <?php if($meta->hasNextPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
+                <a class="page-link" href="{{asset('/list-voucher?page=')}}{{$nextPage}}">Next<i class='bx bx-chevrons-right'></i></a>
             </li>
           </ul>
         </div>
@@ -146,7 +147,7 @@
               <select name="idmainFeature" id="idmainFeature" class="custom-select" onchange="subFeatureSelect()" required>
                   <option value="">-- Choose Feature --</option>
                 @foreach ($list_feature as $row)
-                  <option value="{{$row['id']}}">{{$row['feature_id']}}</option>
+                  <option idmain="{{$row['id']}}" value="{{$row['feature_id']}}">{{$row['feature_id']}}</option>
                 @endforeach
               </select>
               </div>
@@ -263,13 +264,12 @@
   }
 
   function subFeatureSelect(){
-    let idFeature = $('#idmainFeature').val();
+    var idFeature = $('#idmainFeature option:selected').attr('idmain');
 
     $.ajax({
       type : "GET",
       url  : "{{asset('/getsubFeature')}}?id="+idFeature,
       success : function(data){
-        console.log(data);
           $('#formSubFeature').empty();
           if(data.length !== 0){
 
@@ -288,7 +288,7 @@
             for(let i=0; i<data.length;i++){
               let id = data[i]['id'];
               let featid = data[i]['feature_id'];
-              $('#idsubFeaturepotion').append('<option value="'+ id +'">' + featid + '</option>');
+              $('#idsubFeaturepotion').append('<option value="'+ featid +'">' + featid + '</option>');
             }
           }
         }

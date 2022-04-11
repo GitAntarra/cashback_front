@@ -70,7 +70,7 @@ class FeatureController extends Controller
             'nextPage'      => (int) $page + 1,
         ];
 
-        return view('feature.main-feature-list')->with($data);
+        return view('app.feature.main-feature-list')->with($data);
     }
 
     public function subFeature(Request $request)
@@ -134,7 +134,7 @@ class FeatureController extends Controller
             'data_subfeature'   => $data_subfeature,
         ];
 
-        return view('feature.sub-feature-list')->with($data);
+        return view('app.feature.sub-feature-list')->with($data);
     }
 
     public function getFeatureById(Request $request)

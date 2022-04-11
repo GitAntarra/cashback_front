@@ -18,12 +18,12 @@ class AuthenticationController extends Controller
       return redirect::to('/')->withErrors(['msg' => 'The Message']);
     }
     $pageConfigs = ['bodyCustomClass'=> 'bg-full-screen-image'];
-    return view('pages.auth-login',['pageConfigs' => $pageConfigs]);
+    return view('authentication.auth-login',['pageConfigs' => $pageConfigs]);
   }
   //Register page
   public function registerPage(){
     $pageConfigs = ['bodyCustomClass'=> 'bg-full-screen-image'];
-    return view('pages.auth-register',['pageConfigs' => $pageConfigs]);
+    return view('auth.auth-register',['pageConfigs' => $pageConfigs]);
   }
    //forget Password page
    public function forgetPasswordPage(){

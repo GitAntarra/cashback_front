@@ -59,7 +59,7 @@ class UsersController extends Controller
       'UN'  => 'KANTOR UNIT'
     ];
 
-    return view('users.page-users-list')->with($data);
+    return view('settings.users.page-users-list')->with($data);
   }
 
   public function getEmployeeId(Request $request)
@@ -68,18 +68,7 @@ class UsersController extends Controller
       'pernr' => $request->post('pernr')
     ];
     $result = $this->HttpRequest->get_detail_pekerja($request->post('pernr'));
-
-
-    // $result2 = $this->HttpRequest->service("POST","",$result['BRANCH'];);
-
-    $data = [
-        'pernr' =>$result['PERSONAL_NUMBER'],
-        'name'  =>$result['NAMA'],
-        'uker'  =>$result['DESC_SUBAREA'],
-        'region'  =>$result['DESC_GRUP_JABATAN'],
-        'branch'  =>$result['BRANCH'],
-        'rgdesc'  =>$result['DESC_AREA']
-    ];
+    
     return $result;
   }
 
@@ -95,7 +84,7 @@ class UsersController extends Controller
       'DEVELOPER'     => 'DEVELOPER'
     ];
     $data['selectedLevel'] = "MAKER";
-    return view('users.page-users-add')->with($data);
+    return view('settings.users.page-users-add')->with($data);
   }
   //user view
   public function viewUser(Request $request){
@@ -114,7 +103,7 @@ class UsersController extends Controller
     // die;
 
 
-    return view('users.page-users-view')->with($data);
+    return view('settings.users.page-users-view')->with($data);
   }
 
   public function saveUser(Request $request)
@@ -179,7 +168,7 @@ class UsersController extends Controller
       'opt_status'    => $opt_status,
       'selectedStatus'=> $detail_user['status'] ? $detail_user['status'] : "",
     ];
-    return view('users.page-users-edit')->with($data);
+    return view('settings.users.page-users-edit')->with($data);
   }
 
   public function saveUpdate(Request $request)

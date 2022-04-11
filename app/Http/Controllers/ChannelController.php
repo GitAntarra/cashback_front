@@ -72,7 +72,7 @@ class ChannelController extends Controller
             "prevPage"      => (int) $page - 1,
             "nextPage"      => (int) $page + 1
         ];
-        return view('channel.channel-list')->with($data);
+        return view('app.channel.channel-list')->with($data);
     }
 
     public function getChannelById(Request $request)

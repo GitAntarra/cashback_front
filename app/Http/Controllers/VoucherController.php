@@ -17,10 +17,11 @@ class VoucherController extends Controller
     public function listVoucher(Request $request)
     {
         $page = $request->get('page') ? $request->get('page') : 1;
-        $take = $request->get('take') ? $request->get('take') : 6;
+        $take = $request->get('take') ? $request->get('take') : 4;
 
         $getPost = $request->post();
-        $list_voucher = $this->HttpRequest("GET","/vouchers/show?page=".$page."&limit".$take,null)->json();
+        $list_voucher = $this->HttpRequest("GET","/vouchers/showall?page=".$page."&take=".$take,null)->json();
+
         $list_channel = $this->HttpRequest("GET","/channel?page=1", null)->json();
         $list_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
 
@@ -33,6 +34,8 @@ class VoucherController extends Controller
             'meta'         => (object) $list_voucher['meta'],
             'page'         => $page,
             'take'         => $take,
+            'prevPage'     => (int) $page -1,
+            'nextPage'     => (int) $page +1
         ];
         
         if(isset($getPost['createVoucher'])){
@@ -49,29 +52,27 @@ class VoucherController extends Controller
                 'percent'   => (int) $getPost['percent'],
                 'maxRedeem' => (int) $getPost['maxredeem'],
                 'channel'   => $getPost['channel'],
-                'mainfeature'   => $getPost['idmainFeature'],
-                'subfeature'    => $getPost['idsubFeatureoption'] ? $getPost['idsubFeatureoption'] : " "
+                'featuremain'   => (string) $getPost['idmainFeature'],
+                'featuresub'    => $getPost['idsubFeatureoption'] ? $getPost['idsubFeatureoption'] : ""
             ];
 
-            echo "<pre>";
-            print_r($param);
-            die;
-            $url_addVoucher = $this->HttpRequest->service("POST","/vouchers", $param);
-            if(empty($url_addVoucher)){
+            $url_addVoucher = (object) $this->HttpRequest->service("POST","/vouchers", $param);
+
+            if(!empty($url_addVoucher)){
                 Session::flash('success','action success');
-                return Redirect::to('/list-voucher');
             }else{
                 Session::flash('failed','action failed');
-                return Redirect::to('/list-voucher');
             }
+
+            return Redirect::to('/list-voucher');
         }
-        return view('voucher.voucher-list')->with($data);
+        return view('app.voucher.voucher-list')->with($data);
     }
 
     public function viewVoucher(Request $request)
     {
         
-        return view('voucher.voucher-view');
+        return view('app.voucher.voucher-view');
     }
 
     public function editVoucher(Request $request)
