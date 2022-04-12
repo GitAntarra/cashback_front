@@ -17,14 +17,13 @@
             <!-- header section -->
             <div class="row">
               <div class="col-xl-4 col-md-12">
-                <span class="invoice-number mr-50">voucher#</span>
-                <span>BRICERIA3d0</span>
+                <span class="badge badge-light-info">#{{$data['code']}}</span>
               </div>
               <div class="col-xl-8 col-md-12">
                 <div class="d-flex align-items-center justify-content-xl-end flex-wrap">
                   <div>
-                    <small class="text-muted">Date Due:</small>
-                    <span>08/10/2019</span>
+                    <small class="text-muted">Date Due :</small>
+                    <span class="text-primary font-weight-bold">{{date('d-m-Y', strtotime($data['dueDate']))}}</span>
                   </div>
                 </div>
               </div>
@@ -32,99 +31,83 @@
             <!-- logo and title -->
             <div class="row my-3">
               <div class="col-6">
-                <h4 class="text-primary">Voucher Cashback</h4>
+                <h4 class="text-primary">Voucher {{$data['type']}}</h4>
               </div>
               <div class="col-6 d-flex justify-content-end">
-                <img src="{{asset('images/pages/pixinvent-logo.png')}}" alt="logo" height="46" width="164">
+                <img src="{{asset('images/pages/sugar_logo.png')}}" alt="logo" height="55" width="164">
               </div>
             </div>
             <hr>
             <!-- invoice address and contact -->
             <div class="row invoice-info">
-              <div class="col-3 mt-1">
-                <h6 class="invoice-from">CODE</h6>
+              <div class="col-3">
+                <h6 class="invoice-from">Code</h6>
               </div>
-              <div class="col-9 mt-1">
-                <h6 class="invoice-to">Bill To</h6>
+              <div class="col-3">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['code']}}</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Type</h6>
+              </div>
+              <div class="col-3">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['type']}}</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Limit</h6>
+              </div>
+              <div class="col-3">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['limit']}}</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Count</h6>
+              </div>
+              <div class="col-3">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['count']}}</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Minimum Transaction</h6>
+              </div>
+              <div class="col-3">
+                <h6 class="text-primary font-weight-bold"><b>: Rp. {{$data['minTransaction']}}</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Maximum Potency</h6>
+              </div>
+              <div class="col-3">
+                <h6 class="text-primary font-weight-bold"><b>: Rp. {{$data['maxPotency']}}</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Main Feature</h6>
+              </div>
+              <div class="col-3">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['featuremain']}}</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Sub Feature</h6>
+              </div>
+              <div class="col-3">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['featuresub']}}</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Percent</h6>
+              </div>
+              <div class="col-3">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['percent']}} %</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Maximum Reedem</h6>
+              </div>
+              <div class="col-3">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['maxRedeem']}}</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Description</h6>
+              </div>
+              <div class="col-12">
+                <h6 class="text-primary font-weight-bold"><b> {{$data['description']}}</b></h6>
               </div>
             </div>
             <hr>
-          </div>
-          <!-- product details table-->
-          <div class="invoice-product-details table-responsive mx-md-25">
-            <table class="table table-borderless mb-0">
-              <thead>
-                <tr class="border-0">
-                  <th scope="col">Item</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Cost</th>
-                  <th scope="col">Qty</th>
-                  <th scope="col" class="text-right">Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Frest Admin</td>
-                  <td>HTML Admin Template</td>
-                  <td>28</td>
-                  <td>1</td>
-                  <td class="text-primary text-right font-weight-bold">$28.00</td>
-                </tr>
-                <tr>
-                  <td>Apex Admin</td>
-                  <td>Anguler Admin Template</td>
-                  <td>24</td>
-                  <td>1</td>
-                  <td class="text-primary text-right font-weight-bold">$24.00</td>
-                </tr>
-                <tr>
-                  <td>Stack Admin</td>
-                  <td>HTML Admin Template</td>
-                  <td>24</td>
-                  <td>1</td>
-                  <td class="text-primary text-right font-weight-bold">$24.00</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- invoice subtotal -->
-          <div class="card-body pt-0 mx-25">
-            <hr>
-            <div class="row">
-              <div class="col-4 col-sm-6 mt-75">
-                <p>Thanks for your business.</p>
-              </div>
-              <div class="col-8 col-sm-6 d-flex justify-content-end mt-75">
-                <div class="invoice-subtotal">
-                  <div class="invoice-calc d-flex justify-content-between">
-                    <span class="invoice-title">Subtotal</span>
-                    <span class="invoice-value">$ 76.00</span>
-                  </div>
-                  <div class="invoice-calc d-flex justify-content-between">
-                    <span class="invoice-title">Discount</span>
-                    <span class="invoice-value">- $ 09.60</span>
-                  </div>
-                  <div class="invoice-calc d-flex justify-content-between">
-                    <span class="invoice-title">Tax</span>
-                    <span class="invoice-value">21%</span>
-                  </div>
-                  <hr>
-                  <div class="invoice-calc d-flex justify-content-between">
-                    <span class="invoice-title">Invoice Total</span>
-                    <span class="invoice-value">$ 66.40</span>
-                  </div>
-                  <div class="invoice-calc d-flex justify-content-between">
-                    <span class="invoice-title">Paid to date</span>
-                    <span class="invoice-value">- $ 00.00</span>
-                  </div>
-                  <div class="invoice-calc d-flex justify-content-between">
-                    <span class="invoice-title">Balance (USD)</span>
-                    <span class="invoice-value">$ 10,953</span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

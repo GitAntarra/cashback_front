@@ -196,7 +196,7 @@
       
       $.ajax({
         type: "GET",
-        url : "{{asset('/view-feature')}}?id="+idFeature,
+        url : "{{asset('/view-subfeature')}}?id="+idFeature,
         success : function(data){
           console.log(data.description); 
           $('#editModalForm').modal('show');

@@ -1,4 +1,4 @@
-<?php
+ <?php
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Redis;
 /*
@@ -54,6 +54,7 @@ Route::group(['middleware' => ['isLogin']],function () {
     Route::post('/addsubFeature',"FeatureController@subFeature")->name('addsubFeature.post');
     Route::get('/delete-feature',"FeatureController@deleteFeature");
     Route::get('/view-feature',"FeatureController@getFeatureById");
+    Route::get('/view-subfeature',"FeatureController@getsubFeatureById");
     Route::post('/edit-feature',"FeatureController@mainFeature")->name('edit-feature.post');
     Route::post('/edit-subfeature',"FeatureController@subFeature")->name('edit-subfeature.post');
     Route::get('/getsubFeature', "FeatureController@getsubFeature");

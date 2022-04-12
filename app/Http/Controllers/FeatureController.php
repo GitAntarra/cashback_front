@@ -49,8 +49,10 @@ class FeatureController extends Controller
                 'feature_id'    => $postParam['featureName'],
                 'description'   => $postParam['description']
             ];
+
+
             
-            $add_feature = $this->HttpRequest("PUT","/feature/".$idFeature ,$param);
+            $add_feature = $this->HttpRequest("PUT","/feature/".$idFeature."/main" ,$param);
 
             if(!empty($add_feature)){
                 Session::flash('success','action success');
@@ -114,7 +116,7 @@ class FeatureController extends Controller
                 'description'=> $postParam['descriptionEdit']
             ];
 
-            $edit_subfeature = $this->HttpRequest("PUT","/feature/".$id, $params);
+            $edit_subfeature = $this->HttpRequest("PUT","/feature/".$id."/sub", $params);
 
             if(!empty($edit_subfeature)){
                 Session::flash('success','action success');

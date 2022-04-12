@@ -106,7 +106,7 @@
                     <div class="col-lg-8 col-md-12">
                     <div class="card-body text-center">
                         <h4 class="card-title white">VOUCHER</h4>
-                        <p class="card-text white">{{$vouchers->totalItems}} Voucher Aktif</p>
+                        <p class="card-text white">{{$vouchers->itemCount}} Voucher Aktif</p>
                         <a href="{{asset('/list-voucher')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
                     </div>
                     </div>

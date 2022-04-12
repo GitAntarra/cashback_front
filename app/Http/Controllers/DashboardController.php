@@ -11,11 +11,11 @@ use Session;
 class DashboardController extends Controller
 {
     public function dashboard(Request $request){
-        $data_user = $this->HttpRequest("GET", "/users/shows", null)->json();
-        $list_voucher = $this->HttpRequest("GET","/vouchers/show",null)->json();
+        $data_user = $this->HttpRequest("GET", "/users/showsd", null)->json();
+        $list_voucher = $this->HttpRequest("GET","/vouchers?page=1",null)->json();
         $list_channel = $this->HttpRequest("GET","/channel?page=1", null)->json();
         $list_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
-        
+
         $data = [
             'users'      => (object) $data_user['meta'],
             'vouchers'   => (object) $list_voucher['meta'],

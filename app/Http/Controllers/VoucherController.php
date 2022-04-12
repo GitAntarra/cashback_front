@@ -17,10 +17,10 @@ class VoucherController extends Controller
     public function listVoucher(Request $request)
     {
         $page = $request->get('page') ? $request->get('page') : 1;
-        $take = $request->get('take') ? $request->get('take') : 4;
+        $take = $request->get('take') ? $request->get('take') : 8;
 
         $getPost = $request->post();
-        $list_voucher = $this->HttpRequest("GET","/vouchers/showall?page=".$page."&take=".$take,null)->json();
+        $list_voucher = $this->HttpRequest("GET","/vouchers?page=".$page."&take=".$take,null)->json();
 
         $list_channel = $this->HttpRequest("GET","/channel?page=1", null)->json();
         $list_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
@@ -56,7 +56,7 @@ class VoucherController extends Controller
                 'featuresub'    => $getPost['idsubFeatureoption'] ? $getPost['idsubFeatureoption'] : ""
             ];
 
-            $url_addVoucher = (object) $this->HttpRequest->service("POST","/vouchers", $param);
+            $url_addVoucher = (object) $this->HttpRequest("POST","/vouchers", $param);
 
             if(!empty($url_addVoucher)){
                 Session::flash('success','action success');
@@ -66,13 +66,32 @@ class VoucherController extends Controller
 
             return Redirect::to('/list-voucher');
         }
+
+        if(isset($getPost['editVoucher'])){
+            $minTrans = preg_replace("/[^0-9]/", "", $getPost['mintransaction']);
+            $maxPotency = preg_replace("/[^0-9]/", "", $getPost['maxpotency']);
+            
+            $param = [
+                'limit'     => (int) $getPost['limitedit'],
+                'dueDate'   => "2022-04-08 12:57:18",
+                'minTransaction'    => (int) $minTrans,
+                'maxPotency'        => (int) $maxPotency,
+            ];
+        }
         return view('app.voucher.voucher-list')->with($data);
     }
 
     public function viewVoucher(Request $request)
     {
+        $id = $request->get("id");
+
+        $data_voucher = $this->HttpRequest("GET","/vouchers/".$id, null)->json();
         
-        return view('app.voucher.voucher-view');
+        $data = [
+            'data'  => $data_voucher,
+        ];
+
+        return view('app.voucher.voucher-view')->with($data);
     }
 
     public function editVoucher(Request $request)
