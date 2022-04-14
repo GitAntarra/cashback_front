@@ -91,12 +91,41 @@ class VoucherController extends Controller
             'data'  => $data_voucher,
         ];
 
+        if(isset($postParam['editVoucher'])){
+            $param = [
+                'code'  => $postParam['codeVoucher'],
+                'type'  => $postParam['typeVoucher'],
+                'limit' => $postParam['limitVoucher'],
+                'dueDate'=> $postParam['dueDatevoucher'],
+                'minTransaction'    => $postParam['minTransactionVoucher'],
+                'maxPotency'    => $postParam['maxPotencyVoucher'],
+                'maxRedeem'     => $postParam['maxRedeemVoucher'],
+                'channel'       => $postParam['channelVoucher'],
+                'feature'       => $postParam['featureVoucher'],
+                'subfeature'    => $postParam['subfeatureVoucher']
+            ];
+
+            $edit_url = $this->HttpRequest("PUT");
+
+            if(!empty($url_addVoucher)){
+                Session::flash('success','action success');
+            }else{
+                Session::flash('failed','action failed');
+            }
+
+            return Redirect::to('/view-voucher?id='.$id);
+        }
+
         return view('app.voucher.voucher-view')->with($data);
     }
 
-    public function editVoucher(Request $request)
+    public function getVoucherbyId(Request $request)
     {
+        $id = $request->get('id');
 
+        $data_voucher = $this->HttpRequest("GET","/vouchers/".$id, null);
+
+        return $data_voucher;
     }
 
     public function deleteVoucher(Request $request)

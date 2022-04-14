@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Redis;
 // Cashback Routes
 Route::group(['middleware' => ['isLogin']],function () {
 
-    
-
     // User Route 
     Route::get('/user-management','UsersController@listuser');
     Route::get('/page-users-view','UsersController@viewUser');
@@ -52,7 +50,8 @@ Route::group(['middleware' => ['isLogin']],function () {
     Route::get('/sub-feature',"FeatureController@subFeature");
     Route::post('/addFeature',"FeatureController@mainFeature")->name('addFeature.post');
     Route::post('/addsubFeature',"FeatureController@subFeature")->name('addsubFeature.post');
-    Route::get('/delete-feature',"FeatureController@deleteFeature");
+    Route::get('/delete-feature',"FeatureController@deleteFeaturemain");
+    Route::get('/delete-subfeature',"FeatureController@deleteFeaturesub");
     Route::get('/view-feature',"FeatureController@getFeatureById");
     Route::get('/view-subfeature',"FeatureController@getsubFeatureById");
     Route::post('/edit-feature',"FeatureController@mainFeature")->name('edit-feature.post');
@@ -70,6 +69,12 @@ Route::group(['middleware' => ['isLogin']],function () {
     Route::get('/list-voucher','VoucherController@listVoucher');
     Route::post('create-voucher','VoucherController@listVoucher')->name("createvoucher.post");
     Route::get('/view-voucher','VoucherController@viewVoucher');
+    Route::get('/edit-voucher','VoucherController@editVoucher');
+    Route::get('/getVoucherById','VoucherController@getVoucherbyId');
+
+    //Deposit Account
+    Route::get('/deposit-account',"DepositAccountController@listDepositAccount");
+    Route::post('/add-deposit',"DepositAccountController@listDepositAccount")->name('addDeposit.post');
 
 });
 

@@ -198,7 +198,6 @@ class MenuController extends Controller
                 'tagcustom' => $getPost['customTagEdit']
             ];
         }
-        echo $getPost['idMenuEdit'];
 
         $editMenu_url = $this->HttpRequest->service("POST", "/menus/".$getPost['idMenuEdit'], $param);
         if(!empty($editMenu_url)){

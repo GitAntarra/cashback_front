@@ -1,6 +1,6 @@
 @extends('layouts.contentLayoutMaster')
 {{-- page title --}}
-@section('title','List Feature')
+@section('title','Feature')
 {{-- vendor styles --}}
 @section('vendor-styles')
 <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/extensions/dragula.min.css')}}">
@@ -232,6 +232,7 @@
                   idFeature : idFeature,
               },
               success: function(response) {
+                console.log(response);
                 Swal.fire({
                   type: "success",
                   title: 'Deleted!',

@@ -79,6 +79,7 @@ class FeatureController extends Controller
     {
         $postParam = $request->post();
         $idmain =  $request->get('id');
+
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 5;
 
@@ -142,22 +143,31 @@ class FeatureController extends Controller
     public function getFeatureById(Request $request)
     {
         $id = $request->get("id");
-        $view_url = $this->HttpRequest("GET","/feature/".$id, null)->json();
+        $view_url = $this->HttpRequest("GET","/feature/".$id."/m", null)->json();
 
         return $view_url;
     }
 
-    public function getsubFeature(Request $request)
+    public function getsubFeatureById(Request $request)
     {
-        $data = $this->HttpRequest("GET","/feature/".$request->get('id')."/sub",null)->json();
+        $data = $this->HttpRequest("GET","/feature/".$request->get('id')."/m",null)->json();
         
         return $data;
     }
 
-    public function deleteFeature(Request $request)
+    public function deleteFeaturemain(Request $request)
     {
         $id = $request->get('idFeature');
-        $delete_url = $this->HttpRequest("DELETE","/feature/".$id, null);
+        $delete_url = $this->HttpRequest("DELETE","/feature/".$id."/main", null);
+
+        return $delete_url;
+    }
+
+    public function deleteFeaturesub(Request $request)
+    {
+        $id = $request->get('idsubFeature');
+
+        $delete_url = $this->HttpRequest("DELETE","/feature/".$id."/sub", null);
 
         return $delete_url;
     }

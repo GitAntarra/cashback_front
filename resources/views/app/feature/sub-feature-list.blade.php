@@ -226,9 +226,9 @@
         if (result.value) {
           $.ajax({
             type  : "GET",
-            url   : "{{asset('/delete-feature')}}",
+            url   : "{{asset('/delete-subfeature')}}",
             data  : {
-                idFeature : idFeature,
+              idsubFeature : idFeature,
             },
             success: function(response) {
               Swal.fire({

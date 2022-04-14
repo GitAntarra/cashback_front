@@ -1,6 +1,9 @@
+
 @extends('layouts.contentLayoutMaster')
-{{-- title --}}
-@section('title','Bootstrap Tables')
+{{-- page Title --}}
+@section('title','Monitoring')
+{{-- vendor css --}}
+
 @section('content')
 <!-- Contextual classes start -->
 <div class="row" id="table-contexual">
