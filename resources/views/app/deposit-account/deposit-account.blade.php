@@ -1,6 +1,6 @@
 @extends('layouts.contentLayoutMaster')
 {{-- page Title --}}
-@section('title','Dashboard Ecommerce')
+@section('title','Deposit Account')
 {{-- vendor css --}}
 @section('vendor-styles')
 <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/charts/apexcharts.css')}}">
@@ -12,59 +12,78 @@
 @section('content')
 <!-- Dashboard Ecommerce Starts -->
 <section id="deposit-account">
-    <!-- Marketing Campaigns Starts -->
-    <div class="card marketing-campaigns">
-        <div class="card-header d-flex justify-content-between align-items-center pb-1">
-        <h4 class="card-title">Deposit Account</h4>
-        <button class="btn btn-sm btn-primary glow mt-md-2 mb-1" data-toggle="modal" data-target="#addModalform" title="Add Deposit Account">Add Deposit Account</button>
-        </div>
-        <div class="table-responsive">
-        <!-- table start -->
-        <table id="table-marketing-campaigns" class="table table-borderless table-marketing-campaigns mb-0">
-            <thead>
-            <tr>
-                <th>Account Number</th>
-                <th>Short Number</th>
-                <th>Account Currency</th>
-                <th>Balance</th>
-                <th class="text-center">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            @if(!empty($data_deposit) && isset($data_deposit))
-            @foreach($data_deposit as $row)
-            <tr>
-                <td class="py-1 line-ellipsis">
-                    {{$row['account_number']}}
-                </td>
-                <td class="py-1">
-                    {{$row['short_name']}}
-                </td>
-                <td class="py-1">
-                    {{$row['account_currency']}}
-                </td>
-                <td class="py-1">
-                    {{$row['balance']}}
-                </td>
-                <td class="text-center py-1">
-                <div class="dropdown">
-                    <span
-                    class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
-                    <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#"><i class="bx bx-edit-alt mr-1"></i> edit</a>
-                    <a class="dropdown-item" href="#"><i class="bx bx-trash mr-1"></i> delete</a>
-                    </div>
-                </div>
-                </td>
-            </tr>
-            @endforeach
-            @endif
-            </tbody>
-        </table>
-        <!-- table ends -->
-        </div>
+  <!-- Marketing Campaigns Starts -->
+  <div class="card marketing-campaigns">
+    <div class="card-header d-flex justify-content-between align-items-center pb-1">
+      <h4 class="card-title">Deposit Account</h4>
+      <button class="btn btn-sm btn-primary glow mt-md-2 mb-1" data-toggle="modal" data-target="#addModalform" title="Add Deposit Account">Add Deposit Account</button>
     </div>
+    <div class="table-responsive">
+      <!-- table start -->
+      <table id="table-marketing-campaigns" class="table table-borderless table-marketing-campaigns mb-0">
+        <thead>
+          <tr>
+              <th>Account Number</th>
+              <th>Short Number</th>
+              <th>Account Currency</th>
+              <th>Balance</th>
+              <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if(!empty($data_deposit) && isset($data_deposit))
+          @foreach($data_deposit as $row)
+          <tr>
+            <td class="py-1 line-ellipsis">
+                {{$row['account_number']}}
+            </td>
+            <td class="py-1">
+                {{$row['short_name']}}
+            </td>
+            <td class="py-1">
+                {{$row['account_currency']}}
+            </td>
+            <td class="py-1">
+              <?php 
+              echo "Rp " . number_format($row['balance'],2,',','.');
+              ?>
+              </td>
+            <td class="text-center py-1">
+              <div class="dropdown">
+                  <span
+                  class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
+                  <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#"><i class="bx bx-edit-alt mr-1"></i> edit</a>
+                  <a class="dropdown-item" href="#"><i class="bx bx-trash mr-1"></i> delete</a>
+                  </div>
+              </div>
+            </td>
+          </tr>
+          @endforeach
+          @endif
+        </tbody>
+      </table>
+      <!-- table ends -->
+    </div>
+    <div class="row p-2 pt-5">
+      <div class="col-sm-12 col-md-5">
+        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page  of {{$meta->page}} | {{$meta->pageCount}} Total Data : {{$meta->itemCount}}</div>
+      </div>
+      <div class="col-sm-12 col-md-7">
+        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+          <ul class="pagination">
+            <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
+                <a class="page-link" href=" "><i class='bx bx-chevrons-left'></i> Prev</a>
+            </li>
+            <li class="paginate_button page-item next <?php if($meta->hasNextPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
+                <a class="page-link" href=" ">Next<i class='bx bx-chevrons-right'></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!--Add Feature Modal -->

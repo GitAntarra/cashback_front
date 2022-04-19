@@ -89,7 +89,6 @@ class FeatureController extends Controller
             $params = [
                 'id'         => $postParam['idmainFeature'],
                 'feature_id' => $postParam['subfeatureName'],
-                'fee'        => (int) $postParam['subfeatureFee'],
                 'description'=> $postParam['description']
 
             ];
@@ -113,7 +112,6 @@ class FeatureController extends Controller
             $idmain = $postParam['idmainFeatureEdit'];
             $params = [
                 'feature_id' => $postParam['featureNameEdit'],
-                'fee'        => (int) $postParam['featureFeeEdit'],
                 'description'=> $postParam['descriptionEdit']
             ];
 
@@ -170,5 +168,14 @@ class FeatureController extends Controller
         $delete_url = $this->HttpRequest("DELETE","/feature/".$id."/sub", null);
 
         return $delete_url;
+    }
+
+    public function getsubFeature(Request $request)
+    {
+        $id = $request->get('id');
+
+        $url_get = $this->HttpRequest("GET","/feature/5ee38a1e-5e97-408b-b4f1-6eb7070ab244/sub", null)->json();
+
+        return $url_get;
     }
 }

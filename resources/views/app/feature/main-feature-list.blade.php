@@ -150,7 +150,12 @@
         <div class="col-12" id="formname">
           <label>Nama Feature </label>
           <div class="form-group">
-            <input name="featureName" id="featureName" type="text" placeholder="Feature Name" class="form-control" require>
+                <input required class="form-control" name="featureName" id="featureName" type="text" onkeyup="
+                var start = this.selectionStart;
+                var end = this.selectionEnd;
+                this.value = this.value.toUpperCase();
+                this.setSelectionRange(start, end);
+                ">
           </div>
         </div>
         <div class="col-12" id="formurl">
@@ -198,7 +203,7 @@
         url : "{{asset('/view-feature')}}?id="+idFeature,
         success : function(data){
           $('#editModalForm').modal('show');
-          $('#idFeature').val(data.id)
+          $('#idFeature').val(data.id);
           $('#featureName').val(data.feature_id);
           $('#description').val(data.description);
         }

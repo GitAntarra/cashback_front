@@ -39,7 +39,24 @@ class DepositAccountController extends Controller
             return Redirect::to('/deposit-account');
         }
 
-        $depositAccount = $this->HttpRequest("GET","/deposit-account?page=1",null);
+        if(isset($postParam['editDeposit'])){
+            $param = [
+                'account_number'    => $postParam['accountEdit'],
+                'remark'            => $postParam['remarkEdit']
+            ];
+
+            $add_url = $this->HttpRequest("POST", "/deposit-account/", $param);
+
+            if(!empty($add_url)){
+                Session::flash('success','action success');
+            }else{
+                Session::flash('failed','action failed');
+            }
+    
+            return Redirect::to('/deposit-account');
+        }
+
+        $depositAccount = $this->HttpRequest("GET","/deposit-account?page=".$page."&take=".$take,null);
 
         $data = [
             'data_deposit'  => $depositAccount['data'],

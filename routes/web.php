@@ -69,7 +69,7 @@ Route::group(['middleware' => ['isLogin']],function () {
     Route::get('/list-voucher','VoucherController@listVoucher');
     Route::post('create-voucher','VoucherController@listVoucher')->name("createvoucher.post");
     Route::get('/view-voucher','VoucherController@viewVoucher');
-    Route::get('/edit-voucher','VoucherController@editVoucher');
+    Route::post('/edit-voucher','VoucherController@viewVoucher')->name("editVoucher.post");
     Route::get('/getVoucherById','VoucherController@getVoucherbyId');
 
     //Deposit Account

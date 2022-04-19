@@ -24,6 +24,7 @@ class VoucherController extends Controller
 
         $list_channel = $this->HttpRequest("GET","/channel?page=1", null)->json();
         $list_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
+        $list_deposit = $this->HttpRequest("GET","/deposit-account?page=1",null)->json();
 
 
         $data = [
@@ -31,6 +32,7 @@ class VoucherController extends Controller
             'list_voucher' => $list_voucher,
             'list_channel' => $list_channel['data'],
             'list_feature' => $list_feature['data'],
+            'list_deposit' => $list_deposit['data'],
             'meta'         => (object) $list_voucher['meta'],
             'page'         => $page,
             'take'         => $take,
@@ -41,19 +43,22 @@ class VoucherController extends Controller
         if(isset($getPost['createVoucher'])){
             $minTrans = preg_replace("/[^0-9]/", "", $getPost['mintransaction']);
             $maxPotency = preg_replace("/[^0-9]/", "", $getPost['maxpotency']);
+            $ndate =  date("Y-m-d H:i:s", strtotime($getPost['duedate']));
 
             $param = [
                 'code'  => $getPost['vouchercode'],
                 'type'  => $getPost['type'],
                 'limit' => (int) $getPost['limit'],
-                'dueDate'   => "2022-04-08 12:57:18",
+                'dueDate'   => $ndate,
                 'minTransaction'    => (int) $minTrans,
                 'maxPotency'        => (int) $maxPotency,
                 'percent'   => (int) $getPost['percent'],
                 'maxRedeem' => (int) $getPost['maxredeem'],
+                'maxredeemperday' => (int) $getPost['maxredeemperday'],
                 'channel'   => $getPost['channel'],
                 'featuremain'   => (string) $getPost['idmainFeature'],
-                'featuresub'    => $getPost['idsubFeatureoption'] ? $getPost['idsubFeatureoption'] : ""
+                'featuresub'    => $getPost['idsubFeatureoption'] ? $getPost['idsubFeatureoption'] : "",
+                'depositaccount'=> $getPost['depositAccount'],
             ];
 
             $url_addVoucher = (object) $this->HttpRequest("POST","/vouchers", $param);
@@ -66,34 +71,32 @@ class VoucherController extends Controller
 
             return Redirect::to('/list-voucher');
         }
-
-        if(isset($getPost['editVoucher'])){
-            $minTrans = preg_replace("/[^0-9]/", "", $getPost['mintransaction']);
-            $maxPotency = preg_replace("/[^0-9]/", "", $getPost['maxpotency']);
-            
-            $param = [
-                'limit'     => (int) $getPost['limitedit'],
-                'dueDate'   => "2022-04-08 12:57:18",
-                'minTransaction'    => (int) $minTrans,
-                'maxPotency'        => (int) $maxPotency,
-            ];
-        }
         return view('app.voucher.voucher-list')->with($data);
     }
 
     public function viewVoucher(Request $request)
     {
         $id = $request->get("id");
+        $postParam = $request->post();
 
         $data_voucher = $this->HttpRequest("GET","/vouchers/".$id, null)->json();
+        $list_channel = $this->HttpRequest("GET","/channel?page=1", null)->json();
+        $list_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
+        $list_deposit = $this->HttpRequest("GET","/deposit-account?page=1",null)->json();
+
         
         $data = [
             'data'  => $data_voucher,
+            'list_channel'  => $list_channel['data'],
+            'list_feature'  => $list_feature['data'],
+            'list_deposit' => $list_deposit['data'],
         ];
 
         if(isset($postParam['editVoucher'])){
+            echo "123";
+            die;
+
             $param = [
-                'code'  => $postParam['codeVoucher'],
                 'type'  => $postParam['typeVoucher'],
                 'limit' => $postParam['limitVoucher'],
                 'dueDate'=> $postParam['dueDatevoucher'],
@@ -102,10 +105,11 @@ class VoucherController extends Controller
                 'maxRedeem'     => $postParam['maxRedeemVoucher'],
                 'channel'       => $postParam['channelVoucher'],
                 'feature'       => $postParam['featureVoucher'],
-                'subfeature'    => $postParam['subfeatureVoucher']
+                'subfeature'    => $postParam['subfeatureVoucher'],
+                'depositAccount'=> $postParam['depositAccount']
             ];
 
-            $edit_url = $this->HttpRequest("PUT");
+            $edit_url = $this->HttpRequest("PUT","/vouchers/".$id, $param);
 
             if(!empty($url_addVoucher)){
                 Session::flash('success','action success');
@@ -123,7 +127,7 @@ class VoucherController extends Controller
     {
         $id = $request->get('id');
 
-        $data_voucher = $this->HttpRequest("GET","/vouchers/".$id, null);
+        $data_voucher = $this->HttpRequest("GET","/vouchers/".$id, null)->json();
 
         return $data_voucher;
     }

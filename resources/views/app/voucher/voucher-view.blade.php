@@ -122,7 +122,8 @@
       <div class="card invoice-action-wrapper shadow-none border">
         <div class="card-body">
           <div class="invoice-action-btn">
-            <button class="btn btn-light-primary btn-block" data-toggle="modal" title="Edit Voucher" data-target="#editVoucherModal">
+            <button class="btn btn-light-primary btn-block showModalEdit" data-toggle="modal"
+              data-target="#editVoucherModal" title="Edit Voucher">
               <span>Edit Voucher</span>
             </button>
           </div>
@@ -150,7 +151,7 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{route('createvoucher.post')}}" id="form_input">
+      <form method="post" action="{{route('editVoucher.post')}}" id="form_input">
         @csrf
         <div class="col-12 pb-1">
             <div class="row">
@@ -159,7 +160,7 @@
                 </div>
                 <div class="col-9">
                 <input type="text" name="editVoucher" id="editVoucher" value="editVoucher" hidden/>
-                <input required class="form-control" name="vouchercodeEdit" id="vouchercodeEdit" placeholder="Voucher Code" type="text" onkeyup="
+                <input required class="form-control" disabled name="vouchercodeEdit" id="vouchercodeEdit"  value="{{$data['code']}}" type="text" onkeyup="
                 var start = this.selectionStart;
                 var end = this.selectionEnd;
                 this.value = this.value.toUpperCase();
@@ -174,10 +175,9 @@
                     <label>TYPE</label>
                 </div>
                 <div class="col-9">
-                  <select class="custom-select" name="typeEdit" id="typeEdit" required>
-                    <option value="">-- Choose Type --</option>
-                    <option value="CASHBACK">CASHBACK</option>
-                    <option value="DISCOUNT">DISCOUNT</option>
+                  <select class="custom-select" name="typeEdit" id="typeEdit" selected="{{$data['type']}}" required>
+                    <option value="CASHBACK" <?php if($data['type'] == "CASHBACK"){ echo "selected"; } ?>>CASHBACK</option>
+                    <option value="DISCOUNT" <?php if($data['type'] == "DISCOUNT"){ echo "selected"; } ?>>DISCOUNT</option>
                   </select>
                 </div>
             </div>
@@ -189,8 +189,9 @@
                 </div>
                 <div class="col-9">
                 <select name="channelEdit" id="channelEdit" class="custom-select" required>
-                  <option value="">-- Choose Channel --</option>
-                  
+                  @foreach ($list_channel as $row)
+                    <option value="{{$row['channel_id']}}" <?php if($data['channel']['channel_id'] == $row['channel_id']){ echo "selected"; } ?>> {{$row['channel_id']}}</option>
+                  @endforeach
                 </select>
                 </div>
             </div>
@@ -201,15 +202,27 @@
                   <label>MAIN FEATURE</label>
               </div>
               <div class="col-9">
-              <select name="idmainFeatureEdit" id="idmainFeatureEdit" class="custom-select" onchange="subFeatureSelect()" required>
-                  <option value="">-- Choose Feature --</option>
-                
+              <select name="idsubFeatureEdit" id="idsubFeatureEdit" class="custom-select" required>
+                  @foreach ($list_feature as $row)
+                  <option idmain="{{$row['id']}}" value="{{$row['feature_id']}}" <?php if($row['feature_id'] == $data['featuremain']){ echo "selected"; } ?>> {{$row['feature_id']}}</option>
+                @endforeach
               </select>
               </div>
           </div>
         </div>
-        <div class="col-12 pb-1" id="formSubFeatureEdit">
-          
+        <div class="col-12 pb-1">
+          <div class="row">
+              <div class="col-3">
+                  <label>Deposit Account</label>
+              </div>
+              <div class="col-9">
+              <select name="depositAccount" id="depositAccount" class="custom-select" required>
+                  @foreach ($list_deposit as $row)
+                  <option value="{{$row['account_number']}}" <?php if($row['account_number'] == $data['depositaccount']['account_number']){ echo "selected"; } ?>>{{$row['short_name']}} - {{$row['account_number']}}</option>
+                @endforeach
+              </select>
+              </div>
+          </div>
         </div>
         <div class="col-12 pb-1">
             <div class="row">
@@ -217,19 +230,9 @@
                     <label>QUOTA</label>
                 </div>
                 <div class="col-9">
-                    <input required type="number" name="limitEdit" id="limitEdit" class="touchspin">
+                    <input required type="number" value="{{$data['limit']}}" name="limitEdit" id="limitEdit" class="touchspin">
                 </div>
             </div>
-        </div>
-        <div class="col-12 pb-1">
-          <div class="row">
-            <div class="col-3">
-                <label for="start_date">START DATE</label>
-            </div>
-            <div class="col-9">
-              <input type="datetime-local" required name="startdateEdit" id="startdateEdit" class="form-control" min="<?= date("Y-m-dTH:i:s");?>" max="2022-11-16T21:25:33"/>
-            </div>
-          </div>
         </div>
         <div class="col-12 pb-1">
             <div class="row">
@@ -237,7 +240,7 @@
                     <label>DUE DATE</label>
                 </div>
                 <div class="col-9">
-                <input required type="datetime-local" name="duedateEdit" id="duedateEdit" class="form-control" min="1">
+                <input required type="datetime-local" name="duedateEdit" id="duedateEdit" value="{{date('Y-m-d\TH:i', strtotime($data['dueDate']))}}" class="form-control" min="1">
                 </div>
             </div>
         </div>
@@ -247,7 +250,7 @@
                     <label>MINIMAL TRANSACTION</label>
                 </div>
                 <div class="col-9">
-                    <input required type="text" name="mintransactionEdit" id="mintransactionEdit" class="form-control">
+                    <input required type="text" name="mintransactionEdit" id="mintransactionEdit" value="{{$data['minTransaction']}}" class="form-control">
                 </div>
             </div>
         </div>
@@ -257,30 +260,49 @@
                     <label>MAXIMAL CASHBACK</label>
                 </div>
                 <div class="col-9">
-                    <input required type="text" name="maxpotencyEdit" id="maxpotencyEdit" class="form-control">
+                    <input required type="text" name="maxpotencyEdit" id="maxpotencyEdit" value="{{$data['maxPotency']}}" class="form-control">
                 </div>
             </div>
         </div>
-        <div class="col-12 pb-1">
+          <div class="col-12 pb-1">
             <div class="row">
-                <div class="col-3">
-                    <label>PERCENT</label>
-                </div>
-                <div class="col-9">
-                <input required type="text" name="percentEdit" id="percentEdit" class="touchspin"  data-bts-postfix="%" />
-                </div>
+              <div class="col-3">
+                  <label>PERCENT</label>
+              </div>
+              <div class="col-9">
+              <input required type="text" name="percentEdit" id="percentEdit" class="touchspin" value="{{$data['percent']}}" data-bts-postfix="%" />
+              </div>
             </div>
-        </div>
-        <div class="col-12 pb-1">
+          </div>
+          <div class="col-12 pb-1">
             <div class="row">
-                <div class="col-3">
-                    <label>MAXIMAL REDEEM</label>
-                </div>
-                <div class="col-9">
-                    <input required type="number" name="maxredeemEdit" id="maxredeemEdit" class="touchspin" min="1" value="1">
-                </div>
+              <div class="col-3">
+                  <label>MAXIMAL REDEEM</label>
+              </div>
+              <div class="col-3">
+                  <input required type="number" name="maxredeemEdit" id="maxredeemEdit" value="{{$data['maxRedeem']}}" class="touchspin" min="1" value="1">
+              </div>
+              <div class="col-3">
+                  <label>REDEEM PER DAY</label>
+              </div>
+              <div class="col-3">
+                  <input required type="number" name="maxredeemperdayEdit" id="maxredeemperdayEdit"  class="touchspin" min="1" value="1">
+              </div>
             </div>
-        </div>
+          </div>
+          <div class="col-12 pb-1">
+            <div class="row">
+              <div class="col-3">
+                  <label>Description</label>
+              </div>
+              <div class="col-9">
+                <fieldset class="form-group">
+                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3" placeholder="Description">{{$data['description']}}</textarea>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light-secondary" data-dismiss="modal">

@@ -168,6 +168,21 @@
           
         </div>
         <div class="col-12 pb-1">
+          <div class="row">
+              <div class="col-3">
+                  <label>Deposit Account</label>
+              </div>
+              <div class="col-9">
+              <select name="depositAccount" id="depositAccount" class="custom-select" required>
+                  <option value="">-- Choose Account --</option>
+                @foreach ($list_deposit as $row)
+                  <option value="{{$row['account_number']}}">{{$row['short_name']}} - {{$row['account_number']}}</option>
+                @endforeach
+              </select>
+              </div>
+          </div>
+        </div>
+        <div class="col-12 pb-1">
             <div class="row">
                 <div class="col-3">
                     <label>QUOTA</label>
@@ -178,19 +193,9 @@
             </div>
         </div>
         <div class="col-12 pb-1">
-          <div class="row">
-            <div class="col-3">
-                <label for="start_date">START DATE</label>
-            </div>
-            <div class="col-9">
-              <input type="datetime-local" required name="startdate" id="startdate" class="form-control" min="<?= date("Y-m-dTH:i:s");?>" max="2022-11-16T21:25:33"/>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 pb-1">
             <div class="row">
                 <div class="col-3">
-                    <label>DUE DATE</label>
+                    <label>END DATE</label>
                 </div>
                 <div class="col-9">
                 <input required type="datetime-local" name="duedate" id="duedate" class="form-control" min="1">
@@ -228,16 +233,23 @@
             </div>
         </div>
         <div class="col-12 pb-1">
-            <div class="row">
-                <div class="col-3">
-                    <label>MAXIMAL REDEEM</label>
-                </div>
-                <div class="col-9">
-                    <input required type="number" name="maxredeem" id="maxredeem" class="touchspin" min="1" value="1">
-                </div>
-            </div>
+          <div class="row">
+              <div class="col-3">
+                  <label>MAXIMAL REDEEM</label>
+              </div>
+              <div class="col-3">
+                  <input required type="number" name="maxredeem" id="maxredeem" class="touchspin" min="1" value="1">
+              </div>
+              <div class="col-3">
+                  <label>REDEEM PER DAY</label>
+              </div>
+              <div class="col-3">
+                  <input required type="number" name="maxredeemperday" id="maxredeemperday" class="touchspin" min="1" value="1">
+              </div>
+          </div>
         </div>
       </div>
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
           <i class="bx bx-x d-block d-sm-none"></i>
@@ -276,11 +288,13 @@
 
   function subFeatureSelect(){
     var idFeature = $('#idmainFeature option:selected').attr('idmain');
+    console.log(idFeature);
 
     $.ajax({
       type : "GET",
       url  : "{{asset('/getsubFeature')}}?id="+idFeature,
       success : function(data){
+        console.log(data);
           $('#formSubFeature').empty();
           if(data.length !== 0){
 

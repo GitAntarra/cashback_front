@@ -41,7 +41,6 @@
               <tr>
                 <th width="5%">No. </th>
                 <th width="25%">Name</th>
-                <th width="20%">Fee</th>
                 <th width="30%">Description</th>
                 <th width="20%">Action</th>
               </tr>
@@ -53,7 +52,6 @@
               <tr>
                 <td>{{$a++}}</td>
                 <td>{{$row['feature_id']}}</td>
-                <td>{{$row['fee']}}</td>
                 <td>{{$row['description']}}</td>
                 <td>
                   <button class="btn btn-primary btn-sm EditFeatureButton" title="Edit Feature"  idFeature="{{$row['id']}}"><i class="bx bx-edit-alt"></i></button>
@@ -93,12 +91,6 @@
           <label>Sub Feature Name </label>
           <div class="form-group">
             <input name="subfeatureName" id="subfeatureName" type="text" placeholder="Sub Feature Name" class="form-control" require>
-          </div>
-        </div>
-        <div class="col-12" id="formname">
-          <label>Sub Feature Fee </label>
-          <div class="form-group">
-            <input name="subfeatureFee" id="subfeatureFee" type="number" placeholder="Sub Feature Fee (Number)" class="form-control" require>
           </div>
         </div>
         <div class="col-12" id="formurl">
@@ -146,12 +138,6 @@
           <label>Nama Feature </label>
           <div class="form-group">
             <input name="featureNameEdit" id="featureNameEdit" type="text" placeholder="Feature Name" class="form-control" require>
-          </div>
-        </div>
-        <div class="col-12" id="formname">
-          <label>Fee Feature </label>
-          <div class="form-group">
-            <input name="featureFeeEdit" id="featureFeeEdit" type="text" placeholder="Fee Name" class="form-control" require>
           </div>
         </div>
         <div class="col-12" id="formurl">
