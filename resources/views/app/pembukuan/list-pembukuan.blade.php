@@ -6,141 +6,77 @@
 <div class="row" id="basic-table">
   <div class="col-12">
     <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">Basic TablesSS</h4>
-      </div>
       <div class="card-content">
+        <div class="card-header">
+          <form method="POST" action="{{ route('statuspembukuan.post') }}">
+            @csrf
+            <div class="row justify-content-end">
+              <div class="col-lg-6 col-md-12 row">
+                <div class="input-group">
+                  <select class="custom-select" id="statusRedeem" name="statusRedeem" required>
+                    <option value="SUCCESS" {{ ($status == 'SUCCESS') ? 'selected' : '' }}>SUCCESS</option>
+                    <option value="NOTYET" {{ ($status == 'NOTYET') ? 'selected' : '' }}>NOT YET</option>
+                    <option value="FAILED" {{ ($status == 'FAILED') ? 'selected' : '' }}>FAILED</option>
+                  </select>       
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
         <div class="card-body">
-          <p class="card-text">Using the most basic table up, here’s how
-            <code>.table</code>-based tables look in Bootstrap. You can use any example
-            of below table for your table and it can be use with any type of bootstrap tables.</p>
-          <p><span class="text-bold-600">Example 1:</span> Table with outer spacing</p>
           <!-- Table with outer spacing -->
           <div class="table-responsive">
             <table class="table">
               <thead>
                 <tr>
-                  <th>NAME</th>
-                  <th>RATE</th>
-                  <th>SKILL</th>
-                  <th>TYPE</th>
-                  <th>LOCATION</th>
-                  <th>ACTION</th>
+                  <th>CODE</th>
+                  <th>CHANNEL</th>
+                  <th>DEBIT ACCOUNT</th>
+                  <th>CREDIT ACCOUNT</th>
+                  <th>REDEEM</th>
+                  <th>BOOKED</th>
                 </tr>
               </thead>
               <tbody>
+                @if(!empty($pembukuan) && isset($pembukuan))
+                @foreach($pembukuan as $row)
                 <tr>
-                  <td class="text-bold-500">Michael Right</td>
-                  <td>$15/hr</td>
-                  <td class="text-bold-500">UI/UX</td>
-                  <td>Remote</td>
-                  <td>Austin,Taxes</td>
-                  <td><a href="#"><i
-                        class="badge-circle badge-circle-light-secondary bx bx-envelope font-medium-1"></i></a></td>
+                  <td>{{$row['code']}}</td>
+                  <td>{{$row['channel']}}</td>
+                  <td>{{$row['debit_account']}}</td>
+                  <td>{{$row['credit_account']}}</td>
+                  <td><span class="badge badge-light-info">{{$row['statusRedeem']}}</span></td>
+                  <td><?php if($row['statusBook'] == "SUCCESS") { ?><span class="badge badge-light-success">{{($row['statusBook'])}}</span> <?php }else if($row['statusBook']){ ?> <span class="badge badge-light-warning">{{$row['statusBook']}}</span> <?php }else{ ?> <span class="badge badge-light-danger">{{$row['statusBook']}} <?php } ?> </span></td>
                 </tr>
+                @endforeach
+                @else
                 <tr>
-                  <td class="text-bold-500">Morgan Vanblum</td>
-                  <td>$13/hr</td>
-                  <td class="text-bold-500">Graphic concepts</td>
-                  <td>Remote</td>
-                  <td>Shangai,China</td>
-                  <td><a href="#"><i
-                        class="badge-circle badge-circle-light-secondary bx bx-envelope font-medium-1"></i></a></td>
+                  <td colspan="6" align="center">No Result Data!</td>
                 </tr>
-                <tr>
-                  <td class="text-bold-500">Tiffani Blogz</td>
-                  <td>$15/hr</td>
-                  <td class="text-bold-500">Animation</td>
-                  <td>Remote</td>
-                  <td>Austin,Texas</td>
-                  <td><a href="#"><i
-                        class="badge-circle badge-circle-light-secondary bx bx-envelope font-medium-1"></i></a></td>
-                </tr>
-                <tr>
-                  <td class="text-bold-500">Ashley Boul</td>
-                  <td>$15/hr</td>
-                  <td class="text-bold-500">Animation</td>
-                  <td>Remote</td>
-                  <td>Austin,Texas</td>
-                  <td><a href="#"><i
-                        class="badge-circle badge-circle-light-secondary bx bx-envelope font-medium-1"></i></a></td>
-                </tr>
-                <tr>
-                  <td class="text-bold-500">Mikkey Mice</td>
-                  <td>$15/hr</td>
-                  <td class="text-bold-500">Animation</td>
-                  <td>Remote</td>
-                  <td>Austin,Texas</td>
-                  <td><a href="#"><i
-                        class="badge-circle badge-circle-light-secondary bx bx-envelope font-medium-1"></i></a></td>
-                </tr>
+                @endif
               </tbody>
             </table>
           </div>
-        </div>
-        <p class="px-2"><span class="text-bold-600">Example 2:</span> Minimal Table with no outer spacing.</p>
-
-        <!-- Table with no outer spacing -->
-        <div class="table-responsive">
-          <table class="table mb-0">
-            <thead>
-              <tr>
-                <th>NAME</th>
-                <th>RATE</th>
-                <th>SKILL</th>
-                <th>TYPE</th>
-                <th>LOCATION</th>
-                <th>ACTION</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td><a href="#"><i
-                      class="badge-circle badge-circle-light-secondary bx bx-envelope font-medium-1"></i></a></td>
-              </tr>
-              <tr>
-                <td class="text-bold-500">Morgan Vanblum</td>
-                <td>$13/hr</td>
-                <td class="text-bold-500">Graphic concepts</td>
-                <td>Remote</td>
-                <td>Shangai,China</td>
-                <td><a href="#"><i
-                      class="badge-circle badge-circle-light-secondary bx bx-envelope font-medium-1"></i></a></td>
-              </tr>
-              <tr>
-                <td class="text-bold-500">Tiffani Blogz</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">Animation</td>
-                <td>Remote</td>
-                <td>Austin,Texas</td>
-                <td><a href="#"><i
-                      class="badge-circle badge-circle-light-secondary bx bx-envelope font-medium-1"></i></a></td>
-              </tr>
-              <tr>
-                <td class="text-bold-500">Ashley Boul</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">Animation</td>
-                <td>Remote</td>
-                <td>Austin,Texas</td>
-                <td><a href="#"><i
-                      class="badge-circle badge-circle-light-secondary bx bx-envelope font-medium-1"></i></a></td>
-              </tr>
-              <tr>
-                <td class="text-bold-500">Mikkey Mice</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">Animation</td>
-                <td>Remote</td>
-                <td>Austin,Texas</td>
-                <td><a href="#"><i
-                      class="badge-circle badge-circle-light-secondary bx bx-envelope font-medium-1"></i></a></td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="row pt-5">
+            <div class="col-sm-12 col-md-5">
+              <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$meta->page}} of {{$meta->pageCount}} | Total Data : {{$meta->itemCount}}</div>
+            </div>
+            <div class="col-sm-12 col-md-7">
+              <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                <ul class="pagination">
+                  <li class="paginate_button page-item previous {{ ($meta->hasPreviousPage == false) ? 'disabled' : '' }}" id="DataTables_Table_0_previous">
+                      <a class="page-link" href="<?php echo asset('/list-pembukuan').'?page='.$prevPage; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
+                  </li>
+                  <li class="paginate_button page-item next {{ ($meta->hasNextPage == false) ? 'disabled' : '' }}" id="DataTables_Table_0_next">
+                      <a class="page-link" href="<?php echo asset('/list-pembukuan').'?page='.$nextPage; ?>">Next<i class='bx bx-chevrons-right'></i></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

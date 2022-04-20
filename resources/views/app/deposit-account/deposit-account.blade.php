@@ -26,13 +26,15 @@
               <th>Account Number</th>
               <th>Short Number</th>
               <th>Account Currency</th>
+              <th>Remark</th>
               <th>Balance</th>
-              <th class="text-center">Action</th>
+              <th>Last Update</th>
+              <!-- <th class="text-center">Action</th> -->
           </tr>
         </thead>
         <tbody>
           @if(!empty($data_deposit) && isset($data_deposit))
-          @foreach($data_deposit as $row)
+          @foreach($data_deposit as $key => $row)
           <tr>
             <td class="py-1 line-ellipsis">
                 {{$row['account_number']}}
@@ -43,12 +45,20 @@
             <td class="py-1">
                 {{$row['account_currency']}}
             </td>
-            <td class="py-1">
-              <?php 
+            <td>
+              {{$row['remark']}}
+            </td>
+            <td>
+              <button class="btn updatebalance{{$key}}" data-id="{{$row['account_number']}}" index="{{$key}}" data-remark="{{$row['remark']}}"><i class="btn bx bx-show-alt"></i></button>
+              <p class="tet{{$key}}" index="{{$key}}"></p>
+              <!-- <?php 
               echo "Rp " . number_format($row['balance'],2,',','.');
-              ?>
-              </td>
-            <td class="text-center py-1">
+              ?> -->
+            </td>
+            <td>
+              {{date('d-m-Y H:i:s', strtotime($row['updated_at']))}}
+            </td>
+            <!-- <td class="text-center py-1">
               <div class="dropdown">
                   <span
                   class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
@@ -58,7 +68,7 @@
                   <a class="dropdown-item" href="#"><i class="bx bx-trash mr-1"></i> delete</a>
                   </div>
               </div>
-            </td>
+            </td> -->
           </tr>
           @endforeach
           @endif
@@ -134,6 +144,51 @@
 @endsection
 
 @section('vendor-scripts')
+<script type="text/javascript">
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  });
+
+  const formatRupiah = (money) => {
+    return new Intl.NumberFormat('id-ID',
+      { style: 'currency', currency: 'IDR', minimumFractionDigits: 2 }
+    ).format(money);
+  }
+
+  $(document).ready(function () {
+    let key = $(`.tet${index}`).attr("index");
+    $(`.updatebalance${key}`).on('click', function(){
+      let t = $(this).attr("data-id");
+      let ta = $(this).attr("data-remark");
+      let index = $(this).attr("index");
+
+      console.log(t);
+      console.log(ta);
+
+      $.ajax({
+        type: "POST",
+        url : "{{route('editdeposit.post')}}",
+        data : {
+          accountEdit : t,
+          remarkEdit : ta
+        },
+        success : function(data){
+          // console.log(data);
+          // console.log(formatRupiah(data.AVAILABLE_BAL));
+          $(`.tet${index}`).text(formatRupiah(data.AVAILABLE_BAL));
+          $(`.updatebalance${index}`).hide();
+        }
+      });
+      
+      
+
+
+    });
+  });
+
+</script>
 <script src="{{asset('vendors/js/charts/apexcharts.min.js')}}"></script>
 <script src="{{asset('vendors/js/extensions/swiper.min.js')}}"></script>
 @endsection

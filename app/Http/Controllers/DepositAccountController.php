@@ -21,6 +21,8 @@ class DepositAccountController extends Controller
         $take = $request->get('take') ? $request->get('take') : 5;
 
         $postParam = $request->post();
+
+        $depositAccount = $this->HttpRequest("GET","/deposit-account?page=".$page."&take=".$take,null);
         
         if(isset($postParam['addDeposit'])){
             $param = [
@@ -39,29 +41,25 @@ class DepositAccountController extends Controller
             return Redirect::to('/deposit-account');
         }
 
-        if(isset($postParam['editDeposit'])){
-            $param = [
-                'account_number'    => $postParam['accountEdit'],
-                'remark'            => $postParam['remarkEdit']
-            ];
-
-            $add_url = $this->HttpRequest("POST", "/deposit-account/", $param);
-
-            if(!empty($add_url)){
-                Session::flash('success','action success');
-            }else{
-                Session::flash('failed','action failed');
-            }
-    
-            return Redirect::to('/deposit-account');
-        }
-
-        $depositAccount = $this->HttpRequest("GET","/deposit-account?page=".$page."&take=".$take,null);
-
         $data = [
             'data_deposit'  => $depositAccount['data'],
             'meta'          => (object) $depositAccount['meta']
         ];
         return view('app.deposit-account.deposit-account')->with($data);
+    }
+
+    public function updateDeposit(Request $request)
+    {
+        
+        $postParam = $request->post();
+
+        $param = [
+            'account_number'    => $postParam['accountEdit'],
+            'remark'            => $postParam['remarkEdit']
+        ];
+
+        $edit = $this->HttpRequest("POST", "/deposit-account/view", $param)->json();
+
+        return $edit;
     }
 }

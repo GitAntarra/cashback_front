@@ -63,6 +63,7 @@ Route::group(['middleware' => ['isLogin']],function () {
 
     //Pembukuan
     Route::get('/list-pembukuan',"PembukuanController@listPembukuan");
+    Route::post('/list-pembukuan',"PembukuanController@listPembukuan")->name('statuspembukuan.post');
     Route::post('/retry-all',"PembukuanController@retryall")->name('retry-all.post');
 
     //Voucher Route
@@ -75,6 +76,7 @@ Route::group(['middleware' => ['isLogin']],function () {
     //Deposit Account
     Route::get('/deposit-account',"DepositAccountController@listDepositAccount");
     Route::post('/add-deposit',"DepositAccountController@listDepositAccount")->name('addDeposit.post');
+    Route::post('/edit-deposit',"DepositAccountController@updateDeposit")->name('editdeposit.post');
 
 });
 
