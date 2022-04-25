@@ -45,74 +45,163 @@
             <hr>
             <!-- invoice address and contact -->
             <div class="row invoice-info">
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Code</h6>
+                    </div>
+                    <div class="col-6">
+                      <b class="text-primary font-weight-bold">: <span class="badge badge-light-info">{{$data['code']}}</span></b>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Main Feature</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['featuremain']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Type</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['type']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Sub Feature</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['featuresub']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Limit</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['limit']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Channel</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['channel']['channel_id']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Count</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['count']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Deposit Account</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['channel']['channel_id']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Minimum Transaction</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: Rp. {{$data['minTransaction']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Maximum Reedem</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['maxRedeem']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Maximum Potency</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: Rp. {{$data['maxPotency']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Redeem per Day</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['maxDayRedeem']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Percent</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['percent']}} %</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="invoice-from">Status</h6>
+                    </div>
+                    <div class="col-6">
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['status']}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
               <div class="col-3">
-                <h6 class="invoice-from">Code</h6>
+                <h6 class="invoice-from">Deposit Account</h6>
               </div>
-              <div class="col-3">
-                <b class="text-primary font-weight-bold">: <span class="badge badge-light-info">{{$data['code']}}</span></b>
-              </div>
-              <div class="col-3">
-                <h6 class="invoice-from">Type</h6>
-              </div>
-              <div class="col-3">
-                <h6 class="text-primary font-weight-bold"><b>: {{$data['type']}}</b></h6>
-              </div>
-              <div class="col-3">
-                <h6 class="invoice-from">Limit</h6>
-              </div>
-              <div class="col-3">
-                <h6 class="text-primary font-weight-bold"><b>: {{$data['limit']}}</b></h6>
-              </div>
-              <div class="col-3">
-                <h6 class="invoice-from">Count</h6>
-              </div>
-              <div class="col-3">
-                <h6 class="text-primary font-weight-bold"><b>: {{$data['count']}}</b></h6>
-              </div>
-              <div class="col-3">
-                <h6 class="invoice-from">Minimum Transaction</h6>
-              </div>
-              <div class="col-3">
-                <h6 class="text-primary font-weight-bold"><b>: Rp. {{$data['minTransaction']}}</b></h6>
-              </div>
-              <div class="col-3">
-                <h6 class="invoice-from">Maximum Potency</h6>
-              </div>
-              <div class="col-3">
-                <h6 class="text-primary font-weight-bold"><b>: Rp. {{$data['maxPotency']}}</b></h6>
-              </div>
-              <div class="col-3">
-                <h6 class="invoice-from">Main Feature</h6>
-              </div>
-              <div class="col-3">
-                <h6 class="text-primary font-weight-bold"><b>: {{$data['featuremain']}}</b></h6>
-              </div>
-              <div class="col-3">
-                <h6 class="invoice-from">Sub Feature</h6>
-              </div>
-              <div class="col-3">
-                <h6 class="text-primary font-weight-bold"><b>: {{$data['featuresub']}}</b></h6>
-              </div>
-              <div class="col-3">
-                <h6 class="invoice-from">Percent</h6>
-              </div>
-              <div class="col-3">
-                <h6 class="text-primary font-weight-bold"><b>: {{$data['percent']}} %</b></h6>
-              </div>
-              <div class="col-3">
-                <h6 class="invoice-from">Maximum Reedem</h6>
-              </div>
-              <div class="col-3">
-                <h6 class="text-primary font-weight-bold"><b>: {{$data['maxRedeem']}}</b></h6>
+              <div class="col-9">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['depositaccount']['account_number']}} - {{$data['depositaccount']['short_name']}}</b></h6>
               </div>
               <div class="col-3">
                 <h6 class="invoice-from">Description</h6>
               </div>
-              <div class="col-12">
-                <h6 class="text-primary font-weight-bold"><b> {{$data['description']}}</b></h6>
+              <div class="col-9">
+                <p class="text-primary">: {{$data['description']}}</p>
               </div>
             </div>
-            <hr>
+
           </div>
         </div>
       </div>
@@ -151,7 +240,7 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{route('editVoucher.post')}}" id="form_input">
+      <form method="post" action="{{route('editVoucher.post')}}?id={{$data['id']}}" id="form_input">
         @csrf
         <div class="col-12 pb-1">
             <div class="row">
@@ -202,7 +291,7 @@
                   <label>MAIN FEATURE</label>
               </div>
               <div class="col-9">
-              <select name="idsubFeatureEdit" id="idsubFeatureEdit" class="custom-select" required>
+              <select name="mainFeatureEdit" onchange="showsubFeature()" id="mainFeatureEdit" class="custom-select test" required>
                   @foreach ($list_feature as $row)
                   <option idmain="{{$row['id']}}" value="{{$row['feature_id']}}" <?php if($row['feature_id'] == $data['featuremain']){ echo "selected"; } ?>> {{$row['feature_id']}}</option>
                 @endforeach
@@ -210,13 +299,16 @@
               </div>
           </div>
         </div>
+        <div class="col-12 pb-1" id="formSubFeature">
+          
+        </div>
         <div class="col-12 pb-1">
           <div class="row">
               <div class="col-3">
                   <label>Deposit Account</label>
               </div>
               <div class="col-9">
-              <select name="depositAccount" id="depositAccount" class="custom-select" required>
+              <select name="depositAccountEdit" id="depositAccountEdit" class="custom-select" required>
                   @foreach ($list_deposit as $row)
                   <option value="{{$row['account_number']}}" <?php if($row['account_number'] == $data['depositaccount']['account_number']){ echo "selected"; } ?>>{{$row['short_name']}} - {{$row['account_number']}}</option>
                 @endforeach
@@ -322,6 +414,46 @@
 
 {{-- vendor scripts --}}
 @section('vendor-scripts')
+<script type="text/javascript">
+  
+  
+
+  showsubFeature();
+
+  function showsubFeature(){
+    let idmain = $('#mainFeatureEdit').find('option:selected').attr('idmain');
+    console.log(idmain);
+    $.ajax({
+      type : "GET",
+      url  : "{{asset('/getsubFeature')}}?id="+idmain,
+      success : function(data){
+        console.log(data);
+          $('#formSubFeature').empty();
+          if(data.length !== 0){
+
+            var html = `<div class="row">
+                <div class="col-3">
+                    <label>SUB FEssATURE</label>
+                </div>
+                <div class="col-9" id="optionSelect" required>
+                  <select name="idsubFeatureoption" id="idsubFeaturepotion" class="custom-select">
+                  </select>
+                </div>
+            </div>`;
+
+            $("#formSubFeature").append(html);
+
+            for(let i=0; i<data.length;i++){
+              let id = data[i]['id'];
+              let featid = data[i]['feature_id'];
+              $('#idsubFeaturepotion').append('<option value="'+ featid +'">' + featid + '</option>');
+            }
+          }
+        }
+    });
+  }
+  
+</script>
 <script src="{{asset('vendors/js/tables/datatable/datatables.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/datatables.checkboxes.min.js')}}"></script>

@@ -40,6 +40,7 @@ Route::group(['middleware' => ['isLogin']],function () {
 
     //Channel Routes
     Route::get('/list-channel', 'ChannelController@listChannel');
+    Route::post('list-channel', "ChannelController@listChannel")->name('searchChannel.post');
     Route::post('/add-channel', "ChannelController@listChannel")->name('add-channel.post');
     Route::post('/edit-channel', "ChannelController@listChannel")->name('edit-channel.post');
     Route::get('/delete-channel',"ChannelController@deleteChannel");
@@ -47,6 +48,7 @@ Route::group(['middleware' => ['isLogin']],function () {
 
     //Feature Route
     Route::get('/main-feature',"FeatureController@mainFeature");
+    Route::post('main-feature',"FeatureController@mainFeature")->name('searhFeature.post');
     Route::get('/sub-feature',"FeatureController@subFeature");
     Route::post('/addFeature',"FeatureController@mainFeature")->name('addFeature.post');
     Route::post('/addsubFeature',"FeatureController@subFeature")->name('addsubFeature.post');
@@ -64,10 +66,11 @@ Route::group(['middleware' => ['isLogin']],function () {
     //Pembukuan
     Route::get('/list-pembukuan',"PembukuanController@listPembukuan");
     Route::post('/list-pembukuan',"PembukuanController@listPembukuan")->name('statuspembukuan.post');
-    Route::post('/retry-all',"PembukuanController@retryall")->name('retry-all.post');
+
 
     //Voucher Route
     Route::get('/list-voucher','VoucherController@listVoucher');
+    Route::post('/list-voucher',"VoucherController@listVoucher")->name("searchVoucher.post");
     Route::post('create-voucher','VoucherController@listVoucher')->name("createvoucher.post");
     Route::get('/view-voucher','VoucherController@viewVoucher');
     Route::post('/edit-voucher','VoucherController@viewVoucher')->name("editVoucher.post");

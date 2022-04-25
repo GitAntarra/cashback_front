@@ -19,7 +19,8 @@ class ChannelController extends Controller
         $postParam = $request->post();
 
         $page = $request->get('page') ? $request->get('page') : 1;
-        $take = $request->get("take") ? $request->get("take") : 3;
+        $take = $request->get('take') ? $request->get('take') : 5;
+        $key  = $request->post('keywordChannel') ? $request->post('keywordChannel') : '';
 
         $url_api = env('API_URL');
 
@@ -61,10 +62,11 @@ class ChannelController extends Controller
 
         }
 
-        $list_channel = $this->HttpRequest("GET","/channel?page=".$page."&take=".$take, null)->json();
+        $list_channel = $this->HttpRequest("GET","/channel?page=".$page."&take=".$take."&keyword=".$key, null)->json();
 
         $data = [
             "data_channel"  => $list_channel['data'],
+            "key"           => $key,
             "meta"          => (object) $list_channel['meta'],
             "take"          => $take,
             "page"          => $page,

@@ -42,15 +42,15 @@
             <td class="py-1">
                 {{$row['short_name']}}
             </td>
-            <td class="py-1">
+            <td class="py-1" align="center">
                 {{$row['account_currency']}}
             </td>
             <td>
               {{$row['remark']}}
             </td>
-            <td>
-              <button class="btn updatebalance{{$key}}" data-id="{{$row['account_number']}}" index="{{$key}}" data-remark="{{$row['remark']}}"><i class="btn bx bx-show-alt"></i></button>
-              <p class="tet{{$key}}" index="{{$key}}"></p>
+            <td align="left">
+              <button style="height:10px; width:10px;" class="btn updatebalance" id="test{{$key}}" data-id="{{$row['account_number']}}" index="{{$key}}" data-remark="{{$row['remark']}}"><i class="btn bx bx-show-alt"></i></button>
+              <p class="tet{{$key}}"  index="{{$key}}" ></p>
               <!-- <?php 
               echo "Rp " . number_format($row['balance'],2,',','.');
               ?> -->
@@ -84,10 +84,10 @@
         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
           <ul class="pagination">
             <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
-                <a class="page-link" href=" "><i class='bx bx-chevrons-left'></i> Prev</a>
+                <a class="page-link" href="<?php echo asset('/deposit-account?page=').$prevPage; ?>"><i class='bx bx-chevrons-left'></i> Prev</a>
             </li>
             <li class="paginate_button page-item next <?php if($meta->hasNextPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
-                <a class="page-link" href=" ">Next<i class='bx bx-chevrons-right'></i></a>
+                <a class="page-link" href="<?php echo asset('/deposit-account?page=').$nextPage; ?>">Next<i class='bx bx-chevrons-right'></i></a>
             </li>
           </ul>
         </div>
@@ -114,7 +114,7 @@
         <div class="col-12" id="formname">
           <label>Account Number </label>
           <div class="form-group">
-            <input name="accountNumber" id="accountNumber" type="text" placeholder="Account Number" class="form-control" require>
+            <input name="accountNumber" id="accountNumber" pattern='.{15}' type="text" placeholder="Account Number (15 Digits)" class="form-control" require>
           </div>
         </div>
         <div class="col-12" id="formurl">
@@ -158,8 +158,7 @@
   }
 
   $(document).ready(function () {
-    let key = $(`.tet${index}`).attr("index");
-    $(`.updatebalance${key}`).on('click', function(){
+    $(`.updatebalance`).on('click', function(){
       let t = $(this).attr("data-id");
       let ta = $(this).attr("data-remark");
       let index = $(this).attr("index");
@@ -175,10 +174,9 @@
           remarkEdit : ta
         },
         success : function(data){
-          // console.log(data);
-          // console.log(formatRupiah(data.AVAILABLE_BAL));
+          console.log(data);
           $(`.tet${index}`).text(formatRupiah(data.AVAILABLE_BAL));
-          $(`.updatebalance${index}`).hide();
+          $(`#test${index}`).hide();
         }
       });
       

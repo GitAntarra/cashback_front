@@ -174,7 +174,7 @@ class FeatureController extends Controller
     {
         $id = $request->get('id');
 
-        $url_get = $this->HttpRequest("GET","/feature/5ee38a1e-5e97-408b-b4f1-6eb7070ab244/sub", null)->json();
+        $url_get = $this->HttpRequest("GET","/feature/".$id."/sub", null)->json();
 
         return $url_get;
     }
