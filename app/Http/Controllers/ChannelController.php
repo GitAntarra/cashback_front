@@ -19,7 +19,7 @@ class ChannelController extends Controller
         $postParam = $request->post();
 
         $page = $request->get('page') ? $request->get('page') : 1;
-        $take = $request->get("take") ? $request->get("take") : 3;
+        $take = $request->get("take") ? $request->get("take") : 5;
 
         $url_api = env('API_URL');
 

@@ -49,7 +49,7 @@
               {{$row['remark']}}
             </td>
             <td>
-              <button class="btn updatebalance{{$key}}" data-id="{{$row['account_number']}}" index="{{$key}}" data-remark="{{$row['remark']}}"><i class="btn bx bx-show-alt"></i></button>
+              <button class="btn updatebalance" id="test{{$key}}" data-id="{{$row['account_number']}}" index="{{$key}}" data-remark="{{$row['remark']}}"><i class="btn bx bx-show-alt"></i></button>
               <p class="tet{{$key}}" index="{{$key}}"></p>
               <!-- <?php 
               echo "Rp " . number_format($row['balance'],2,',','.');
@@ -158,8 +158,7 @@
   }
 
   $(document).ready(function () {
-    let key = $(`.tet${index}`).attr("index");
-    $(`.updatebalance${key}`).on('click', function(){
+    $(`.updatebalance`).on('click', function(){
       let t = $(this).attr("data-id");
       let ta = $(this).attr("data-remark");
       let index = $(this).attr("index");
@@ -175,10 +174,10 @@
           remarkEdit : ta
         },
         success : function(data){
-          // console.log(data);
+          console.log(data);
           // console.log(formatRupiah(data.AVAILABLE_BAL));
-          $(`.tet${index}`).text(formatRupiah(data.AVAILABLE_BAL));
-          $(`.updatebalance${index}`).hide();
+          $(`.tet${index}`).text(formatRupiah("123"));
+          $(`#test${index}`).hide();
         }
       });
       

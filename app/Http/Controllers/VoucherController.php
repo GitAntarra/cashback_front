@@ -91,11 +91,7 @@ class VoucherController extends Controller
             'list_feature'  => $list_feature['data'],
             'list_deposit' => $list_deposit['data'],
         ];
-
         if(isset($postParam['editVoucher'])){
-            echo "123";
-            die;
-
             $param = [
                 'type'  => $postParam['typeVoucher'],
                 'limit' => $postParam['limitVoucher'],
