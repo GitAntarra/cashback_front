@@ -217,9 +217,9 @@
             </button>
           </div>
           <div class="invoice-action-btn pt-1">
-            <button class="btn btn-danger btn-block">
-              <i class='bx bx-trash'></i>
-              <span>Delete voucher</span>
+            <button class="btn btn-success btn-block approval">
+              <i class='bx bx-check'></i>
+              <span>Approve</span>
             </button>
           </div>
         </div>
@@ -416,6 +416,59 @@
 @section('vendor-scripts')
 <script type="text/javascript">
   
+  $('.approval').on('click', function () {
+    alert({{$data['description']}});
+      //   let idFeature = $(this).attr("idFeature");
+      //   Swal.fire({
+      //     title: 'Are you sure?',
+      //     text: "You want to delete this Feature?",
+      //     type: 'warning',
+      //     showCancelButton: true,
+      //     confirmButtonColor: '#3085d6',
+      //     cancelButtonColor: '#d33',
+      //     confirmButtonText: 'Yes, delete it!',
+      //     confirmButtonClass: 'btn btn-warning',
+      //     cancelButtonClass: 'btn btn-danger ml-1',
+      //     buttonsStyling: false,
+      //   }).then(function (result) {
+      //     if (result.value) {
+      //       $.ajax({
+      //         type  : "GET",
+      //         url   : "{{asset('/delete-feature')}}",
+      //         data  : {
+      //             idFeature : idFeature,
+      //         },
+      //         success: function(response) {
+      //           console.log(response);
+      //           Swal.fire({
+      //             type: "success",
+      //             title: 'Deleted!',
+      //             text: 'Your file has been deleted.',
+      //             confirmButtonClass: 'btn btn-success',
+      //           }).then((w) =>{
+      //               location.reload(true);
+      //           });
+      //         },
+      //         failure: function (response) {
+      //             swal(
+      //             "Internal Error",
+      //             "Oops, your note was not saved.", // had a missing comma
+      //             "error"
+      //             )
+      //         }
+      //       });
+      //     }
+      //     else if (result.dismiss === Swal.DismissReason.cancel) {
+      //       Swal.fire({
+      //         title: 'Cancelled',
+      //         text: 'Your Feature is safe :)',
+      //         type: 'error',
+      //         confirmButtonClass: 'btn btn-success',
+      //       })
+      //     }
+      //   });
+      // });
+    });
   
 
   showsubFeature();

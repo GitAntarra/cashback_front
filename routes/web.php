@@ -62,6 +62,7 @@ Route::group(['middleware' => ['isLogin']],function () {
 
     //Monitoring
     Route::get('/monitoring',"MonitoringController@listMonitoring");
+    Route::post('/monitoring',"MonitoringController@listMonitoring")->name('searchMonit.post');
 
     //Pembukuan
     Route::get('/list-pembukuan',"PembukuanController@listPembukuan");

@@ -20,6 +20,7 @@
                   </select>       
                   <div class="input-group-append">
                     <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
+                    <button type="button" class="btn btn-success"><i class="bx bx-spreadsheet text-white"> Excel</i></button>
                   </div>
                 </div>
               </div>
@@ -52,8 +53,8 @@
                   <td>{{$row['credit_account']}}</td>
                   <td>
                   <?php 
-              echo "Rp " . number_format($row['potency'],0,',','.');
-              ?>
+                  echo "Rp " . number_format($row['potency'],0,',','.');
+                  ?>
                   </td>
                   <td><span class="badge badge-light-info">{{$row['statusRedeem']}}</span></td>
                   <td><?php if($row['statusBook'] == "SUCCESS") { ?><span class="badge badge-light-success">{{($row['statusBook'])}}</span> <?php }else if($row['statusBook']){ ?> <span class="badge badge-light-warning">{{$row['statusBook']}}</span> <?php }else{ ?> <span class="badge badge-light-danger">{{$row['statusBook']}} <?php } ?> </span></td>
@@ -63,7 +64,7 @@
                       <div class="row">
                       <button class="btn btn-primary btn-sm retrybutton" id="{{$row['id']}}" code="{{$row['code']}}">Retry</button>
                         <form action="{{route('statuspembukuan.post')}}" method="POST" class="pl-1">
-                        @csrf
+                          @csrf
                           <input type="text" name="donePembukuan" id="donePembukuan" value="donePembukuan" hidden />
                           <input type="text" name="idTransactionDone" id="idTransactionDone" value="{{$row['id']}}" hidden/>
                           <input type="text" name="codeDone" id="codeDone" value="{{$row['code']}}" hidden/>
@@ -91,7 +92,7 @@
             <div class="col-sm-12 col-md-5">
               <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$meta->page}} of {{$meta->pageCount}} | Total Data : {{$meta->itemCount}}</div>
             </div>
-            <div class="col-sm-12 col-md-5">
+            <div class="col-sm-12 col-md-7">
               <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                 <ul class="pagination">
                   <li class="paginate_button page-item previous {{ ($meta->hasPreviousPage == false) ? 'disabled' : '' }}" id="DataTables_Table_0_previous">
@@ -102,9 +103,6 @@
                   </li>
                 </ul>
               </div>
-            </div>
-            <div class="col-sm-12 col-md-2 justify-content-end">
-              <button class="btn btn-primary"> Excel</button>
             </div>
           </div>
         </div>
