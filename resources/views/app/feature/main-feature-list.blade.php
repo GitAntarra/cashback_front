@@ -70,7 +70,7 @@
             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$page}} of {{$meta->pageCount}} | Total Data : {{$meta->itemCount}}</div>
           </div>
           <div class="col-sm-12 col-md-7">
-          <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
             <ul class="pagination">
               <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
                   <a class="page-link" href="<?php echo asset('/main-feature').'?page='.$prevPage.'&take='.$take; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
@@ -79,8 +79,8 @@
                   <a class="page-link" href="<?php echo asset('/main-feature').'?page='.$nextPage.'&take='.$take; ?>">Next<i class='bx bx-chevrons-right'></i></a>
               </li>
             </ul>
+            </div>
           </div>
-        </div>
         </div>
     </div>
   </div>

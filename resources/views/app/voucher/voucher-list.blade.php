@@ -21,9 +21,17 @@
       <div class="row justify-content-end">
         <div class="col-lg-8 col-md-12 row">
           <div class="input-group">
-            <input type="text" Placeholder="Search" class="form-control">   
+            <form action="{{route('searchVoucher.post')}}" method="POST">
+              @csrf
+            <input type="text" name="keyword" id="keyword" value="{{$keys}}" Placeholder="Search" class="form-control">
+            <select name="stsApproved" id="stsApproved" class="custom-select">
+              @foreach($sts_approved as $key=>$row)
+                <option value="{{$key}}" {{($sts_aprv == $key) ? 'selected' : ''}}>{{$row}}</option>
+              @endforeach
+            </select>
             <div class="input-group-append">
               <button type="submit" class="btn btn-primary" title="Find"><i class="bx bx-search text-white"> Find</i></button>
+            </form>
               <button type="button" class="btn btn-info" data-toggle="modal"
               data-target="#addVoucherModal" title="Add Feature"><i class="bx bx-plus text-white">Add Voucher</i></button>
             </div>

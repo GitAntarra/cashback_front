@@ -43,7 +43,9 @@ class DepositAccountController extends Controller
 
         $data = [
             'data_deposit'  => $depositAccount['data'],
-            'meta'          => (object) $depositAccount['meta']
+            'meta'          => (object) $depositAccount['meta'],
+            'prevPage'      => (int) $page - 1,
+            'nextPage'      => (int) $page + 1
         ];
         return view('app.deposit-account.deposit-account')->with($data);
     }
