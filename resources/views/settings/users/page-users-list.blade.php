@@ -17,16 +17,18 @@
       <div class="card-content">
         <div class="card-header">
           <div class="col-7">
+            <form action="{{route('searchUser.post')}}" method="POST">
+              @csrf
               <div class="col-12 pt-1">
                 <div class="row">
                   <div class="col-md-3">
-                    <label class="pt-1">Working Unit</label>
+                    <label class="pt-1">LEVEL</label>
                   </div>  
                   <div class="col-md-9">
                     <fieldset class="form-group">
-                      <select class="custom-select" id="basicSelect">
-                        @foreach($work_unit as $key => $value)
-                          <option value="{{$key}}">{{$value}}</option>
+                      <select class="custom-select" name="levelFilter" id="basicSelect">
+                        @foreach($opt_level as $key => $value)
+                          <option value="{{$key}}" {{($level_filter == $key) ? 'selected' : '' }}>{{$value}}</option>
                         @endforeach
                       </select>
                     </fieldset>
@@ -40,9 +42,9 @@
                   </div>  
                   <div class="col-md-9">
                     <fieldset class="form-group">
-                      <select class="custom-select" id="statusSelect">
+                      <select class="custom-select" name="statusFilter" id="statusFilter">
                         @foreach ($status as $key => $value)
-                          <option value="{{$key}}">{{$value}}</option>
+                          <option value="{{$key}}" {{($status_filter == $key) ? 'selected' : '' }}>{{$value}}</option>
                         @endforeach
                       </select>
                     </fieldset>
@@ -55,7 +57,7 @@
                     <label class="pt-1">Keyword</label>
                   </div>  
                   <div class="col-md-9">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" name="keyword" id="keyword" value="{{ ($keyword) ? $keyword : '' }}">
                   </div>
                 </div>
               </div>
@@ -64,12 +66,13 @@
                   <div class="col-md-3">
                   </div>  
                   <div class="col-md-9">
-                  <button type="submit" title="Find User" class="btn btn-primary glow mr-sm-1 mb-1"><i class="bx bx-search"></i> Find</button>
+                  <button type="submit" name="finduser" value="1" title="Find User" class="btn btn-primary glow mr-sm-1 mb-1"><i class="bx bx-search"></i> Find</button>
                   <button type="submit" title="Show All User" class="btn btn-success glow mr-sm-1 mb-1"><i class="bx bx-list-ul"></i> Show All</button>
                   <a href="{{asset('page-users-add')}}" title="Add User" class="btn btn-warning glow mr-sm-1 mb-1"><i class="bx bx-plus"></i> Add</a>
                   </div>
                 </div>
               </div>
+              </form>
             </div>
           </div>
         </div>
@@ -121,15 +124,15 @@
           </div>
           <div class="row pt-5">
         <div class="col-sm-12 col-md-5">
-          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$meta->currentPage}} of {{$meta->totalPages}} | Total Data : {{$meta->totalItems}}</div>
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$meta->page}} of {{$meta->pageCount}} | Total Data : {{$meta->itemCount}}</div>
         </div>
         <div class="col-sm-12 col-md-7">
           <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
             <ul class="pagination">
-              <li class="paginate_button page-item previous <?php if($page == 1){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
+              <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage != 1){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
                   <a class="page-link" href="<?php echo asset('/user-management').'?page='.$prevPage.'&take='.$limit; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
               </li>
-              <li class="paginate_button page-item next <?php if($page == $meta->totalPages){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
+              <li class="paginate_button page-item next <?php if($meta->hasNextPage != 1){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
                   <a class="page-link" href="<?php echo asset('/user-management').'?page='.$nextPage.'&take='.$limit; ?>">Next<i class='bx bx-chevrons-right'></i></a>
               </li>
             </ul>

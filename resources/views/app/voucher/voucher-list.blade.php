@@ -256,6 +256,42 @@
               </div>
           </div>
         </div>
+        <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>CHECKER</label>
+                </div>
+                <div class="col-9">
+                <select name="checkerEdit" id="checkerEdit" class="custom-select" required>
+                    <option value="tes">checker</option>
+                </select>
+                </div>
+            </div>
+          </div>
+          <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>SIGNER</label>
+                </div>
+                <div class="col-9">
+                <select name="signerEdit" id="signerEdit" class="custom-select" required>
+                    <option value="tes">signer</option>
+                </select>
+                </div>
+            </div>
+          </div>
+          <div class="col-12 pb-1">
+            <div class="row">
+              <div class="col-3">
+                  <label>Description</label>
+              </div>
+              <div class="col-9">
+                <fieldset class="form-group">
+                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3" placeholder="Description"> </textarea>
+                </fieldset>
+              </div>
+            </div>
+          </div>
       </div>
       
       <div class="modal-footer">

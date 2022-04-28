@@ -104,6 +104,22 @@ class VoucherController extends Controller
 
 
 
+        if(isset($postParam['approveVoucher'])){
+            $param = [
+                'status'    => $postParam['statusVoucher'],
+            ];
+
+            $approve_url = $this->HttpRequest("PUT","/vouchers/".$id, $param);
+
+            if(!empty($approve_url)){
+                Session::flash('success','Action Success');
+            }else{
+                Session::flash('failed','Action Failed');
+            }
+
+            return Redirect::to('/view-voucher?id='.$id);
+        }
+
         if(isset($postParam['editVoucher'])){
             $param = [
                 'type'  => $postParam['typeEdit'],

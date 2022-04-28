@@ -217,10 +217,18 @@
             </button>
           </div>
           <div class="invoice-action-btn pt-1">
-            <button class="btn btn-success btn-block approval">
+            <form action="{{route('editVoucher.post')}}?id={{$data['id']}}" method="POST">
+            @csrf
+            <input type="text" name="statusVoucher" id="statusVoucher" value="{{$data['status']}}" hidden />
+            <button type="submit" name="approveVoucher" value="1" class="btn btn-success btn-block approval">
               <i class='bx bx-check'></i>
               <span>Approve</span>
             </button>
+            <button type="button" name="rejectVoucher" value="1" class="btn btn-danger btn-block reject">
+              <i class='bx bx-x'></i>
+              <span>Reject</span>
+            </button>
+            </form>
           </div>
         </div>
       </div>
@@ -380,6 +388,30 @@
               <div class="col-3">
                   <input required type="number" name="maxredeemperdayEdit" id="maxredeemperdayEdit"  class="touchspin" min="1" value="1">
               </div>
+            </div>
+          </div>
+          <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>CHECKER</label>
+                </div>
+                <div class="col-9">
+                <select name="checkerEdit" id="checkerEdit" class="custom-select" required>
+                    <option value="tes">checker</option>
+                </select>
+                </div>
+            </div>
+          </div>
+          <div class="col-12 pb-1">
+            <div class="row">
+                <div class="col-3">
+                    <label>SIGNER</label>
+                </div>
+                <div class="col-9">
+                <select name="signerEdit" id="signerEdit" class="custom-select" required>
+                    <option value="tes">signer</option>
+                </select>
+                </div>
             </div>
           </div>
           <div class="col-12 pb-1">

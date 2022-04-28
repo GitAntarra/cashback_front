@@ -18,6 +18,9 @@ class UsersController extends Controller
 
     $page = $request->get('page') ? $request->get('page') : 1;
     $limit = $request->get('limit') ? $request->get('limit') : 5;
+    $status_filter = $request->post('statusFilter')  ? $request->post('statusFilter') : 'ALL';
+    $level_filter = $request->post('levelFilter') ? $request->post('levelFilter') : 'ALL';
+    $key  = $request->post('keyword') ? $request->post('keyword') : '';
 
     $url_api = env('API_URL');
 
@@ -30,7 +33,7 @@ class UsersController extends Controller
     $nextPage = (int) $page + 1;
     $prevPage = (int) $page - 1;
 
-    $data_user = $this->HttpRequest("GET", "/users/shows?page=".$page."&limit=".$limit, null)->json();
+    $data_user = $this->HttpRequest("GET", "/users?page=".$page."&take=".$limit."&level=".$level_filter."&status=".$status_filter."&keyword=".$key, null)->json();
 
     $data = [
       'msg'   => '',
@@ -38,26 +41,30 @@ class UsersController extends Controller
       'meta'  => (object) $data_user['meta'],
       'limit' => $limit,
       'page'  => $page,
+      'status_filter'    => $status_filter,
+      'level_filter'  =>$level_filter,
+      'keyword'   => $key,
       'nextPage'  => $nextPage,
       'prevPage'  => $prevPage, 
       'number'    => (int) ($page * $limit) - ($limit - 1),
-      "buttonprev"    => "<button class='page-link'><a href='".$url_api."/users/shows?page=".$prevPage."&limit=".$limit."'><i class='bx bx-chevrons-left'></i>Prev</a></button>", 
-      "buttonnext"    => "<button class='page-link'><a href='".$url_api."/users/shows?page=".$nextPage."&limit=".$limit."'><i class='bx bx-chevrons-right'></i>Next</a></button>", 
-    ];
+   ];
 
     $data['status'] = [
-      'ACTIVE'  => 'ACTIVE',
-      'SUSPEND' => 'SUSPEND',
+      'ALL'       => 'ALL',
+      'ACTIVED'   => 'ACTIVE',
+      'SUSPEND'   => 'SUSPEND',
       'INACTIVE'  => 'INACTIVE'
     ];
-    $data['work_unit'] = [
-      'KP'  => 'KANTOR PUSAT',
-      'KW'  => 'KANTOR WILAYAH',
-      'KC'  => 'KANTOR CABANG',
-      'KCP' => 'KANTOR CABANG PEMBANTU',
-      'KCK' => 'KANTOR CABANG KHUSUS',
-      'UN'  => 'KANTOR UNIT'
-    ];
+
+    $data['opt_level'] = [
+      'ALL'           => 'ALL',
+      'MAKER'         => 'MAKER',
+      'CHECKER'       => 'CHECKER',
+      'SIGNER'        => 'SIGNER',
+      'ADMINISTRATOR' => 'ADMINISTRATOR',
+      'SUPERADMIN'    => 'SUPERADMIN',
+      'DEVELOPER'     => 'DEVELOPER'
+    ];  
 
     return view('settings.users.page-users-list')->with($data);
   }
@@ -98,10 +105,6 @@ class UsersController extends Controller
     $data = [
       'detail_user' => $detail_user,
     ];
-    // echo "<pre>";
-    // print_r($detail_user);
-    // die;
-
 
     return view('settings.users.page-users-view')->with($data);
   }

@@ -19,8 +19,9 @@ class FeatureController extends Controller
         $postParam = $request->post();
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 5;
+        $key  = $request->post('keyword') ? $request->post('keyword') : '';
 
-        $data_feature = $this->HttpRequest("GET", "/feature?page=".$page."&take=".$take, null)->json();
+        $data_feature = $this->HttpRequest("GET", "/feature?page=".$page."&take=".$take."&keyword=".$key, null)->json();
 
 
         if(isset($postParam['addFeature']))
@@ -70,6 +71,7 @@ class FeatureController extends Controller
             "number"        => (int) ($page * $take)-($take -1),
             'prevPage'      => (int) $page - 1,
             'nextPage'      => (int) $page + 1,
+            'keyword'       => $key,
         ];
 
         return view('app.feature.main-feature-list')->with($data);

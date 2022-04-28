@@ -16,6 +16,7 @@ Route::group(['middleware' => ['isLogin']],function () {
 
     // User Route 
     Route::get('/user-management','UsersController@listuser');
+    Route::post('/user-management','UsersController@listuser')->name('searchUser.post');
     Route::get('/page-users-view','UsersController@viewUser');
     Route::get('/page-users-edit','UsersController@editUser');
     Route::get('/page-users-add','UsersController@addUser');
@@ -48,7 +49,7 @@ Route::group(['middleware' => ['isLogin']],function () {
 
     //Feature Route
     Route::get('/main-feature',"FeatureController@mainFeature");
-    Route::post('main-feature',"FeatureController@mainFeature")->name('searhFeature.post');
+    Route::post('/main-feature',"FeatureController@mainFeature")->name('searhFeature.post');
     Route::get('/sub-feature',"FeatureController@subFeature");
     Route::post('/addFeature',"FeatureController@mainFeature")->name('addFeature.post');
     Route::post('/addsubFeature',"FeatureController@subFeature")->name('addsubFeature.post');
@@ -228,11 +229,6 @@ Route::get('/access-control', 'AccessController@index');
 Route::get('/access-control/{roles}', 'AccessController@roles');
 Route::get('/ecommerce', 'AccessController@home')->middleware('role:Admin');
 
-
-// Test
-Route::get('/andra-table', 'TestController@index');
-Route::get('/test', 'TestController@test');
-// Route::get('/attemp-login', 'AuthController@attemplogin');
 
 Auth::routes();
 

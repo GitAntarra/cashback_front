@@ -21,11 +21,13 @@
       <div class="row justify-content-end">
         <div class="col-lg-8 col-md-12 row">
           <div class="input-group">
-            <input type="text" Placeholder="Search" class="form-control">   
+            <form action="{{route('searhFeature.post')}}" method="POST">
+            <input type="text" name="keyword" Placeholder="Search" class="form-control" value="{{($keyword) ? $keyword : '' }}">   
             <div class="input-group-append">
-              <button type="submit" class="btn btn-primary" title="Find"><i class="bx bx-search text-white"> Find</i></button>
+              <button name="findfeature" value="1" type="submit" class="btn btn-primary" title="Find"><i class="bx bx-search text-white"> Find</i></button>
               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModalform" title="Add Feature"><i class="bx bx-plus text-white">Add Feature</i></button>
             </div>
+            </form>
           </div>
         </div>
       </div>

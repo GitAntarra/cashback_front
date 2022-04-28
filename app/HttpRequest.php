@@ -135,12 +135,4 @@ class HttpRequest extends Model
           return $response;
       }
     }
-
-
-
-    // public function login(Request $response){
-    //     $response = (object) Http::withHeaders([
-    //         'app-owner' => '$(@uRn]*v`g[(^]LC)cR~?_<^YjcG?/X^9FH6Tg(j-SMmw+wd9t+r'
-    //       ])->post('http://172.18.135.224:3004/auth/signin', $req_param);
-    // }
 }
