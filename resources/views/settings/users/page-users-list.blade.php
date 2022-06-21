@@ -118,6 +118,10 @@
                     class="bx bx-edit-alt"></i></a></td>
                     </tr>
                       @endforeach
+                @else
+                <td colspan="8" align="center">
+                No Result Data!
+                </td>
                 @endif
               </tbody>
             </table>

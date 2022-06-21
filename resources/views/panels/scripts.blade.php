@@ -9,6 +9,7 @@
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.min.js')}}"></script>
     <script src="{{asset('js/scripts/extensions/toastr.js')}}"></script>
     <script src="{{asset('vendors/js/extensions/toastr.min.js')}}"></script>
+    <script src="{{asset('assets/select2/js/select2.min.js')}}"></script>
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
@@ -45,6 +46,7 @@
                 toastr.show(message,"Cashback");
             }           
         }
+
     </script>
     <!-- END: Theme JS-->
 

@@ -22,7 +22,7 @@ class HttpRequest extends Model
       $this->BRISTARS2KEY = env("BRISTARS2KEY");
     }
 
-    function authpekerja()
+  function authpekerja()
 	{
 		try{
 			$param 		= array(
@@ -110,6 +110,7 @@ class HttpRequest extends Model
       $api_url = env("API_URL").$endpoint;
       $token = Session::get("accessToken");
       $response = Http::withToken($token);
+      
 
       // echo $method;
 
@@ -132,6 +133,33 @@ class HttpRequest extends Model
             return Redirect::to('/auth-login');
           }
           echo "<pre>";
+          return $response;
+      }
+    }
+
+    public function registerfunction($method, $endpoint, $param = [])
+    {
+      // print_r($param['pernr']);die;
+      $api_url = env("API_URL").$endpoint;
+      $token = Session::get("accessToken");
+      $response = Http::withHeaders([
+          'Content-Type' => 'application/json',
+          'app-owner' => '$(@uRn]*v`g[(^]LC)cR~?_<^YjcG?/X^9FH6Tg(j-SMmw+wd9t+r'
+      ])->post($api_url, $param);
+
+      if($response->status() == 401){
+          abort(401);
+      }elseif($response->status() == 502){
+        return Redirect::to('/auth-login');
+      }elseif($response->status() == 404){
+          abort(404);
+      }elseif($response->status() == 400){
+          abort(333, 'validations');
+      }elseif($response->status() == 403){
+          abort(333, $response['message'] ? $response['message'] : 'unknowerror');
+      }elseif($response->failed()){
+          abort(333, 'error');
+      }else{
           return $response;
       }
     }

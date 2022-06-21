@@ -63,7 +63,12 @@ class AuthenticationController extends Controller
             Session::put('accessToken', $response['accessToken']);
             Session::put('set_userdata', $response['user']);
             Session::put('userMenu', $response['menu']);
+            // echo "<pre>";
+            // $test = session()->get('set_userdata');
+            // print_r($test['level']);
+            // die;
             return redirect('/');
+            
         }else{
             return redirect('/auth-login');
         }

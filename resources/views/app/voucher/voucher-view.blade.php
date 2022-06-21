@@ -26,9 +26,15 @@
               </div>
               <div class="col-xl-8 col-md-12">
                 <div class="d-flex align-items-center justify-content-xl-end flex-wrap">
-                  <div>
+                  <!-- <div>
                     <small class="text-muted">Date Due :</small>
                     <span class="text-primary font-weight-bold">{{date('d-m-Y', strtotime($data['dueDate']))}}</span>
+                  </div> -->
+                  <div class="custom-control custom-switch custom-control-inline mb-1">
+                    <input type="checkbox" class="custom-control-input" {{($data['isActive'] == 'ACTIVE') ? 'checked' : ''}} id="stsActive" idvoucher="{{$data['id']}}">
+                    <label class="custom-control-label mr-1" for="stsActive">
+                    </label>
+                    <span>Active</span>
                   </div>
                 </div>
               </div>
@@ -121,7 +127,7 @@
                       <h6 class="invoice-from">Deposit Account</h6>
                     </div>
                     <div class="col-6">
-                      <h6 class="text-primary font-weight-bold"><b>: {{$data['channel']['channel_id']}}</b></h6>
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['depositaccount']['account_number']}}</b></h6>
                     </div>
                   </div>
                 </div>
@@ -211,30 +217,109 @@
       <div class="card invoice-action-wrapper shadow-none border">
         <div class="card-body">
           <div class="invoice-action-btn">
+            @if($sess_user['level'] == 'SUPERADMIN' || $sess_user['level'] == 'MAKER')
             <button class="btn btn-light-primary btn-block showModalEdit" data-toggle="modal"
               data-target="#editVoucherModal" title="Edit Voucher">
               <span>Edit Voucher</span>
             </button>
+            @else
+            <span class="badge badge-light-{{($data['status'] == 'REJECTED') ? 'danger' : 'info'}} btn-block">{{$data['status']}}</span>
+            @endif
           </div>
           <div class="invoice-action-btn pt-1">
-            <form action="{{route('editVoucher.post')}}?id={{$data['id']}}" method="POST">
-            @csrf
+
+            @if($sess_user['level'] == 'SUPERADMIN' || ($sess_user['level'] == 'CHECKER' && ($data['status'] == 'CREATED' || $data['status'] == 'UPDATED')) || ($sess_user['level'] == 'SIGNER' && $data['status'] == 'CHECKED'))
             <input type="text" name="statusVoucher" id="statusVoucher" value="{{$data['status']}}" hidden />
-            <button type="submit" name="approveVoucher" value="1" class="btn btn-success btn-block approval">
+            <button type="button" idVoucher="{{$data['id']}}" data-toggle="modal"
+              data-target="#Approvalvoucher" title="Approve Voucher" class="btn btn-success btn-block">
               <i class='bx bx-check'></i>
               <span>Approve</span>
             </button>
-            <button type="button" name="rejectVoucher" value="1" class="btn btn-danger btn-block reject">
+            <button type="button" idVoucher="{{$data['id']}}" data-toggle="modal"
+              data-target="#RejectVoucher" title="Reject Voucher" class="btn btn-danger btn-block">
               <i class='bx bx-x'></i>
               <span>Reject</span>
             </button>
-            </form>
+            @endif
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!--scrolling content Approval Modal Voucher-->
+<div class="modal fade text-left" id="Approvalvoucher" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">You want to Accept this Voucher?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="bx bx-x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form method="post" action="{{route('editVoucher.post')}}?id={{$data['id']}}" id="form_input">
+        @csrf
+        <input type="text" value="APPROVED" name="statusVoch" hidden />
+        <div class="col-12 pb-1">
+          <fieldset class="form-group">
+              <textarea class="form-control" id="remarkApproval" name="remarkApproval" rows="3" placeholder="Minimum 10 Characters"></textarea>
+          </fieldset>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
+          <i class="bx bx-x d-block d-sm-none"></i>
+          <span class="d-none d-sm-block">Close</span>
+        </button>
+        <button type="submit" name="ApproveVoucher" value="1" class="btn btn-success ml-1">
+          <i class="bx bx-check d-block d-sm-none"></i>
+          <span class="d-none d-sm-block">Approve</span>
+        </button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--scrolling content Reject Modal Voucher-->
+<div class="modal fade text-left" id="RejectVoucher" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">You want to Reject this Voucher?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="bx bx-x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form method="post" action="{{route('editVoucher.post')}}?id={{$data['id']}}" id="form_input">
+        @csrf
+        <input type="text" value="REJECTED" name="statusVoch" hidden />
+        <div class="col-12 pb-1">
+          <fieldset class="form-group">
+              <textarea class="form-control" id="remarkApproval" name="remarkApproval" rows="3" placeholder="Minimum 10 Characters"></textarea>
+          </fieldset>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
+          <i class="bx bx-x d-block d-sm-none"></i>
+          <span class="d-none d-sm-block">Close</span>
+        </button>
+        <button type="submit" name="ApproveVoucher" value="1" class="btn btn-success ml-1">
+          <i class="bx bx-check d-block d-sm-none"></i>
+          <span class="d-none d-sm-block">Reject</span>
+        </button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!--scrolling content Edit Modal Voucher-->
 <div class="modal fade text-left" id="editVoucherModal" tabindex="-1" role="dialog"
@@ -317,9 +402,9 @@
               </div>
               <div class="col-9">
               <select name="depositAccountEdit" id="depositAccountEdit" class="custom-select" required>
-                  @foreach ($list_deposit as $row)
-                  <option value="{{$row['account_number']}}" <?php if($row['account_number'] == $data['depositaccount']['account_number']){ echo "selected"; } ?>>{{$row['short_name']}} - {{$row['account_number']}}</option>
-                @endforeach
+                  @if(isset($data['depositaccount']['account_number']) && !empty($data['depositaccount']['account_number'])) 
+                  <option value="{{$data['depositaccount']['account_number']}}">{{$data['depositaccount']['account_number']}} - {{$data['depositaccount']['short_name']}}</option>
+                  @endif
               </select>
               </div>
           </div>
@@ -386,31 +471,35 @@
                   <label>REDEEM PER DAY</label>
               </div>
               <div class="col-3">
-                  <input required type="number" name="maxredeemperdayEdit" id="maxredeemperdayEdit"  class="touchspin" min="1" value="1">
+                  <input required type="number" name="maxredeemperdayEdit" id="maxredeemperdayEdit"  class="touchspin" min="1" value="{{$data['maxDayRedeem']}}">
               </div>
             </div>
           </div>
           <div class="col-12 pb-1">
-            <div class="row">
-                <div class="col-3">
-                    <label>CHECKER</label>
-                </div>
-                <div class="col-9">
-                <select name="checkerEdit" id="checkerEdit" class="custom-select" required>
-                    <option value="tes">checker</option>
-                </select>
-                </div>
+            <div class="form-group row">
+              <div class="col-3">
+                  <label>CHECKER</label>
+              </div>
+              <div class="col-9">
+                  <select name="checkerpnEdit" id="checkerpnEdit" class="form-control" required>
+                    @if(isset($data['checker']['pernr']) && !empty($data['checker']['pernr']))
+                      <option value="{{$data['checker']['pernr']}}">{{$data['checker']['pernr']}} - {{$data['checker']['name']}}</option>
+                    @endif
+                  </select>
+              </div>
             </div>
-          </div>
+        </div>
           <div class="col-12 pb-1">
             <div class="row">
                 <div class="col-3">
                     <label>SIGNER</label>
                 </div>
                 <div class="col-9">
-                <select name="signerEdit" id="signerEdit" class="custom-select" required>
-                    <option value="tes">signer</option>
-                </select>
+                  <select name="signerpnEdit" id="signerpnEdit" class="form-control" required>
+                    @if(isset($data['signer']['pernr']) && !empty($data['signer']['pernr']))
+                      <option value="{{$data['signer']['pernr']}}">{{$data['signer']['pernr']}} - {{$data['signer']['name']}}</option>
+                    @endif
+                  </select>
                 </div>
             </div>
           </div>
@@ -447,72 +536,162 @@
 {{-- vendor scripts --}}
 @section('vendor-scripts')
 <script type="text/javascript">
-  
-  $('.approval').on('click', function () {
-    alert({{$data['description']}});
-      //   let idFeature = $(this).attr("idFeature");
-      //   Swal.fire({
-      //     title: 'Are you sure?',
-      //     text: "You want to delete this Feature?",
-      //     type: 'warning',
-      //     showCancelButton: true,
-      //     confirmButtonColor: '#3085d6',
-      //     cancelButtonColor: '#d33',
-      //     confirmButtonText: 'Yes, delete it!',
-      //     confirmButtonClass: 'btn btn-warning',
-      //     cancelButtonClass: 'btn btn-danger ml-1',
-      //     buttonsStyling: false,
-      //   }).then(function (result) {
-      //     if (result.value) {
-      //       $.ajax({
-      //         type  : "GET",
-      //         url   : "{{asset('/delete-feature')}}",
-      //         data  : {
-      //             idFeature : idFeature,
-      //         },
-      //         success: function(response) {
-      //           console.log(response);
-      //           Swal.fire({
-      //             type: "success",
-      //             title: 'Deleted!',
-      //             text: 'Your file has been deleted.',
-      //             confirmButtonClass: 'btn btn-success',
-      //           }).then((w) =>{
-      //               location.reload(true);
-      //           });
-      //         },
-      //         failure: function (response) {
-      //             swal(
-      //             "Internal Error",
-      //             "Oops, your note was not saved.", // had a missing comma
-      //             "error"
-      //             )
-      //         }
-      //       });
-      //     }
-      //     else if (result.dismiss === Swal.DismissReason.cancel) {
-      //       Swal.fire({
-      //         title: 'Cancelled',
-      //         text: 'Your Feature is safe :)',
-      //         type: 'error',
-      //         confirmButtonClass: 'btn btn-success',
-      //       })
-      //     }
-      //   });
-      // });
-    });
-  
 
+$.fn.select2.defaults.set( "theme", "bootstrap" );
+
+
+$('#depositAccountEdit').select2(
+    {
+    width: '100%',
+    dropdownParent: $("#editVoucherModal"),
+    placeholder: 'Search for a Debit Account',
+    minimumInputLength: 1,
+		ajax: {
+      method : "GET",
+      url: "{{asset('/get-depositaccount')}}",
+      dataType: "JSON", 
+      data: function (params) {
+        console.log(params.term);
+        return {
+          keyword: params.term
+        };
+      },
+      processResults: function (data, params) {
+        console.log(data)
+        return {
+          results: data
+        };
+      },
+    cache: true,
+  }
+	});
+
+$('#signerpnEdit').select2({
+  width: '100%',
+  dropdownParent: $("#editVoucherModal"),
+  placeholder: 'Search for a Signer',
+  minimumInputLength: 5,
+  ajax: {
+    method : "GET",
+    url: "{{asset('/get-signer')}}",
+    dataType: "JSON", 
+    data: function (params) {
+      return {
+        signerpn: params.term
+      };
+    },
+    processResults: function (data, params) {
+      console.log(data);
+      return {
+        results: data.result
+      };
+    },
+  cache: true,
+}
+});
+
+$('#checkerpnEdit').select2({
+  width: '100%',
+  dropdownParent: $("#editVoucherModal"),
+  placeholder: 'Search for a Checker',
+  minimumInputLength: 5,
+  ajax: {
+    method : "GET",
+    url: "{{asset('/get-checker')}}",
+    dataType: "JSON", 
+    data: function (params) {
+      return {
+        search: params.term
+      };
+    },
+    processResults: function (data, params) {
+      console.log(data);
+      return {
+        results: data.result
+      };
+    },
+  cache: true,
+}
+});
+
+  $("#stsActive").click(function(e) {
+    let idvoucher = $(this).attr("idvoucher");
+    console.log(idvoucher);
+    // $.ajax({
+    //   type: "GET",
+    //   url : 
+    // });
+  });
+
+
+  
+  // $('.approvalVoucher').on('click', function () {
+  //       let idVoucher = $(this).attr("idvoucher");
+  //       let status    = $(this).attr("value");
+  //       Swal.fire({
+  //         title: 'Are you sure?',
+  //         text: "You want to Accept this Voucher?",
+  //         type: 'warning',
+  //         showCancelButton: true,
+  //         confirmButtonColor: '#3085d6',
+  //         cancelButtonColor: '#d33',
+  //         confirmButtonText: 'Yes, Accept it!',
+  //         confirmButtonClass: 'btn btn-warning',
+  //         cancelButtonClass: 'btn btn-danger ml-1',
+  //         buttonsStyling: false,
+  //       }).then(function (result) {
+  //         console.log(idVoucher);
+  //         if (result.value) {
+  //           $.ajax({
+  //             type  : "GET",
+  //             url   : "{{asset('/status-voucher')}}",
+  //             data  : {
+  //                 idVoucher : idVoucher,
+  //                 statusVoch : status 
+  //             },
+  //             success: function(response) {
+  //               console.log(response);
+  //               Swal.fire({
+  //                 type: "success",
+  //                 title: 'Accepted!',
+  //                 text: 'Vouher has been Accepted.',
+  //                 confirmButtonClass: 'btn btn-success',
+  //               }).then((w) =>{
+  //                   location.reload(true);
+  //               });
+  //             },
+  //             failure: function (response) {
+  //                 swal(
+  //                 "Internal Error",
+  //                 "Oops, your note was not saved.", // had a missing comma
+  //                 "error"
+  //                 )
+  //             }
+  //           });
+  //         }
+  //         else if (result.dismiss === Swal.DismissReason.cancel) {
+  //           Swal.fire({
+  //             title: 'Cancelled',
+  //             text: 'Your Voucher is safe :)',
+  //             type: 'error',
+  //             confirmButtonClass: 'btn btn-success',
+  //           })
+  //         }
+  //       });
+  //     });
+
+  // $('.rejectVoucher').on('click', function () {
+  //   let status = $(this).attr('value');
+  //   alert (status);
+  // })
   showsubFeature();
 
   function showsubFeature(){
     let idmain = $('#mainFeatureEdit').find('option:selected').attr('idmain');
-    console.log(idmain);
     $.ajax({
       type : "GET",
       url  : "{{asset('/getsubFeature')}}?id="+idmain,
       success : function(data){
-        console.log(data);
           $('#formSubFeature').empty();
           if(data.length !== 0){
 
@@ -543,6 +722,7 @@
 <script src="{{asset('vendors/js/tables/datatable/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/datatables.checkboxes.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/responsive.bootstrap.min.js')}}"></script>  
 <script src="{{asset('vendors/js/forms/spinner/jquery.bootstrap-touchspin.js')}}"></script>
 @endsection

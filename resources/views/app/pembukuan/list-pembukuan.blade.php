@@ -8,24 +8,80 @@
     <div class="card">
       <div class="card-content">
         <div class="card-header">
-          <form method="POST" action="{{route('statuspembukuan.post')}}">
-            @csrf
-            <div class="row justify-content-end">
-              <div class="col-lg-6 col-md-12 row">
-                <div class="input-group">
-                  <select class="custom-select" id="statusRedeem" name="statusRedeem" required>
-                    <option value="SUCCESS" {{ ($status == 'SUCCESS') ? 'selected' : '' }}>SUCCESS</option>
-                    <option value="NOTYET" {{ ($status == 'NOTYET') ? 'selected' : '' }}>NOT YET</option>
-                    <option value="FAILED" {{ ($status == 'FAILED') ? 'selected' : '' }}>FAILED</option>
-                  </select>       
-                  <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
-                    <button type="button" class="btn btn-success"><i class="bx bx-spreadsheet text-white"> Excel</i></button>
+          <div class="col-7">
+            <form action="{{route('statuspembukuan.post')}}" method="POST">
+              @csrf
+              <div class="col-12 pt-1">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label class="pt-1">CHANNEL</label>
+                  </div>
+                  <div class="col-md-9">
+                    <fieldset class="form-group">
+                      <select class="form-control" name="channelopt" id="channelopt">
+                        @if(isset($channel) && !empty($channel))
+                          <option value="{{$channel}}">{{$channel}}</option>
+                        @endif
+                      </select>
+                    </fieldset>
                   </div>
                 </div>
               </div>
+              <div class="col-12 pt-1">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label class="pt-1">Status</label>
+                  </div>  
+                  <div class="col-md-9">
+                    <fieldset class="form-group">
+                      <select class="custom-select" name="statusRedeem" id="statusRedeem">
+                        <option value="SUCCESS" {{ ($status == 'SUCCESS') ? 'selected' : '' }}>SUCCESS</option>
+                        <option value="NOTYET" {{ ($status == 'NOTYET') ? 'selected' : '' }}>NOT YET</option>
+                        <option value="FAILED" {{ ($status == 'FAILED') ? 'selected' : '' }}>FAILED</option>
+                      </select>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 pt-1">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label class="pt-1">Deposit Account</label>
+                  </div>  
+                  <div class="col-md-9">
+                  <fieldset class="form-group">
+                      <select class="form-control" name="debit_account" id="debit_account">
+                        @if(isset($debit_account) && !empty($debit_account))
+                          <option value="{{$debit_account}}">{{$debit_account}}</option>
+                        @endif
+                      </select>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 pt-1">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label class="pt-1">Keyword</label>
+                  </div>  
+                  <div class="col-md-9">
+                    <input type="text" class="form-control" name="keyword" id="keyword" value="{{ ($keyword) ? $keyword : '' }}">
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 pt-1">
+                <div class="row">
+                  <div class="col-md-3">
+                  </div>  
+                  <div class="col-md-9">
+                  <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
+                  <button type="submit" name="downloadexcel" value="1" class="btn btn-success"><i class="bx bx-spreadsheet text-white"> Excel</i></button>
+                  </div>
+                </div>
+              </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
         <div class="card-body">
           <!-- Table with outer spacing -->
@@ -35,7 +91,8 @@
                 <tr>
                   <th>CODE</th>
                   <th>CHANNEL</th>
-                  <th>DEBIT ACCOUNT</th>
+                  <th>ID TRANSAKSI</th>
+                  <th>DEPOSIT ACCOUNT</th>
                   <th>CREDIT ACCOUNT</th>
                   <th>POTENCY</th>
                   <th>REDEEM</th>
@@ -49,6 +106,7 @@
                 <tr>
                   <td>{{$row['code']}}</td>
                   <td>{{$row['channel']}}</td>
+                  <td>{{$row['id']}}</td>
                   <td>{{$row['debit_account']}}</td>
                   <td>{{$row['credit_account']}}</td>
                   <td>
@@ -56,15 +114,16 @@
                   echo "Rp " . number_format($row['potency'],0,',','.');
                   ?>
                   </td>
-                  <td><span class="badge badge-light-info">{{$row['statusRedeem']}}</span></td>
+                  <td><span class="badge badge-light-info">{{$row['statusBook']}}</span></td>
                   <td><?php if($row['statusBook'] == "SUCCESS") { ?><span class="badge badge-light-success">{{($row['statusBook'])}}</span> <?php }else if($row['statusBook']){ ?> <span class="badge badge-light-warning">{{$row['statusBook']}}</span> <?php }else{ ?> <span class="badge badge-light-danger">{{$row['statusBook']}} <?php } ?> </span></td>
                   <?php if($row['statusBook'] == "FAILED"){
                     ?>
                     <td>
                       <div class="row">
-                      <button class="btn btn-primary btn-sm retrybutton" id="{{$row['id']}}" code="{{$row['code']}}">Retry</button>
+                        <button class="btn btn-primary btn-sm retrybutton" id="{{$row['id']}}" code="{{$row['code']}}">Retry</button>
                         <form action="{{route('statuspembukuan.post')}}" method="POST" class="pl-1">
                           @csrf
+                          <input type="text" name="statusRedeem" value="FAILED" hidden />
                           <input type="text" name="donePembukuan" id="donePembukuan" value="donePembukuan" hidden />
                           <input type="text" name="idTransactionDone" id="idTransactionDone" value="{{$row['id']}}" hidden/>
                           <input type="text" name="codeDone" id="codeDone" value="{{$row['code']}}" hidden/>
@@ -82,7 +141,7 @@
                 @endforeach
                 @else
                 <tr>
-                  <td colspan="6" align="center">No Result Data!</td>
+                  <td colspan="7" align="center">No Result Data!</td>
                 </tr>
                 @endif
               </tbody>
@@ -126,6 +185,7 @@
       <form action="{{route('statuspembukuan.post')}}" method="post">
           @csrf
         <input type="text" name="retryPembukuan" id="retryPembukuan" value="retryPembukuan" hidden> 
+        <input type="text" name="statusRedeem" value="FAILED" hidden />
         <input type="text" name="idTransactionRetry" id="idTransactionRetry" hidden/>
         <input type="text" name="codeRetry" id="codeRetry" hidden/>
         <input type="text" name="statusRedeem" id="statusRedeem" value="{{$status}}" hidden />
@@ -169,14 +229,131 @@
       let id = $(this).attr("id");
       let code = $(this).attr("code");
 
-      console.log(id);
-      console.log(code);
-
 
       $('#retryModalform').modal('show');
       $('#idTransactionRetry').val(id);
       $('#codeRetry').val(code);
     });
+
+    // $('#downloadexcel').on('click', function(){
+      // alert("123");
+
+      // $.ajax({
+      //     url: "{{asset('/testdownload')}}",
+      //     contentType: "json",
+      //     cache: false,
+      //     method: "GET",
+      //     xhr: function() {
+      //         var xhr = new XMLHttpRequest();
+      //         xhr.onreadystatechange = function() {
+      //             if (xhr.readyState == 2) {
+      //               xhr.responseType = "blob";
+      //               if (xhr.status == 200) {
+      //                 } else {
+      //                     xhr.responseType = "text";
+      //                 }
+      //             }
+      //         };
+      //         return xhr;
+      //     },
+      //     success: function(data) {
+      //       // console.log(data);
+      //         var blob = new Blob([data], {
+      //             type: ""
+      //         });
+      //         var isIE = false || !!document.documentMode;
+      //         // console.log(isIE);
+      //         if (isIE) {
+      //           console.log("123");
+      //             window.navigator.msSaveBlob(blob, "test.xlsx");
+      //         } else {
+      //           console.log("321");
+      //             var url = window.URL || window.webkitURL;
+      //             link = url.createObjectURL(blob);
+      //             var a = $("<a />");
+      //             a.attr("download", "download.xlsx");
+      //             a.attr("href", link);
+      //             $("body").append(a);
+      //             a[0].click();
+      //             $("body").remove(a);
+      //         }
+      //     }
+      // });
+
+      // $.ajax({
+      //   method: 'GET',
+      //   url: "{{asset('/testdownload')}}",
+      //   // dataType: 'json',
+      //   success: function (data) {
+      //       console.log(data);
+      //       var blob = new Blob([data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+
+      //       // saveAs(blob,"sadsadas.xlsx");
+      //       window.navigator.msSaveBlob(blob, "test.xlsx");
+      //   },
+      //   error: function(err){
+          
+      //     console.log(err);
+      //   }
+      // });
+    // });
+
   });
+
+  $('#select2').select2({});
+  $.fn.select2.defaults.set( "theme", "bootstrap");
+  
+
+  $('#channelopt').select2(
+    {
+    width: '100%',
+    placeholder: 'Search for a Channel',
+    minimumInputLength: 1,
+    allowClear: true,
+		ajax: {
+      method : "GET",
+      url: "{{asset('/get-channelopt')}}",
+      dataType: "JSON", 
+      data: function (params) {
+        console.log(params.term);
+        return {
+          channelopt: params.term
+        };
+      },
+      processResults: function (data, params) {
+        console.log(data)
+        return {
+          results: data
+        };
+      },
+    cache: true,
+  }
+	});
+
+  $('#debit_account').select2(
+    {
+    width: '100%',
+    placeholder: 'Search for a Debit Account',
+    minimumInputLength: 1,
+    allowClear: true,
+		ajax: {
+      method : "GET",
+      url: "{{asset('/get-depositaccount')}}",
+      dataType: "JSON", 
+      data: function (params) {
+        console.log(params.term);
+        return {
+          keyword: params.term
+        };
+      },
+      processResults: function (data, params) {
+        console.log(data)
+        return {
+          results: data
+        };
+      },
+    cache: true,
+  }
+	});
 </script>
 @endsection

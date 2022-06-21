@@ -14,9 +14,24 @@
 <section id="deposit-account">
   <!-- Marketing Campaigns Starts -->
   <div class="card marketing-campaigns">
-    <div class="card-header d-flex justify-content-between align-items-center pb-1">
-      <h4 class="card-title">Deposit Account</h4>
-      <button class="btn btn-sm btn-primary glow mt-md-2 mb-1" data-toggle="modal" data-target="#addModalform" title="Add Deposit Account">Add Deposit Account</button>
+    <div class="card-header">
+        <form method="POST" action="{{route('searhDepositAccount.post')}}">
+            @csrf
+            <div class="row justify-content-end">
+              <div class="col-lg-10 col-md-12 row">
+                <div class="input-group">
+                  <input type="text" class="form-control" name="keyword" id="keyword" placeholder="Search..." {{($keyword) ? 'value='.$keyword : '' }}>      
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
+                    <button type="button" class="btn btn-success"><i class="bx bx-plus text-white" data-toggle="modal"
+              data-target="#addModalform" title="Add Deposit Account"> Add</i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+      <!-- <h4 class="card-title">Deposit Account</h4>
+      <button class="btn btn-sm btn-primary glow mt-md-2 mb-1" data-toggle="modal" data-target="#addModalform" title="Add Deposit Account">Add Deposit Account</button> -->
     </div>
     <div class="table-responsive">
       <!-- table start -->
@@ -71,6 +86,8 @@
             </td> -->
           </tr>
           @endforeach
+          @else
+          <td colspan="6" align="center">No Result Data!</td>
           @endif
         </tbody>
       </table>
@@ -174,9 +191,16 @@
           remarkEdit : ta
         },
         success : function(data){
-          console.log(data);
-          $(`.tet${index}`).text(formatRupiah(data.AVAILABLE_BAL));
-          $(`#test${index}`).hide();
+          console.log(data.AVAILABLE_BAL);
+          if(data.AVAILABLE_BAL){
+            $(`.tet${index}`).text(formatRupiah(data.AVAILABLE_BAL));
+            $(`#test${index}`).hide();
+          }else{
+            $(`.tet${index}`).text("Undifned");
+            $(`#test${index}`).hide();
+            console.log("123");
+          }
+          
         }
       });
       

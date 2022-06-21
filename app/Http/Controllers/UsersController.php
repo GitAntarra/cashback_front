@@ -137,7 +137,15 @@ class UsersController extends Controller
       'description' => $request->post('description'),
     ];
     
-    $result = $this->HttpRequest->service("POST", "/users/register", $param);
+    $result = $this->HttpRequest->registerfunction("POST", "/users/register", $param);
+
+    if(isset($result['statusCode'])){
+      return redirect('/auth-login')->with(['error' => $result['message']]);
+    }else{
+      return redirect('/auth-login')->with(['success' => 'Successfully Register']);
+    }
+
+    
   }
 
    //user edit

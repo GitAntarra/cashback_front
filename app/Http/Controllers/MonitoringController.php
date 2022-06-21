@@ -14,6 +14,26 @@ class MonitoringController extends Controller
         $this->HttpRequest = new HttpRequest;  
     }
 
+    public function monitdownload(){
+        $url_download = $this->Downloadfile("GET","/bookkeeping?page=1&take=5&status=SUCCESS&keyword=&debit_account=", null)->json();
+
+        $data = (array) $url_download['data'];
+        $filename = date("Y-m-d").".csv";
+
+        header('Content-type: application/csv');
+        header('Content-Disposition: attachment; filename=' . $filename);
+        header("Content-Transfer-Encoding: UTF-8");
+
+        $f = fopen('php://output', 'a');
+        fputcsv($f, array_keys($data[0]));
+
+        foreach ($data as $row) 
+        {
+            fputcsv($f, $row);
+        }
+        fclose($f);
+    }
+
     public function listMonitoring(Request $request){
         $getpost = $request->post();
 

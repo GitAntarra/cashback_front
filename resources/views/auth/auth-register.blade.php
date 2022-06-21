@@ -22,7 +22,7 @@
             </div>
             <div class="card-content">
               <div class="card-body">
-                <form >
+                <form method="POST" action="{{route('register.post')}}">
                   @csrf
                     <div class="form-group mb-50">
                         <label>Personal Number</label>
@@ -56,9 +56,14 @@
                       <label>Branch</label>
                       <input type="text" name="branch" id="branch" class="form-control" readonly />
                     </div>
-                    <a href="{{asset('/')}}" class="btn btn-primary glow position-relative w-100">SIGN UP<i
-                      id="icon-arrow" class="bx bx-right-arrow-alt"></i>
-                    </a>
+                    <div class="form-group mb-50">
+                      <label for="Description">Description</label>
+                      <fieldset class="form-group">
+                        <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description" required></textarea>
+                    </fieldset> 
+                    </div>
+                    <button type="submit" class="btn btn-primary glow position-relative w-100">SIGN UP<i
+                      id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
                 </form>
                 <hr>
                 <div class="text-center"><small class="mr-25">Already have an account?</small>
@@ -106,7 +111,7 @@
 						$('#ajax-loader').hide();
             console.log(res)
 						if(!res.error){
-              console.log("abvc");
+              toastr.success("User Data Found","Cashback");
 							$("#pernr").val(res.PERSONAL_NUMBER);
 							$("#pernr").attr('readonly', true);
 							$("#name").val(res.NAMA);
@@ -116,9 +121,12 @@
 							$("#position").val(res.DESC_POSISI);
 							$("#btn_cari").attr('disabled', true);
 						}else{
-              toastr.show("Data User Tidak Ditemukan","CASHBACK")
-						}
-					}
+              toastr.error("User Data Not Found","Cashback");
+            }
+					},
+          error:function(){
+            toastr.error("Personal Number Not Found","Cashback");
+          }
 				});
 			}
 

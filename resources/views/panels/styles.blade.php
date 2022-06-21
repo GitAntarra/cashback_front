@@ -19,6 +19,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/components.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/themes/dark-layout.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/themes/semi-dark-layout.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/select2/css/select2-bootstrap.min.css')}}">
     @if($configData['direction'] === 'rtl')
     <link rel="stylesheet" type="text/css" href="{{asset('css/custom-rtl.css')}}">
     @endif

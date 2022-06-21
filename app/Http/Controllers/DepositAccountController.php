@@ -19,10 +19,11 @@ class DepositAccountController extends Controller
         
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 5;
+        $keyword = $request->post('keyword') ? $request->post('keyword') : '';
 
         $postParam = $request->post();
 
-        $depositAccount = $this->HttpRequest("GET","/deposit-account?page=".$page."&take=".$take,null);
+        $depositAccount = $this->HttpRequest("GET","/deposit-account?page=".$page."&take=".$take."&keyword=".$keyword,null);
         
         if(isset($postParam['addDeposit'])){
             $param = [
@@ -45,7 +46,8 @@ class DepositAccountController extends Controller
             'data_deposit'  => $depositAccount['data'],
             'meta'          => (object) $depositAccount['meta'],
             'prevPage'      => (int) $page - 1,
-            'nextPage'      => (int) $page + 1
+            'nextPage'      => (int) $page + 1,
+            'keyword'       => $keyword,
         ];
         return view('app.deposit-account.deposit-account')->with($data);
     }

@@ -6,10 +6,10 @@
       <li class="nav-item mr-auto">
           <a class="navbar-brand" href="{{asset('/')}}">
           <div class="brand-logo">
-            <img src="{{asset('images/logo/logo.png')}}" class="logo" alt="">
+            <img src="{{asset('images/logo/test.png')}}" class="logo" alt="">
           </div>
           <h2 class="brand-text mb-0">
-            SUGAR
+            PROCASH
           </h2>
           </a>
       </li>

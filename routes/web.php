@@ -20,6 +20,8 @@ Route::group(['middleware' => ['isLogin']],function () {
     Route::get('/page-users-view','UsersController@viewUser');
     Route::get('/page-users-edit','UsersController@editUser');
     Route::get('/page-users-add','UsersController@addUser');
+    Route::get('/get-checker','VoucherController@getChecker');
+    Route::get('/get-signer','VoucherController@getSigner');
 
 
     //Menu Route
@@ -64,10 +66,14 @@ Route::group(['middleware' => ['isLogin']],function () {
     //Monitoring
     Route::get('/monitoring',"MonitoringController@listMonitoring");
     Route::post('/monitoring',"MonitoringController@listMonitoring")->name('searchMonit.post');
+    Route::get('/monitdownload',"MonitoringController@monitdownload");
 
     //Pembukuan
     Route::get('/list-pembukuan',"PembukuanController@listPembukuan");
     Route::post('/list-pembukuan',"PembukuanController@listPembukuan")->name('statuspembukuan.post');
+    Route::get('/get-channelopt',"PembukuanController@getChannelopt");
+    Route::get('/get-depositaccount',"PembukuanController@getDepositAccount");
+    Route::get('/testdownload',"PembukuanController@testdownload");
 
 
     //Voucher Route
@@ -77,9 +83,13 @@ Route::group(['middleware' => ['isLogin']],function () {
     Route::get('/view-voucher','VoucherController@viewVoucher');
     Route::post('/edit-voucher','VoucherController@viewVoucher')->name("editVoucher.post");
     Route::get('/getVoucherById','VoucherController@getVoucherbyId');
+    Route::get('/status-voucher',"VoucherController@statusVoucher");
+    Route::get('/testtos','VoucherController@testtt');
+    Route::get('/active-inActive',"VoucherController@activeInactive");
 
     //Deposit Account
     Route::get('/deposit-account',"DepositAccountController@listDepositAccount");
+    Route::post('/deposit-account',"DepositAccountController@listDepositAccount")->name('searhDepositAccount.post');
     Route::post('/add-deposit',"DepositAccountController@listDepositAccount")->name('addDeposit.post');
     Route::post('/edit-deposit',"DepositAccountController@updateDeposit")->name('editdeposit.post');
 
@@ -94,7 +104,7 @@ Route::group(['middleware' => ['isLogin']],function () {
     // User Route 
     Route::post('getEmployee','UsersController@getEmployeeId')->name('getEmployee.post');
     Route::post('saveUpdateUser', 'UsersController@saveUpdate')->name('edituser.post');
-    Route::post('registUser', 'UserController@regiter')->name('register.post');
+    Route::post('/registUser', 'UsersController@registerUser')->name('register.post');
     Route::post('/adduser','UsersController@saveUser')->name('adduser.post');
 
 

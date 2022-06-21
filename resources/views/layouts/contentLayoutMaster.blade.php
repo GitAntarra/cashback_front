@@ -32,7 +32,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <title>@yield('title') - Promo Cashback</title>
     <link rel="apple-touch-icon" href="{{asset('images/ico/apple-icon-120.png')}}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/ico/logo_bri_small.png')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo/test.png')}}">
 
     {{-- Include core + vendor Styles --}}
     @include('panels.styles')
