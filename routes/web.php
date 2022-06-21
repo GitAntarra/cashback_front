@@ -1,5 +1,6 @@
-<?php
+ <?php
 use App\Http\Controllers\LanguageController;
+use Illuminate\Support\Facades\Redis;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,47 +13,104 @@ use App\Http\Controllers\LanguageController;
 */
 // Cashback Routes
 Route::group(['middleware' => ['isLogin']],function () {
-    Route::get('/user-management','UserManagementController@list');
+
+    // User Route 
+    Route::get('/user-management','UsersController@listuser');
+    Route::get('/page-users-view','UsersController@viewUser');
+    Route::get('/page-users-edit','UsersController@editUser');
+    Route::get('/page-users-add','UsersController@addUser');
+
+
+    //Menu Route
+    Route::get('/menu-list','MenuController@listMenu');
+    Route::post('getOption','MenuController@showOption')->name('getOption.post');
+    Route::get('detailMenu','MenuController@detailListMenu')->name('detailMenu');
+    Route::post('addhrefMenu','MenuController@detailListMenu')->name('addhrefMenu.post');
+    Route::post('getHref',"MenuController@showHref")->name('getHref.post');
+    Route::post('addMenu', "MenuController@listMenu")->name('addMenu.post');
+    Route::post('editMenu', "MenuController@listMenu")->name('editMenu.post');
+    Route::get('/viewMenu',"MenuController@getMenuById");
+    Route::get('/delete-menu',"MenuController@deleteMenu");
 
     // Andra Route start from here
     Route::get('/menu-select','MenuController@selectionmenu');
     Route::post('/menu-select','MenuController@selectionmenu');
     Route::get('/manage-coupon','CouponController@index');
     Route::post('/manage-coupon','CouponController@index');
+
+    //Channel Routes
+    Route::get('/list-channel', 'ChannelController@listChannel');
+    Route::post('list-channel', "ChannelController@listChannel")->name('searchChannel.post');
+    Route::post('/add-channel', "ChannelController@listChannel")->name('add-channel.post');
+    Route::post('/edit-channel', "ChannelController@listChannel")->name('edit-channel.post');
+    Route::get('/delete-channel',"ChannelController@deleteChannel");
+    Route::get('/view-channel',"ChannelController@getChannelById");
+
+    //Feature Route
+    Route::get('/main-feature',"FeatureController@mainFeature");
+    Route::post('main-feature',"FeatureController@mainFeature")->name('searhFeature.post');
+    Route::get('/sub-feature',"FeatureController@subFeature");
+    Route::post('/addFeature',"FeatureController@mainFeature")->name('addFeature.post');
+    Route::post('/addsubFeature',"FeatureController@subFeature")->name('addsubFeature.post');
+    Route::get('/delete-feature',"FeatureController@deleteFeaturemain");
+    Route::get('/delete-subfeature',"FeatureController@deleteFeaturesub");
+    Route::get('/view-feature',"FeatureController@getFeatureById");
+    Route::get('/view-subfeature',"FeatureController@getsubFeatureById");
+    Route::post('/edit-feature',"FeatureController@mainFeature")->name('edit-feature.post');
+    Route::post('/edit-subfeature',"FeatureController@subFeature")->name('edit-subfeature.post');
+    Route::get('/getsubFeature', "FeatureController@getsubFeature");
+
+    //Monitoring
+    Route::get('/monitoring',"MonitoringController@listMonitoring");
+    Route::post('/monitoring',"MonitoringController@listMonitoring")->name('searchMonit.post');
+
+    //Pembukuan
+    Route::get('/list-pembukuan',"PembukuanController@listPembukuan");
+    Route::post('/list-pembukuan',"PembukuanController@listPembukuan")->name('statuspembukuan.post');
+
+
+    //Voucher Route
+    Route::get('/list-voucher','VoucherController@listVoucher');
+    Route::post('/list-voucher',"VoucherController@listVoucher")->name("searchVoucher.post");
+    Route::post('create-voucher','VoucherController@listVoucher')->name("createvoucher.post");
+    Route::get('/view-voucher','VoucherController@viewVoucher');
+    Route::post('/edit-voucher','VoucherController@viewVoucher')->name("editVoucher.post");
+    Route::get('/getVoucherById','VoucherController@getVoucherbyId');
+
+    //Deposit Account
+    Route::get('/deposit-account',"DepositAccountController@listDepositAccount");
+    Route::post('/add-deposit',"DepositAccountController@listDepositAccount")->name('addDeposit.post');
+    Route::post('/edit-deposit',"DepositAccountController@updateDeposit")->name('editdeposit.post');
+
+});
+
+    // Authentication  Route
+    Route::get('/auth-login','AuthenticationController@loginPage')->name('loginform');
+    Route::post('/attemp-login', 'AuthenticationController@attemplogin');
+    Route::get('/auth-register','AuthenticationController@registerPage');
+    Route::get('/logout','AuthenticationController@logout');
+
+    // User Route 
+    Route::post('getEmployee','UsersController@getEmployeeId')->name('getEmployee.post');
+    Route::post('saveUpdateUser', 'UsersController@saveUpdate')->name('edituser.post');
+    Route::post('registUser', 'UserController@regiter')->name('register.post');
+    Route::post('/adduser','UsersController@saveUser')->name('adduser.post');
+
+
+ 
+Route::get('/publish', function () {
+    // ...
+ 
+    Redis::publish('redistest', json_encode([
+        'name' => 'Adam Wathan'
+    ]));
 });
 
 
 
 // dashboard Routes
 Route::get('/','DashboardController@dashboard')->middleware("isLogin");
-Route::get('/menu-list','SetMenu@menuList');
-Route::get('/menu-selected','SetMenu@menuSelect');
 Route::get('/dashboard-analytics','DashboardController@dashboardAnalytics');
-
-// User Route 
-Route::get('/user-management','UsersController@listuser')->middleware("isLogin");
-Route::get('/page-users-view','UsersController@viewUser')->middleware("isLogin");
-Route::get('/page-users-edit','UsersController@editUser')->middleware("isLogin");
-Route::get('/page-users-add','UsersController@addUser')->middleware("isLogin");
-Route::post('/adduser','UsersController@saveUser')->name('adduser.post')->middleware("isLogin");
-Route::post('getEmployee','UsersController@getEmployeeId')->name('getEmployee.post');
-Route::post('saveUpdateUser', 'UsersController@saveUpdate')->name('edituser.post')->middleware("isLogin");
-Route::post('registUser', 'UserController@regiter')->name('register.post');
-
-//Voucher Route
-Route::get('/list-voucher','VoucherController@listVoucher')->middleware("isLogin");
-Route::post('create-voucher','VoucherController@listVoucher')->name("createvoucher.post")->middleware("isLogin");
-Route::get('/view-voucher','VoucherController@viewVoucher')->middleware("isLogin");
-
-//Menu Route
-Route::get('/menu-list','MenuController@listMenu')->middleware("isLogin");
-Route::get('/menu-selected','MenuController@selectedMenu')->middleware("isLogin");
-Route::post('getOption','MenuController@showOption')->name('getOption.post')->middleware("isLogin");
-Route::get('detailMenu','MenuController@detailListMenu')->name('detailMenu')->middleware("isLogin");
-Route::post('addhrefMenu','MenuController@detailListMenu')->name('addhrefMenu.post')->middleware("isLogin");
-Route::post('getHref',"MenuController@showHref")->name('getHref.post')->middleware("isLogin");
-Route::post('addMenu', "MenuController@listMenu")->name('addMenu.post')->middleware("isLogin");
-Route::post('editMenu', "MenuController@listMenu")->name('editMenu.post')->middleware("isLogin");
 
 //Application Routes
 Route::get('/app-email','ApplicationController@emailApplication');
@@ -135,13 +193,10 @@ Route::get('/page-search','PageController@searchPage');
 Route::get('/page-account-settings','PageController@accountSettingPage');
 
 // Authentication  Route
-Route::get('/auth-login','AuthenticationController@loginPage')->name('loginform');
-Route::post('/attemp-login', 'AuthenticationController@attemplogin');
-Route::get('/auth-register','AuthenticationController@registerPage');
 Route::get('/auth-forgot-password','AuthenticationController@forgetPasswordPage');
 Route::get('/auth-reset-password','AuthenticationController@resetPasswordPage');
 Route::get('/auth-lock-screen','AuthenticationController@authLockPage');
-Route::get('/logout','AuthenticationController@logout');
+
 // Miscellaneous
 Route::get('/page-coming-soon','MiscellaneousController@comingSoonPage');
 Route::get('/error-404','MiscellaneousController@error404Page');

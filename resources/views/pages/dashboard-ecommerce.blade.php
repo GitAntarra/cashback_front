@@ -14,7 +14,7 @@
 <!-- Dashboard Ecommerce Starts -->
 <section id="dashboard-ecommerce">
     <div class="row">
-      <!-- Greetings Content Starts -->
+      <!-- Greetings Content Starts -->l
       <div class="col-xl-4 col-md-6 col-12 dashboard-greetings">
         <div class="card">
           <div class="card-header">

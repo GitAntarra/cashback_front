@@ -77,7 +77,7 @@
                     <div class="col-12 col-sm-6">
                         <div class="form-group">
                             <label>Level</label>
-                            <select class="form-control" id="level" name="level" required>
+                            <select class="custom-select" id="level" name="level" required>
                               @foreach ($opt_level as $key => $value) 
                               <option value="{{ $key }}" {{ ( $key == $selectedLevel) ? 'selected' : '' }}>  
                                 {{ $value }}  
@@ -87,7 +87,7 @@
                         </div>
                         <div class="form-group">
                             <label>Status</label>
-                            <select class="form-control" id="status" name="status" required>
+                            <select class="custom-select" id="status" name="status" required>
                               @foreach ($opt_status as $key => $value) 
                               <option value="{{ $key }}" {{ ( $key == $selectedStatus) ? 'selected' : '' }}>  
                                 {{ $value }}  
@@ -104,7 +104,7 @@
                     </div>
                     <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
                         <button type="submit" class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">Simpan</button>
-                        <button type="reset" class="btn btn-light">Cancel</button>
+                        <a href="{{asset('/user-management')}}" type="reset" class="btn btn-light">Cancel</a>
                     </div>
                 </div>
             </form>

@@ -76,6 +76,82 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card bg-primary bg-lighten-1">
+                <div class="card-content">
+                <div class="row no-gutters">
+                    <div class="col-lg-4 col-md-12 d-flex align-items-center justify-content-center p-1">
+                    <img src="{{asset('images/elements/user.png')}}" class="card-img img-fluid"
+                        alt="user.png">
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                    <div class="card-body text-center">
+                        <h4 class="card-title white">USER</h4>
+                        <p class="card-text white">{{($data['userCount']) ? $data['userCount'] : 0}} User aktif</p>
+                        <a href="{{asset('/user-management')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card bg-warning bg-lighten-1">
+                <div class="card-content">
+                <div class="row no-gutters">
+                    <div class="col-lg-4 col-md-12 d-flex align-items-center justify-content-center p-1">
+                    <img src="{{asset('images/elements/voucher.png')}}" class="card-img img-fluid"
+                        alt="apple-lap.png">
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                    <div class="card-body text-center">
+                        <h4 class="card-title white">VOUCHER</h4>
+                        <p class="card-text white">{{($data['voucherCount']) ? $data['voucherCount'] : 0}} Voucher Aktif</p>
+                        <a href="{{asset('/list-voucher')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card bg-success bg-lighten-1">
+                <div class="card-content">
+                <div class="row no-gutters">
+                    <div class="col-lg-4 col-md-12 d-flex align-items-center justify-content-center p-1">
+                    <img src="{{asset('images/elements/bullhorn.png')}}" class="card-img img-fluid"
+                        alt="apple-lap.png">
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                    <div class="card-body text-center">
+                        <h4 class="card-title white">CHANNEL</h4>
+                        <p class="card-text white">{{($data['channelCount']) ? $data['channelCount'] : 0}} Channel Aktif</p>
+                        <a href="{{asset('/list-channel')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card bg-danger bg-lighten-1">
+                <div class="card-content">
+                <div class="row no-gutters">
+                    <div class="col-lg-4 col-md-12 d-flex align-items-center justify-content-center p-1">
+                    <img src="{{asset('images/elements/team-work.png')}}" class="card-img img-fluid"
+                        alt="apple-lap.png">
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                    <div class="card-body text-center">
+                        <h4 class="card-title white">FEATURE</h4>
+                        <p class="card-text white">{{($data['featureCount']) ? $data['featureCount'] : 0}} Feature Aktif</p>
+                        <a href="{{asset('/main-feature')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 <!-- Dashboard Ecommerce ends -->

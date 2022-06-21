@@ -41,6 +41,7 @@ class MenuController extends Controller
             'Kantor Wilayah'    => 'KANTOR WILAYAH',
             'Kantor Cabang'     => 'KANTOR CABANG',
             'Kantor Unit'       => 'KANTOR UNIT',
+            'Kantor Cabang Khusus' => 'KANTOR CABANG KHUSUS',
             'Kantor Cabang Pembantu' => 'KANTOR CABANG PEMBANTU',
         ];
         if(isset($getPost['id'])){
@@ -180,28 +181,36 @@ class MenuController extends Controller
     if(isset($getPost['editmenu'])){
         if($getPost['typeMenu'] == 'HEADER'){
             $param =[
-                'name'  => $getPost['menuName'],
+                'name'  => $getPost['menuNameEdit'],
             ];
         }else if($getPost['typeMenu'] == "OPTION"){
             $param = [
-                'name'  => $getPost['menuName'],
-                'i18n'  => $getPost['lngMenu'],
-                'icon'  => $getPost['iconMenu']
+                'name'  => $getPost['menuNameEdit'],
+                'i18n'  => $getPost['lngMenuEdit'],
+                'icon'  => $getPost['iconMenuEdit']
             ];
         }else{
             $param = [
-                'name'      => $getPost['menuName'],
-                'url'       => $getPost['urlMenu'],
-                'i18n'      => $getPost['lngMenu'],
-                'icon'      => $getPost['iconMenu'],
-                'tagcustom' => $getPost['customTag']
+                'name'      => $getPost['menuNameEdit'],
+                'url'       => $getPost['urlMenuEdit'],
+                'i18n'      => $getPost['lngMenuEdit'],
+                'icon'      => $getPost['iconMenuEdit'],
+                'tagcustom' => $getPost['customTagEdit']
             ];
         }
-        print_r($param);
-        die;
+
+        $editMenu_url = $this->HttpRequest->service("POST", "/menus/".$getPost['idMenuEdit'], $param);
+        if(!empty($editMenu_url)){
+            Session::flash('success','action success');
+        }else{
+            Session::flash('failed','action failed');
+        }
+
+        return Redirect::to('/menu-list');
+        
     }
 
-    $data_menu = $this->HttpRequest->service("GET", "/menus/show", null);
+    $data_menu = $this->HttpRequest("GET", "/menus/show", null)->json();
     $type = [
         'HEADER'  => 'HEADER',
         'MAIN'    => 'MAIN',
@@ -217,6 +226,14 @@ class MenuController extends Controller
     
 
     return view('settings.menu.menu-list')->with($data);
+    }
+
+    //Get View Menu By Id
+    public function getMenuById(Request $request)
+    {
+        $idMenu = $request->get('idMenu');
+        $viewMenu = $this->HttpRequest->service("GET", "/menus/show/".$idMenu,null);
+        return $viewMenu;
     }
 
     //Show Option Menu
@@ -285,6 +302,15 @@ class MenuController extends Controller
             'idMenu'    => $idMenu
         ];
 
-        return view('menu.detail-menu')->with($data);
+        return view('settings.menu.detail-menu')->with($data);
+    }
+
+    public function deleteMenu(Request $request)
+    {
+        $idMenu = $request->get("idMenu");
+     
+        $delete_menu = $this->HttpRequest->service("DELETE", "/menus/".$idMenu, null);
+
+        return $delete_menu;
     }
 }

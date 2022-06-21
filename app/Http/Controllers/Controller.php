@@ -30,6 +30,10 @@ class Controller extends BaseController
             $response = $response->get($api_url);
         }else if($method == "POST"){
             $response = $response->post($api_url, $bodyRequest);
+        }else if($method == "DELETE"){
+            $response = $response->delete($api_url);
+        }else if($method == "PUT"){
+            $response = $response->put($api_url, $bodyRequest);
         }
 
         if($response->status() == 401){
@@ -37,7 +41,7 @@ class Controller extends BaseController
         }elseif($response->status() == 404){
             abort(404);
         }elseif($response->failed()){
-            abort(333, 'mantap');
+            abort(333, 'error');
         }else{
             return $response;
         }

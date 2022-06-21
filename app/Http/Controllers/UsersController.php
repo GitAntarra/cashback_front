@@ -16,20 +16,35 @@ class UsersController extends Controller
   //user List
   public function listUser(Request $request){
 
-    $param = [
-      'page'  => 2,
-      'limit' => 1
-    ];
-    $data_user = $this->HttpRequest->service("GET", "/users/shows", $param);
+    $page = $request->get('page') ? $request->get('page') : 1;
+    $limit = $request->get('limit') ? $request->get('limit') : 5;
+
+    $url_api = env('API_URL');
+
     $type = [
       'HEADER'  => 'HEADER',
       'MAIN'    => 'MAIN',
       'OPTION'  => 'OPTION'
     ];
+
+    $nextPage = (int) $page + 1;
+    $prevPage = (int) $page - 1;
+
+    $data_user = $this->HttpRequest("GET", "/users/shows?page=".$page."&limit=".$limit, null)->json();
+
     $data = [
       'msg'   => '',
       'users' => $data_user,
+      'meta'  => (object) $data_user['meta'],
+      'limit' => $limit,
+      'page'  => $page,
+      'nextPage'  => $nextPage,
+      'prevPage'  => $prevPage, 
+      'number'    => (int) ($page * $limit) - ($limit - 1),
+      "buttonprev"    => "<button class='page-link'><a href='".$url_api."/users/shows?page=".$prevPage."&limit=".$limit."'><i class='bx bx-chevrons-left'></i>Prev</a></button>", 
+      "buttonnext"    => "<button class='page-link'><a href='".$url_api."/users/shows?page=".$nextPage."&limit=".$limit."'><i class='bx bx-chevrons-right'></i>Next</a></button>", 
     ];
+
     $data['status'] = [
       'ACTIVE'  => 'ACTIVE',
       'SUSPEND' => 'SUSPEND',
@@ -44,7 +59,7 @@ class UsersController extends Controller
       'UN'  => 'KANTOR UNIT'
     ];
 
-    return view('users.page-users-list')->with($data);
+    return view('settings.users.page-users-list')->with($data);
   }
 
   public function getEmployeeId(Request $request)
@@ -53,54 +68,8 @@ class UsersController extends Controller
       'pernr' => $request->post('pernr')
     ];
     $result = $this->HttpRequest->get_detail_pekerja($request->post('pernr'));
-
-
-    // $result2 = $this->HttpRequest->service("POST","",$result['BRANCH'];);
-
-    $data = [
-        'pernr' =>$result['PERSONAL_NUMBER'],
-        'name'  =>$result['NAMA'],
-        'uker'  =>$result['DESC_SUBAREA'],
-        'region'  =>$result['DESC_GRUP_JABATAN'],
-        'branch'  =>$result['BRANCH'],
-        'rgdesc'  =>$result['DESC_AREA']
-    ];
-
+    
     return $result;
-
-    // if (isset($result)) {
-    //   if($result['uker']){
-      
-    //     $data = array(
-    //       'error'         => false,
-    //       'pernr'         => $result['pernr'],
-    //       'name'		      => $result['name'],
-    //       'uker'		      => $result['uker'],
-    //       'gender'        => $result['gender'],
-    //       'position'		  => $result['position'], 
-    //       'division'	    => $result['division'],
-    //       'branch'	      => $result['branch'], 
-    //       'region_name' => $result['rgdesc'],
-    //       'region_code'   => $result['region'],
-    //       'msg'           => 'user ditemukan'
-    //     );
-    //   }else{
-    //     $data = array(
-    //       'error'  => true,
-    //       'data' => null,
-    //       'msg' => 'unit kerja user tidak ditemukan'
-    //     );
-
-    //   }
-    // } else {
-    //   $data = array(
-    //     'error'  => true,
-    //     'pernr' => '',
-    //     'msg'   => 'Data tidak ditemukan | pastikan pn dan uker terdaftar',
-    //   );
-    // }
-
-    echo json_encode($data);
   }
 
   //User Add
@@ -115,7 +84,7 @@ class UsersController extends Controller
       'DEVELOPER'     => 'DEVELOPER'
     ];
     $data['selectedLevel'] = "MAKER";
-    return view('users.page-users-add')->with($data);
+    return view('settings.users.page-users-add')->with($data);
   }
   //user view
   public function viewUser(Request $request){
@@ -125,7 +94,7 @@ class UsersController extends Controller
       'id' => $user_id
     ];
 
-    $detail_user = $this->HttpRequest->service("GET", "/users/".$param['id']."/detail", $param);
+    $detail_user = $this->HttpRequest("GET", "/users/".$param['id']."/detail", $param)->json();
     $data = [
       'detail_user' => $detail_user,
     ];
@@ -134,7 +103,7 @@ class UsersController extends Controller
     // die;
 
 
-    return view('users.page-users-view')->with($data);
+    return view('settings.users.page-users-view')->with($data);
   }
 
   public function saveUser(Request $request)
@@ -148,7 +117,7 @@ class UsersController extends Controller
       'description' => $request->post('description'),
     ];
     
-    $result = $this->HttpRequest->service("POST", "/users/register", $param);
+    $result = $this->HttpRequest("POST", "/users/register", $param);
     
     if(isset($result['statusCode'])){
       return redirect('/user-management')->with(['error' => $result['message']]);
@@ -195,15 +164,11 @@ class UsersController extends Controller
     $data = [
       'detail_user'   => $detail_user,
       'opt_level'     => $opt_level,
-      'selectedLevel' => "MAKER",
+      'selectedLevel' => $detail_user['level'] ? $detail_user['level'] : "",
       'opt_status'    => $opt_status,
-      'selectedStatus'=> "ACTIVED",
+      'selectedStatus'=> $detail_user['status'] ? $detail_user['status'] : "",
     ];
-
-    // echo "<pre>";
-    // print_r($detail_user);
-    // die;
-    return view('users.page-users-edit')->with($data);
+    return view('settings.users.page-users-edit')->with($data);
   }
 
   public function saveUpdate(Request $request)
@@ -214,11 +179,6 @@ class UsersController extends Controller
       'status' => $request->get('status'),
       'description' => $request->get('description'),
     ];
-
-    // echo "<pre>";
-    // print_r($param);
-    // echo $request->get('id');
-    // die;
 
     $result = $this->HttpRequest->service("PATCH", "/users/".$request->get('id')."/update", $param);
     

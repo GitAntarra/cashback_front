@@ -1,6 +1,6 @@
 @extends('layouts.contentLayoutMaster')
 {{-- page title --}}
-@section('title','User Management')
+@section('title','List Menu')
 {{-- vendor styles --}}
 @section('vendor-styles')
 <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/datatables.min.css')}}">
@@ -60,14 +60,35 @@
                       @endif
                   </td>
                   <td>
-                    <button class="btn btn-primary" title="Edit Menu"><i class="bx bx-edit-alt" idMenu="{{$row['id']}}" type="$row['type']" data-toggle="modal" data-target="#editModalform"></i></button>
-                    <button class="btn btn-danger" id="confirmdel" title="Delete Menu"><i class="bx bx-trash" id="deleteMenu" idMenu="{{$row['id']}}" type="$row['type']"></i></button>
+                    <button class="btn btn-primary EditMenuButton" title="Edit Menu"  idMenu="{{$row['id']}}"><i class="bx bx-edit-alt" type="$row['type']"></i></button>
+                    <button class="btn btn-danger confirmdel" idMenu="{{$row['id']}}" title="Delete Menu"><i class="bx bx-trash" id="deleteMenu" type="$row['type']"></i></button>
                   </td>
                     </tr>
                       @endforeach
                 @endif
               </tbody>
             </table>
+          </div>
+          <div class="col-sm-12 col-md-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+              <!-- <ul class="pagination">
+                <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+                  <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                </li>
+                <li class="paginate_button page-item active">
+                  <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+                </li>
+                <li class="paginate_button page-item ">
+                  <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">2</a>
+                </li>
+                <li class="paginate_button page-item ">
+                  <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">3</a>
+                </li>
+                <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                  <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0" class="page-link">Next</a>
+                </li>
+              </ul> -->
+            </div>
           </div>
           <!-- datatable ends -->
         </div>
@@ -79,7 +100,7 @@
 <!--Add Menu Modal -->
 <div class="modal fade text-left" id="addModalform" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
       <h4 class="modal-title" id="exampleModalScrollableTitle">Add Menu </h4>
@@ -148,34 +169,35 @@
         <input type="text" value="editmenu" id="editmenu" name="editmenu" hidden require>
         <input type="text" value="typeMenu" id="typeMenu" name="typeMenu" hidden require>
         <input type="text" value="idMenu" id="idMenu" name="idMenu" hidden require>
-        <div class="col-12" id="formname">
+        <div class="col-12" id="formnameEdit">
           <label>Nama Menu </label>
           <div class="form-group">
-            <input name="menuName" id="menuName" type="text" value="Nama Menu" class="form-control" require>
+            <input type="text" name="idMenuEdit" id="idMenuEdit" class="form-control" required/>
+            <input name="menuNameEdit" id="menuNameEdit" type="text" value="Nama Menu" class="form-control" require>
           </div>
         </div>
-        <div class="col-12" id="formurl">
+        <div class="col-12" id="formurlEdit">
         <label>Url Menu </label>
           <div class="form-group">
-            <input name="urlMenu" id="urlMenu" type="text" value="Url Menu" class="form-control" require>
+            <input name="urlMenuEdit" id="urlMenuEdit" type="text" value="Url Menu" class="form-control" require>
           </div>
         </div>
-        <div class="col-12" id="formlng">
+        <div class="col-12" id="formlngEdit">
         <label>I18n Menu </label>
           <div class="form-group">
-            <input name="lngMenu" id="lngMenu" type="text" value="l18n Menu" class="form-control" require>
+            <input name="lngMenuEdit" id="lngMenuEdit" type="text" value="l18n Menu" class="form-control" require>
           </div>
         </div>
-        <div class="col-12" id="formicon">
+        <div class="col-12" id="formiconEdit">
         <label>Icon Menu </label>
           <div class="form-group">
-            <input name="iconMenu" id="iconMenu" type="text" value="Icon Menu" class="form-control" require>
+            <input name="iconMenuEdit" id="iconMenuEdit" type="text" value="Icon Menu" class="form-control" require>
           </div>
         </div>
-        <div class="col-12" id="formtag">
+        <div class="col-12" id="formtagEdit">
           <label>Custom Tag Menu </label>
           <div class="form-group">
-            <input name="customTag" id="customTag" type="text" value="Custom Tag Menu" class="form-control" require>
+            <input name="customTagEdit" id="customTagEdit" type="text" value="Custom Tag Menu" class="form-control" require>
           </div>
         </div>
       </div>
@@ -207,7 +229,65 @@
     });
 
     $(document).ready(function () {
-      $('#confirmdel').on('click', function () {
+      $('.EditMenuButton').on('click', function (){
+        
+        let as = document.querySelector('.EditMenuButton');
+        let idMenu = $(this).attr("idMenu");
+        
+        $.ajax({
+          type: "GET",
+          url : "{{asset('/viewMenu')}}?idMenu="+idMenu,
+          success : function(data){
+            $('#editModalform').modal('show');
+            if(data.type == "OPTION"){
+              $('#formtagEdit').hide();
+              $('#formurlEdit').hide();
+              $('#formlngEdit').show();
+              $('#formiconEdit').show();
+              $('#formnameEdit').show();
+            
+              //VALUE OPTION MENU
+              $('#idMenuEdit').val(data.id);
+              $('#idMenuEdit').hide();
+              $('#menuNameEdit').val(data.name);
+              $('#lngMenuEdit').val(data.i18n);
+              $('#iconMenuEdit').val(data.icon);
+
+            }else if(data.type == "HEADER"){
+              $('#formtagEdit').hide();
+              $('#formurlEdit').hide();
+              $('#formiconEdit').hide();
+              $('#formlngEdit').hide();
+              $('#formnameEdit').show();
+
+              //Value HEADER MENU
+              $('#idMenuEdit').val(data.id);
+              $('#idMenuEdit').hide();
+              $('#menuNameEdit').val(data.name);
+            }else{
+              //Show form
+              $('#formnameEdit').show();
+              $('#formurlEdit').show();
+              $('#formlngEdit').show();
+              $('#formiconEdit').show();
+              $('#formtagEdit').show();
+
+              //Value MAIN MENU
+              $('#idMenuEdit').val(data.id);
+              $('#idMenuEdit').hide();
+              $('#menuNameEdit').val(data.name);
+              $('#urlMenuEdit').val(data.url);
+              $('#lngMenuEdit').val(data.i18n);
+              $('#iconMenuEdit').val(data.icon);
+              $('#customTagEdit').val(data.tagcustom);
+            }
+          }
+        });
+        return false;
+      });
+
+      $('.confirmdel').on('click', function () {
+        let idMenu = $(this).attr("idMenu");
         Swal.fire({
           title: 'Are you sure?',
           text: "You want to delete this Menu?",
@@ -220,13 +300,33 @@
           cancelButtonClass: 'btn btn-danger ml-1',
           buttonsStyling: false,
         }).then(function (result) {
+          console.log(idMenu);
+          console.log(result);
           if (result.value) {
-            Swal.fire({
-              type: "success",
-              title: 'Deleted!',
-              text: 'Your file has been deleted.',
-              confirmButtonClass: 'btn btn-success',
-            })
+            $.ajax({
+              type  : "GET",
+              url   : "{{asset('/delete-menu')}}",
+              data  : {
+                  idMenu : idMenu,
+              },
+              success: function(response) {
+                Swal.fire({
+                  type: "success",
+                  title: 'Deleted!',
+                  text: 'Your file has been deleted.',
+                  confirmButtonClass: 'btn btn-success',
+                }).then((w) =>{
+                    location.reload(true);
+                });
+              },
+              failure: function (response) {
+                  swal(
+                  "Internal Error",
+                  "Oops, your note was not saved.", // had a missing comma
+                  "error"
+                  )
+              }
+            });
           }
           else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire({
@@ -236,7 +336,8 @@
               confirmButtonClass: 'btn btn-success',
             })
           }
-        })
+        });
+        
       });
     });
 
