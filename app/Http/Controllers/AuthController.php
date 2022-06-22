@@ -52,6 +52,7 @@ class AuthController extends Controller
     */
     public function login(Request $request)
     {
+        echo 'woi'; die;
         $request->validate([
             'pernr' => 'required|string',
             'password' => 'required|string',
@@ -80,6 +81,7 @@ class AuthController extends Controller
     public function attemplogin()
     {
         echo "ssadsaadsad";
+        die;
     }
 
      /**

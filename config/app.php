@@ -52,8 +52,8 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
-    'urlapi'    => env('API_URL', 'http://172.18.135.224/'),
+    'url'       => env('APP_URL', 'http://172.18.135.224/cashback'),
+    'urlapi'    => env('API_URL', 'http://172.18.135.224/cashback/api/v1'),
 
 
     'asset_url' => env('ASSET_URL', null),

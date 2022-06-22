@@ -47,26 +47,24 @@ class AuthenticationController extends Controller
       $req_param = [
         'pernr'   => $request->post('pernr'),
         'password'=> $request->post('password'),
-        'ip'      => "102121",
+        'ip'      => "172.18.135.212",
         'latitude'=> "tes",
         'longitude'=>"salda"
       ];
 
 
-
         $response = (object) Http::withHeaders([
           'app-owner' => '$(@uRn]*v`g[(^]LC)cR~?_<^YjcG?/X^9FH6Tg(j-SMmw+wd9t+r'
         ])->post(env('API_URL').'/auth/signin', $req_param);
+      
+        
+
 
         if(isset($response['accessToken'])){
           Session::put('isLogin', $response);
             Session::put('accessToken', $response['accessToken']);
             Session::put('set_userdata', $response['user']);
             Session::put('userMenu', $response['menu']);
-            // echo "<pre>";
-            // $test = session()->get('set_userdata');
-            // print_r($test['level']);
-            // die;
             return redirect('/');
             
         }else{

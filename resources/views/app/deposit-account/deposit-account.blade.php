@@ -191,7 +191,6 @@
           remarkEdit : ta
         },
         success : function(data){
-<<<<<<< HEAD
           console.log(data.AVAILABLE_BAL);
           if(data.AVAILABLE_BAL){
             $(`.tet${index}`).text(formatRupiah(data.AVAILABLE_BAL));
@@ -201,17 +200,9 @@
             $(`#test${index}`).hide();
             console.log("123");
           }
-          
-=======
-          console.log(data);
-<<<<<<< HEAD
-          // console.log(formatRupiah(data.AVAILABLE_BAL));
           $(`.tet${index}`).text(formatRupiah("123"));
-=======
           $(`.tet${index}`).text(formatRupiah(data.AVAILABLE_BAL));
->>>>>>> 22ffc07f3317411960e289a9c596b8986ec67b81
           $(`#test${index}`).hide();
->>>>>>> 6917811bae72ebbd6cc48fa14798e81d7c497300
         }
       });
       
