@@ -81,7 +81,10 @@ Route::group(['middleware' => ['isLogin']],function () {
     Route::post('/list-voucher',"VoucherController@listVoucher")->name("searchVoucher.post");
     Route::post('create-voucher','VoucherController@listVoucher')->name("createvoucher.post");
     Route::get('/view-voucher','VoucherController@viewVoucher');
-    Route::post('/edit-voucher','VoucherController@viewVoucher')->name("editVoucher.post");
+    Route::get('/edit-voucher','VoucherController@editVoucher')->name("editVoucher.post");
+    Route::post('/update-voucher','VoucherController@updateVoucher')->name("updateVoucher.post");
+    Route::post('/approve-voucher','VoucherController@ApproveVoucher')->name("approveVoucher.post");
+    Route::post('/reject-voucher','VoucherController@RejectVoucher')->name("rejectVoucher.post");
     Route::get('/getVoucherById','VoucherController@getVoucherbyId');
     Route::get('/status-voucher',"VoucherController@statusVoucher");
     Route::get('/testtos','VoucherController@testtt');

@@ -183,7 +183,7 @@
                   <label>Deposit Account</label>
               </div>
               <div class="col-9">
-              <select name="depositAccount" id="depositAccount" class="form-control" required>
+                <select name="depositAccount" id="depositAccount" class="form-control" required>
               </select>
               </div>
           </div>

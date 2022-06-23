@@ -11,7 +11,7 @@ class VoucherController extends Controller
 {
     public function __construct()
     {
-        $this->HttpRequest = new HttpRequest;
+        // $this->HttpRequest = new HttpRequest;
 	}
 
     public function listVoucher(Request $request)
@@ -27,14 +27,29 @@ class VoucherController extends Controller
         $list_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
         $list_deposit = $this->HttpRequest("GET","/deposit-account?page=1",null)->json();
 
-        $sts_approval = [
-            "ALL"       => "ALL",
-            "CREATED"   => "CREATED",
-            "CHECKED"   => "CHECKED",
-            "APPROVED"  => "APPROVED",
-            "REJECTED"  => "REJECTED",
-            "UPDATED"   => "UPDATED"
-        ];
+        $isLogin = session()->get('set_userdata');
+        $sts_approval = array();
+        if($isLogin['level'] == "MAKER"){
+            $sts_approval['CREATED'] = "CREATED";
+            $sts_approval['CHECKED'] = "CHECKED";
+        }
+
+        if($isLogin['level'] == "CHECKER"){
+            $sts_approval['CREATED'] = "REQUEST";
+            $sts_approval['CHECKED'] = "CHECKED";
+        }
+
+        if($isLogin['level'] == "SIGNER"){
+            $sts_approval['CHECKED'] = "REQUEST";
+        }
+        
+        if($isLogin['level'] == "SUPERADMIN"){
+            $sts_approval['CREATED'] = "CREATED";
+            $sts_approval['CHECKED'] = "CHECKED";
+        }
+
+        $sts_approval['APPROVED'] = "APPROVED";
+        $sts_approval['REJECTED'] = "REJECTED";
 
         $data = [
             'msg'   => '',
@@ -87,106 +102,97 @@ class VoucherController extends Controller
 
             return Redirect::to('/list-voucher');
         }
-        return view('app.voucher.test', $data);
+        return view('app.voucher.index', $data);
     }
 
     public function viewVoucher(Request $request)
     {
         $id = $request->get("id");
         $postParam = $request->post();
-        if(isset($postParam['approveVoucher'])){
-            $param = [
-                'status'    => $postParam['statusVoucher'],
-            ];
-
-            $approve_url = $this->HttpRequest("PUT","/vouchers/".$id, $param);
-
-            if(!empty($approve_url)){
-                Session::flash('success','Action Success');
-            }else{
-                Session::flash('failed','Action Failed');
-            }
-
-            return Redirect::to('/view-voucher?id='.$id);
-        }
-
-        if(isset($postParam['ApproveVoucher']))
-        {
-
-            $param = [
-                'msg'   => $postParam['remarkApproval']
-            ];
-            $id = $request->get('id');
-
-            if($postParam['statusVoch'] == 'APPROVED'){
-                $status_Voucher = $this->HttpRequest("PUT","/vouchers/$id/approve", $param);
-            }else{
-                $status_Voucher = $this->HttpRequest("PUT","/vouchers/$id/reject", $param)->json();
-            }
-
-            if(!empty($status_Voucher)){
-                Session::flash('success','action success');
-            }else{
-                Session::flash('failed','Action Failed');
-            }
-
-            return Redirect::to('/view-voucher?id='.$id);
-        }
-
-        if(isset($postParam['editVoucher'])){
-            $param = [
-                'type'  => $postParam['typeEdit'],
-                'limit' => (int) $postParam['limitEdit'],
-                'dueDate'=> $postParam['duedateEdit'],
-                'minTransaction'    => (int) $postParam['mintransactionEdit'],
-                'percent'       => (int) $postParam['percentEdit'],
-                'maxPotency'    => (int) $postParam['maxpotencyEdit'],
-                'maxRedeem'     => (int) $postParam['maxredeemEdit'],
-                'maxDayRedeem'  => (int) $postParam['maxredeemperdayEdit'],
-                'description'   => $postParam['descriptionEdit'],
-                'featuremain'   => $postParam['mainFeatureEdit'],
-                'featuresub'    => $postParam['idsubFeatureoption'],
-                'channel'       => $postParam['channelEdit'],
-                'depositaccount'=> $postParam['depositAccountEdit'],
-                'signer'        => $postParam['signerpnEdit'],
-                'checker'       => $postParam['checkerpnEdit'],
-            ];
-
-            // echo "<pre>";
-            // print_r($param);
-            // die;
-
-            $edit_url = $this->HttpRequest("PUT","/vouchers/$id", $param);
-
-            if(!empty($edit_url)){
-                Session::flash('success','Action Success');
-            }else{
-                Session::flash('failed','Action Failed');
-            }
-
-            return Redirect::to('/view-voucher?id='.$id);
-        }
-
 
         $data_voucher = $this->HttpRequest("GET","/vouchers/".$id, null)->json();
         $list_channel = $this->HttpRequest("GET","/channel?page=1&take=50", null)->json();
         $list_feature = $this->HttpRequest("GET", "/feature?page=1&take=50", null)->json();
         $list_deposit = $this->HttpRequest("GET","/deposit-account/list",null)->json();
 
-        // echo "<pre>";
-        // print_r($data_voucher);
-        // die;
-       
-
         $data = [
             'data'  => $data_voucher,
-            'list_channel'  => $list_channel['data'],
-            'list_feature'  => $list_feature['data'],
-            'list_deposit'  => $list_deposit,
+            'list_channel'  => $this->optChannel()['data'],
+            'list_feature'  => $this->optFeature()['data'],
+            'list_deposit'  => $this->optDeposit(),
             'sess_user'    => session()->get('set_userdata'),
         ];
 
-        return view('app.voucher.voucher-view')->with($data);
+        return view('app.voucher.view')->with($data);
+    }
+
+    public function UpdateVoucher(Request $request){
+        $id = $request->get("id");
+        $getPost = $request->post();
+        $param = [
+            'type'  => $getPost['typeEdit'],
+            'limit' => (int) $getPost['limitEdit'],
+            'dueDate'=> $getPost['duedateEdit'],
+            'minTransaction'    => (int) $getPost['mintransactionEdit'],
+            'percent'       => (int) $getPost['percentEdit'],
+            'maxPotency'    => (int) $getPost['maxpotencyEdit'],
+            'maxRedeem'     => (int) $getPost['maxredeemEdit'],
+            'maxDayRedeem'  => (int) $getPost['maxredeemperdayEdit'],
+            'description'   => $getPost['descriptionEdit'],
+            'featuremain'   => $getPost['mainFeatureEdit'],
+            'featuresub'    => $getPost['idsubFeatureoption'],
+            'channel'       => $getPost['channelEdit'],
+            'depositaccount'=> $getPost['depositAccountEdit'],
+            'signer'        => $getPost['signerpnEdit'],
+            'checker'       => $getPost['checkerpnEdit'],
+        ];
+
+        $edit_url = $this->HttpRequest("PUT","/vouchers/$id", $param);
+
+        if(!empty($edit_url)){
+            Session::flash('success','Action Success');
+        }else{
+            Session::flash('failed','Action Failed');
+        }
+
+        return Redirect::to('/view-voucher?id='.$id);
+    }
+
+    public function ApproveVoucher(Request $request){
+        $getPost = $request->post();
+
+        $param = [
+            'msg'    => $getPost['msg'],
+        ];
+
+        $data = $this->HttpRequest("PUT","/vouchers/".$getPost['idapprove']."/approve", $param);
+
+        if(!empty($data)){
+            Session::flash('success','Action Success');
+        }else{
+            Session::flash('failed','Action Failed');
+        }
+
+        return Redirect::to('/view-voucher?id='.$getPost['idapprove']);
+    }
+
+    
+    public function RejectVoucher(Request $request){
+        $getPost = $request->post();
+
+        $param = [
+            'msg'    => $getPost['msg'],
+        ];
+
+        $data = $this->HttpRequest("PUT","/vouchers/".$getPost['idreject']."/reject", $param);
+
+        if(!empty($data)){
+            Session::flash('success','Action Success');
+        }else{
+            Session::flash('failed','Action Failed');
+        }
+
+        return Redirect::to('/view-voucher?id='.$getPost['idreject']);
     }
 
     public function getVoucherbyId(Request $request)

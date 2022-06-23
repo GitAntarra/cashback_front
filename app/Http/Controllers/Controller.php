@@ -44,7 +44,8 @@ class Controller extends BaseController
         }elseif($response->status() == 404){
             abort(404);
         }elseif($response->status() == 400){
-            abort(333, 'validations');
+            abort(333, $response['message'] ? implode($response['message']) : 'unknowerror');
+            print_r($response['message'][0]); die;    
         }elseif($response->status() == 403){
             abort(333, $response['message'] ? $response['message'] : 'unknowerror');
         }elseif($response->failed()){
@@ -54,6 +55,17 @@ class Controller extends BaseController
         }
     }
 
+    public function optChannel(){
+        return $this->HttpRequest("GET","/channel?page=1&take=50", null)->json();
+    }
+
+    public function optFeature(){
+        return $this->HttpRequest("GET", "/feature?page=1&take=50", null)->json();
+    }
+
+    public function optDeposit(){
+        return $this->HttpRequest("GET","/deposit-account/list",null)->json();
+    }
 
     public function Downloadfile($method, $endpoint, $bodyRequest = ""){
         // $tempName = tempnam(sys_get_temp_dir(), 'response').'.pdf';

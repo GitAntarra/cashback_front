@@ -107,7 +107,7 @@
                       <h6 class="invoice-from">Channel</h6>
                     </div>
                     <div class="col-6">
-                      <h6 class="text-primary font-weight-bold"><b>: {{$data['channel']['channel_id']}}</b></h6>
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['channel'] ? $data['channel']['channel_id'] : null}}</b></h6>
                     </div>
                   </div>
                 </div>
@@ -127,7 +127,7 @@
                       <h6 class="invoice-from">Deposit Account</h6>
                     </div>
                     <div class="col-6">
-                      <h6 class="text-primary font-weight-bold"><b>: {{$data['depositaccount']['account_number']}}</b></h6>
+                      <h6 class="text-primary font-weight-bold"><b>: {{$data['depositaccount'] ? $data['depositaccount']['account_number'] : null}}</b></h6>
                     </div>
                   </div>
                 </div>
@@ -195,16 +195,46 @@
             <hr>
             <div class="row">
               <div class="col-3">
+                <h6 class="invoice-from">Maker</h6>
+              </div>
+              <div class="col-9">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['maker'] ? $data['maker']['pernr'] ." - ".
+                   $data['maker']['name'] : null}}</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Checker</h6>
+              </div>
+              <div class="col-9">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['checker'] ? $data['checker']['pernr'] ." - ".
+                   $data['checker']['name'] : null}}</b></h6>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Signer</h6>
+              </div>
+              <div class="col-9">
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['signer'] ? $data['signer']['pernr'] ." - ".
+                   $data['signer']['name'] : null}}</b></h6>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-3">
                 <h6 class="invoice-from">Deposit Account</h6>
               </div>
               <div class="col-9">
-                <h6 class="text-primary font-weight-bold"><b>: {{$data['depositaccount']['account_number']}} - {{$data['depositaccount']['short_name']}}</b></h6>
+                <h6 class="text-primary font-weight-bold"><b>: {{$data['depositaccount'] ? $data['depositaccount']['account_number'] ." - ". $data['depositaccount']['short_name'] : null}}</b></h6>
               </div>
               <div class="col-3">
                 <h6 class="invoice-from">Description</h6>
               </div>
               <div class="col-9">
                 <p class="text-primary">: {{$data['description']}}</p>
+              </div>
+              <div class="col-3">
+                <h6 class="invoice-from">Progress</h6>
+              </div>
+              <div class="col-9">
+                <p class="text-primary" style="white-space: pre-line">: {{$data['status_msg']}}</p>
               </div>
             </div>
 
@@ -228,15 +258,13 @@
           </div>
           <div class="invoice-action-btn pt-1">
 
-            @if($sess_user['level'] == 'SUPERADMIN' || ($sess_user['level'] == 'CHECKER' && ($data['status'] == 'CREATED' || $data['status'] == 'UPDATED')) || ($sess_user['level'] == 'SIGNER' && $data['status'] == 'CHECKED'))
+            @if(($sess_user['level'] == 'CHECKER' && $data['status'] == 'CREATED') || ($sess_user['level'] == 'SIGNER' && $data['status'] == 'CHECKED'))
             <input type="text" name="statusVoucher" id="statusVoucher" value="{{$data['status']}}" hidden />
-            <button type="button" idVoucher="{{$data['id']}}" data-toggle="modal"
-              data-target="#Approvalvoucher" title="Approve Voucher" class="btn btn-success btn-block">
+            <button type="button" onclick="approve_btn('{{$data['id']}}')" title="Approve Voucher" class="btn btn-success btn-block">
               <i class='bx bx-check'></i>
               <span>Approve</span>
             </button>
-            <button type="button" idVoucher="{{$data['id']}}" data-toggle="modal"
-              data-target="#RejectVoucher" title="Reject Voucher" class="btn btn-danger btn-block">
+            <button type="button" onclick="reject_btn('{{$data['id']}}')" title="Approve Voucher" class="btn btn-danger btn-block">
               <i class='bx bx-x'></i>
               <span>Reject</span>
             </button>
@@ -249,7 +277,7 @@
 </section>
 
 <!--scrolling content Approval Modal Voucher-->
-<div class="modal fade text-left" id="Approvalvoucher" tabindex="-1" role="dialog"
+<div class="modal fade text-left" id="ApproveModal" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable " role="document">
     <div class="modal-content">
@@ -260,12 +288,12 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{route('editVoucher.post')}}?id={{$data['id']}}" id="form_input">
+      <form method="post" action="{{route('approveVoucher.post')}}" id="form_input">
         @csrf
-        <input type="text" value="APPROVED" name="statusVoch" hidden />
+        <input type="text" value="" id="idapprove" name="idapprove" hidden />
         <div class="col-12 pb-1">
           <fieldset class="form-group">
-              <textarea class="form-control" id="remarkApproval" name="remarkApproval" rows="3" placeholder="Minimum 10 Characters"></textarea>
+              <textarea class="form-control" id="remarkApproval" name="msg" rows="3" placeholder="Minimum 10 Characters"></textarea>
           </fieldset>
         </div>
       </div>
@@ -285,7 +313,7 @@
 </div>
 
 <!--scrolling content Reject Modal Voucher-->
-<div class="modal fade text-left" id="RejectVoucher" tabindex="-1" role="dialog"
+<div class="modal fade text-left" id="RejectModal" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable " role="document">
     <div class="modal-content">
@@ -296,12 +324,12 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{route('editVoucher.post')}}?id={{$data['id']}}" id="form_input">
+      <form method="post" action="{{route('rejectVoucher.post')}}" id="form_input">
         @csrf
-        <input type="text" value="REJECTED" name="statusVoch" hidden />
+        <input type="text" value="" id="idreject" name="idreject" hidden />
         <div class="col-12 pb-1">
           <fieldset class="form-group">
-              <textarea class="form-control" id="remarkApproval" name="remarkApproval" rows="3" placeholder="Minimum 10 Characters"></textarea>
+              <textarea class="form-control" name="msg" rows="3" placeholder="Minimum 10 Characters"></textarea>
           </fieldset>
         </div>
       </div>
@@ -333,7 +361,7 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{route('editVoucher.post')}}?id={{$data['id']}}" id="form_input">
+      <form method="post" action="{{route('updateVoucher.post')}}?id={{$data['id']}}" id="form_input">
         @csrf
         <div class="col-12 pb-1">
             <div class="row">
@@ -371,8 +399,15 @@
                 </div>
                 <div class="col-9">
                 <select name="channelEdit" id="channelEdit" class="custom-select" required>
+                  <?php 
+                    if(isset($row['channel_id'])){
+                      $selected = $data['channel']['channel_id'] == $row['channel_id'] ? true : false;
+                    }else{
+                      $selected = false;
+                    }
+                  ?>
                   @foreach ($list_channel as $row)
-                    <option value="{{$row['channel_id']}}" <?php if($data['channel']['channel_id'] == $row['channel_id']){ echo "selected"; } ?>> {{$row['channel_id']}}</option>
+                    <option value="{{$row['channel_id']}}" {{ $selected ? selected : null }}> {{$row['channel_id']}}</option>
                   @endforeach
                 </select>
                 </div>
@@ -515,6 +550,18 @@
               </div>
             </div>
           </div>
+          <div class="col-12 pb-1">
+            <div class="row">
+              <div class="col-3">
+                  <label>Progress</label>
+              </div>
+              <div class="col-9">
+                <fieldset class="form-group">
+                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3" placeholder="Description">{{$data['status_msg']}}</textarea>
+                </fieldset>
+              </div>
+            </div>
+          </div>
           
       </div>
       <div class="modal-footer">
@@ -536,6 +583,15 @@
 {{-- vendor scripts --}}
 @section('vendor-scripts')
 <script type="text/javascript">
+
+  function approve_btn(id){
+    $('#idapprove').val(id);
+    $('#ApproveModal').modal().show();
+  }
+  function reject_btn(id){
+    $('#idreject').val(id);
+    $('#RejectModal').modal().show();
+  }
 
 $.fn.select2.defaults.set( "theme", "bootstrap" );
 
@@ -623,67 +679,6 @@ $('#checkerpnEdit').select2({
     // });
   });
 
-
-  
-  // $('.approvalVoucher').on('click', function () {
-  //       let idVoucher = $(this).attr("idvoucher");
-  //       let status    = $(this).attr("value");
-  //       Swal.fire({
-  //         title: 'Are you sure?',
-  //         text: "You want to Accept this Voucher?",
-  //         type: 'warning',
-  //         showCancelButton: true,
-  //         confirmButtonColor: '#3085d6',
-  //         cancelButtonColor: '#d33',
-  //         confirmButtonText: 'Yes, Accept it!',
-  //         confirmButtonClass: 'btn btn-warning',
-  //         cancelButtonClass: 'btn btn-danger ml-1',
-  //         buttonsStyling: false,
-  //       }).then(function (result) {
-  //         console.log(idVoucher);
-  //         if (result.value) {
-  //           $.ajax({
-  //             type  : "GET",
-  //             url   : "{{asset('/status-voucher')}}",
-  //             data  : {
-  //                 idVoucher : idVoucher,
-  //                 statusVoch : status 
-  //             },
-  //             success: function(response) {
-  //               console.log(response);
-  //               Swal.fire({
-  //                 type: "success",
-  //                 title: 'Accepted!',
-  //                 text: 'Vouher has been Accepted.',
-  //                 confirmButtonClass: 'btn btn-success',
-  //               }).then((w) =>{
-  //                   location.reload(true);
-  //               });
-  //             },
-  //             failure: function (response) {
-  //                 swal(
-  //                 "Internal Error",
-  //                 "Oops, your note was not saved.", // had a missing comma
-  //                 "error"
-  //                 )
-  //             }
-  //           });
-  //         }
-  //         else if (result.dismiss === Swal.DismissReason.cancel) {
-  //           Swal.fire({
-  //             title: 'Cancelled',
-  //             text: 'Your Voucher is safe :)',
-  //             type: 'error',
-  //             confirmButtonClass: 'btn btn-success',
-  //           })
-  //         }
-  //       });
-  //     });
-
-  // $('.rejectVoucher').on('click', function () {
-  //   let status = $(this).attr('value');
-  //   alert (status);
-  // })
   showsubFeature();
 
   function showsubFeature(){
