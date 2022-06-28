@@ -77,13 +77,6 @@ class AuthController extends Controller
             )->toDateTimeString()
         ]);
     }
-
-    public function attemplogin()
-    {
-        echo "ssadsaadsad";
-        die;
-    }
-
      /**
     * Logout user (Revoke the token)
     *

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\HttpRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
 use Session;
 use Redirect;
@@ -23,7 +24,6 @@ class DepositAccountController extends Controller
 
         $postParam = $request->post();
 
-        $depositAccount = $this->HttpRequest("GET","/deposit-account?page=".$page."&take=".$take."&keyword=".$keyword,null);
         
         if(isset($postParam['addDeposit'])){
             $param = [
@@ -31,24 +31,38 @@ class DepositAccountController extends Controller
                 'remark'            => $postParam['remark']
             ];
 
-            $add_url = $this->HttpRequest("POST", "/deposit-account/", $param);
-
-            if(!empty($add_url)){
-                Session::flash('success','action success');
-            }else{
-                Session::flash('failed','action failed');
+            try {
+                $add_url = $this->HttpRequest("POST", "/deposit-account/", $param)->json();
+                if(!empty($add_url)){
+                    Session::flash('success','Add deposit account success');
+                }else{
+                    Session::flash('error','Deposit account alreadey exist');
+                }
+            } catch (\Throwable $th) {
+                Session::flash('error','Add deposit account failed');
+                return Redirect::to('/deposit-account');
             }
+            
+                // return $add_url->status();
+            // if(!empty($add_url)){
+            //     Session::flash('success','action success');
+            // }else{
+            //     Session::flash('failed','action failed');
+            // }
     
-            return Redirect::to('/deposit-account');
+            // return Redirect::to('/deposit-account');
         }
+        
+        $depositAccount = $this->HttpRequest("GET","/deposit-account?page=".$page."&take=".$take."&keyword=".$keyword,null);
 
         $data = [
-            'data_deposit'  => $depositAccount['data'],
-            'meta'          => (object) $depositAccount['meta'],
+            'data_deposit'  => $depositAccount['data'] ? $depositAccount['data'] : '',
+            'meta'          => $depositAccount['meta'] ? (object) $depositAccount['meta'] : '',
             'prevPage'      => (int) $page - 1,
             'nextPage'      => (int) $page + 1,
             'keyword'       => $keyword,
         ];
+        
         return view('app.deposit-account.deposit-account')->with($data);
     }
 

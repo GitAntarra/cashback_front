@@ -15,8 +15,8 @@
 <!-- table Transactions start -->
 <section id="table-transactions">
   <div class="card">
-    <form method="POST">
-      @csrf
+    <form method="POST" action="{{route('searchSubFeature.post')}}?id={{$main_featureid}}">
+    @csrf
     <div class="card-header pl-0">
       <div class="row justify-content-end">
         <div class="col-lg-4 p-0">
@@ -24,7 +24,7 @@
         </div>
         <div class="col-lg-8 col-md-12 row">
           <div class="input-group">
-            <input type="text" Placeholder="Search" class="form-control">   
+            <input type="text" name="keyword" id="keyword" value="{{($keyword) ? $keyword : '' }}" Placeholder="Search by subfeature name" class="form-control">   
             <div class="input-group-append">
               <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModalform"><i class="bx bx-plus text-white">Add Sub Feature</i></button>
@@ -67,6 +67,23 @@
             </tbody>
         </table>
       </div>
+      <div class="row pt-5">
+          <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$page}} of {{$meta->pageCount}} | Total Data : {{$meta->itemCount}}</div>
+          </div>
+          <div class="col-sm-12 col-md-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+            <ul class="pagination">
+              <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
+                  <a class="page-link" href="<?php echo asset('/sub-feature').'?id='.$main_featureid.'&page='.$prevPage.'&take='.$take; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
+              </li>
+              <li class="paginate_button page-item next <?php if($meta->hasNextPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
+                  <a class="page-link" href="<?php echo asset('/sub-feature').'?id='.$main_featureid.'&page='.$nextPage.'&take='.$take; ?>">Next<i class='bx bx-chevrons-right'></i></a>
+              </li>
+            </ul>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
 </section>
@@ -90,14 +107,14 @@
         <div class="col-12" id="formname">
           <label>Sub Feature Name </label>
           <div class="form-group">
-            <input name="subfeatureName" id="subfeatureName" type="text" placeholder="Sub Feature Name" class="form-control" require>
+            <input name="subfeatureName" id="subfeatureName" type="text" placeholder="Sub Feature Name" class="form-control" oninput="allow_alphabets(this)" title="Please Enter on Alphabet Only" class="form-control" required>
           </div>
         </div>
         <div class="col-12" id="formurl">
             <div class="form-group">
                 <label>Description</label>
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description" require></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description" required></textarea>
                 </fieldset>
             </div>
         </div>
@@ -137,14 +154,14 @@
         <div class="col-12" id="formname">
           <label>Nama Feature </label>
           <div class="form-group">
-            <input name="featureNameEdit" id="featureNameEdit" type="text" placeholder="Feature Name" class="form-control" require>
+            <input name="featureNameEdit" id="featureNameEdit" type="text" placeholder="Feature Name" class="form-control" oninput="allow_alphabets(this)" title="Please Enter on Alphabet Only" class="form-control" required>
           </div>
         </div>
         <div class="col-12" id="formurl">
             <div class="form-group">
                 <label>Description</label>
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3" placeholder="Description"></textarea>
+                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3" placeholder="Description" required></textarea>
                 </fieldset>
             </div>
         </div>
@@ -174,6 +191,12 @@
       }
   });
 
+  function allow_alphabets(element){
+    let textInput = element.value;
+    textInput = textInput.replace(/[^A-Za-z]/gm, ""); 
+    element.value = textInput.toUpperCase();
+  }
+
   $(document).ready(function () {
     $('.EditFeatureButton').on('click', function (){
       
@@ -199,7 +222,7 @@
       let idFeature = $(this).attr("idFeature");
       Swal.fire({
         title: 'Are you sure?',
-        text: "You want to delete this Feature?",
+        text: "You want to delete this Subfeature?",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -220,7 +243,7 @@
               Swal.fire({
                 type: "success",
                 title: 'Deleted!',
-                text: 'Your file has been deleted.',
+                text: 'Your Subfeature has been deleted.',
                 confirmButtonClass: 'btn btn-success',
               }).then((w) =>{
                   location.reload(true);
@@ -238,7 +261,7 @@
         else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire({
             title: 'Cancelled',
-            text: 'Your Feature is safe :)',
+            text: 'Your Subfeature is safe :)',
             type: 'error',
             confirmButtonClass: 'btn btn-success',
           })

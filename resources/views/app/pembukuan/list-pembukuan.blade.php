@@ -141,7 +141,7 @@
                 @endforeach
                 @else
                 <tr>
-                  <td colspan="7" align="center">No Result Data!</td>
+                  <td colspan="9" align="center">No Result Data!</td>
                 </tr>
                 @endif
               </tbody>

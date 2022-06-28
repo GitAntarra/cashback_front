@@ -62,19 +62,25 @@ class ChannelController extends Controller
 
         }
 
-        $list_channel = $this->HttpRequest("GET","/channel?page=".$page."&take=".$take."&keyword=".$key, null)->json();
+        try {
+            $list_channel = $this->HttpRequest("GET","/channel?page=".$page."&take=".$take."&keyword=".$key, null);
 
-        $data = [
-            "data_channel"  => $list_channel['data'],
-            "key"           => $key,
-            "meta"          => (object) $list_channel['meta'],
-            "take"          => $take,
-            "page"          => $page,
-            "number"        => (int) ($page * $take)-($take -1),
-            "prevPage"      => (int) $page - 1,
-            "nextPage"      => (int) $page + 1
-        ];
-        return view('app.channel.channel-list')->with($data);
+
+            $data = [
+                "data_channel"  => $list_channel['data'],
+                "key"           => $key,
+                "meta"          => (object) $list_channel['meta'],
+                "take"          => $take,
+                "page"          => $page,
+                "number"        => (int) ($page * $take)-($take -1),
+                "prevPage"      => (int) $page - 1,
+                "nextPage"      => (int) $page + 1
+            ];
+            return view('app.channel.channel-list')->with($data);
+        } catch (\Throwable $th) {
+            return redirect('/logout');
+        }
+        
     }
 
     public function getChannelById(Request $request)

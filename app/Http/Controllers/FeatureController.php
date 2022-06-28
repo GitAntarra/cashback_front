@@ -84,6 +84,7 @@ class FeatureController extends Controller
 
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 5;
+        $key  = $request->post('keyword') ? $request->post('keyword') : '';
 
         // Add Sub Feature
         if(isset($postParam['addsubFeature'])){
@@ -92,10 +93,10 @@ class FeatureController extends Controller
                 'id'         => $postParam['idmainFeature'],
                 'feature_id' => $postParam['subfeatureName'],
                 'description'=> $postParam['description']
-
             ];
 
             $add_subfeature = $this->HttpRequest("POST","/feature/sub",$params);
+
 
 
             if(!empty($add_subfeature)){
@@ -129,12 +130,18 @@ class FeatureController extends Controller
 
         }
    
-        $data_subfeature = $this->HttpRequest("GET","/feature/".$request->get('id')."/sub",null)->json();
+        $data_subfeature = $this->HttpRequest("GET","/feature/".$request->get('id')."/sub?page=".$page."&take=".$take."&keyword=".$key,null)->json();
 
 
         $data = [
             'main_featureid'    => $idmain ? $idmain : $param['id'],
-            'data_subfeature'   => $data_subfeature,
+            'data_subfeature'   => $data_subfeature['data'],
+            'meta'              => (object) $data_subfeature['meta'],
+            'keyword'           => $key,
+            'page'              => (int) $page,
+            'take'              => (int) $take,
+            'prevPage'          => (int) $page - 1,
+            'nextPage'          => (int) $page + 1 
         ];
 
         return view('app.feature.sub-feature-list')->with($data);

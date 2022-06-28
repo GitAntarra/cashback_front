@@ -67,7 +67,7 @@
                   </div>  
                   <div class="col-md-9">
                   <button type="submit" name="finduser" value="1" title="Find User" class="btn btn-primary glow mr-sm-1 mb-1"><i class="bx bx-search"></i> Find</button>
-                  <button type="submit" title="Show All User" class="btn btn-success glow mr-sm-1 mb-1"><i class="bx bx-list-ul"></i> Show All</button>
+                  <button type="submit" name="showAlluser" value="1" title="Show All User" class="btn btn-success glow mr-sm-1 mb-1"><i class="bx bx-list-ul"></i> Show All</button>
                   <a href="{{asset('page-users-add')}}" title="Add User" class="btn btn-warning glow mr-sm-1 mb-1"><i class="bx bx-plus"></i> Add</a>
                   </div>
                 </div>

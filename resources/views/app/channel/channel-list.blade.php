@@ -25,7 +25,7 @@
         <div class="col-lg-8 col-md-12 row">
           <div class="input-group">
             <form action="{{route('searhFeature.post')}}" method="POST">
-            <input type="text" Placeholder="Search" name="keywordChannel" id="keywordChannel" value="{{$key}}" class="form-control">   
+            <input type="text" Placeholder="Search by channel name" name="keywordChannel" id="keywordChannel" value="{{$key}}" class="form-control">   
             <div class="input-group-append">
               <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
               </form>
@@ -120,13 +120,13 @@
         <div class="col-12" id="formname">
           <label>Channel ID</label>
           <div class="form-group">
-            <input name="channelIdAdd" id="channelIdAdd" type="text" placeholder="Channel ID" class="form-control" require>
+            <input name="channelIdAdd" id="channelIdAdd" type="text" placeholder="Channel ID" class="form-control" oninput="allow_alphabets(this)" title="Please Enter on Alphabet Only" required>
           </div>
         </div>
         <div class="col-12" id="formname">
           <label>Channel Key </label>
           <div class="input-group">
-            <input name="channelKeyAdd" id="channelKeyAdd" type="text" placeholder="Channel Key" class="form-control" require>
+            <input name="channelKeyAdd" id="channelKeyAdd" type="text" placeholder="Channel Key" class="form-control" required>
             <div class="input-group-append">
               <button type="button" title="Generate Key" onclick="generateKey(10)" class="btn btn-primary"><i class="bx bx-key text-white"> </i></button>
             </div>
@@ -145,7 +145,7 @@
             <div class="form-group">
                 <label>Description</label>
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="descriptionAdd" name="descriptionAdd" rows="3" placeholder="Description"></textarea>
+                    <textarea class="form-control" id="descriptionAdd" name="descriptionAdd" rows="3" placeholder="Description" reuired></textarea>
                 </fieldset>
             </div>
         </div>
@@ -189,7 +189,7 @@
         <div class="col-12" id="formname">
           <label>Channel Key </label>
           <div class="input-group">
-            <input name="channelKeyEdit" id="channelKeyEdit" type="text" placeholder="Channel Key" class="form-control" require>
+            <input name="channelKeyEdit" id="channelKeyEdit" type="text" placeholder="Channel Key" class="form-control" required>
             <div class="input-group-append">
               <button type="button" title="Generate Key" onclick="generateKey(12)" class="btn btn-primary"><i class="bx bx-key text-white"> </i></button>
             </div>
@@ -253,7 +253,12 @@
       $('#channelKeyEdit').val(result);
   }
 
-  
+
+  function allow_alphabets(element){
+    let textInput = element.value;
+    textInput = textInput.replace(/[^A-Za-z]/gm, ""); 
+    element.value = textInput.toUpperCase();
+  }
 
   $(document).ready(function () {
     $('.EditChannelButton').on('click', function (){

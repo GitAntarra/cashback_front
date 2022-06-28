@@ -47,7 +47,7 @@ class AuthenticationController extends Controller
       $req_param = [
         'pernr'   => $request->post('pernr'),
         'password'=> $request->post('password'),
-        'ip'      => "172.18.135.212",
+        'ip'      => $request->ip(),
         'latitude'=> "tes",
         'longitude'=>"salda"
       ];
@@ -65,15 +65,23 @@ class AuthenticationController extends Controller
             Session::put('accessToken', $response['accessToken']);
             Session::put('set_userdata', $response['user']);
             Session::put('userMenu', $response['menu']);
+            Session::flash('success','Successful, Welcome '.$response['user']['name']);
             return redirect('/');
-            
+        }elseif($response->status() == 502){
+            Session::flash('error','502 Bad Gateway');
+            return redirect('/auth-login');
+        }elseif($response->status() == 401){
+            Session::flash('warning','The personal number or password you entered is incorrect');
+            return redirect('/auth-login');
         }else{
+            Session::flash('warning','Error');
             return redirect('/auth-login');
         }
     }
 
     public function logout(Request $request){
       $request->session()->flush();
+      Session::flash('success','You have logged out, Thank you');
       return redirect('/auth-login');
     }
 }

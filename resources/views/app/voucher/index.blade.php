@@ -23,7 +23,7 @@
           <div class="input-group">
             <form action="{{route('searchVoucher.post')}}" method="POST">
               @csrf
-            <input type="text" name="keyword" id="keyword" value="{{$keys}}" Placeholder="Search" class="form-control">
+            <input type="text" name="keyword" id="keyword" value="{{$keys}}" Placeholder="Search by voucher code" class="form-control">
             <select name="stsApproved" id="stsApproved" class="custom-select">
               @foreach($sts_approved as $key=>$row)
                 <option value="{{$key}}" {{($sts_aprv == $key) ? 'selected' : ''}}>{{$row}}</option>
@@ -61,11 +61,23 @@
                 </div>
                 <div class="col-md-12 col-lg-9 pb-0">
                   <div class="card-body p-1">
-                    <span class="badge badge-light-info">{{$row['code']}}</span>
-                    <span>{{$row['type']}} {{$row['percent']}} %</span>
-                    <p>s/d : {{date('d-m-Y', strtotime($row['dueDate']))}}</p>
-                    <p class="p-0">{{$row['featuremain']}}</p>
-                    <span class="badge badge-light-<?php if($row['status'] == 'APPROVED'){ echo 'success'; }elseif($row['status'] == 'REJECTED'){ echo 'danger';}else{ echo 'warning'; } ?>">{{$row['status']}}</span>
+                    <div class="row">
+                      <div class="col-12">
+                        <span class="badge badge-light-info">{{$row['code']}}</span>
+                      </div>
+                      <div class="col-12">
+                        <span>{{$row['type']}} {{$row['percent']}} %</span>
+                      </div>
+                      <div class="col-12">
+                        <p>s/d : {{date('d-m-Y', strtotime($row['dueDate']))}}</p>
+                      </div>
+                      <div class="col-12">
+                        <p class="p-0">{{$row['featuremain']}}</p>
+                      </div>
+                      <div class="col-12">
+                        <span class="badge badge-light-<?php if($row['status'] == 'APPROVED'){ echo 'success'; }elseif($row['status'] == 'REJECTED'){ echo 'danger';}else{ echo 'warning'; } ?>">{{$row['status']}}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -121,12 +133,7 @@
                 </div>
                 <div class="col-9">
                 <input type="text" name="createVoucher" id="createVoucher" value="createVoucher" hidden/>
-                <input required class="form-control" name="vouchercode" id="vouchercode" placeholder="Voucher Code" type="text" onkeyup="
-                var start = this.selectionStart;
-                var end = this.selectionEnd;
-                this.value = this.value.toUpperCase();
-                this.setSelectionRange(start, end);
-                ">
+                <input required class="form-control" name="vouchercode" id="vouchercode" placeholder="Voucher Code" type="text" oninput="allow_alphabets(this)" title="Please Enter on Alphabet Only" class="form-control">
                 </div>
             </div>
         </div>
@@ -322,6 +329,12 @@
     mintrans.value = formatMinTrans(this.value, "Rp. ");
   });
 
+  function allow_alphabets(element){
+    let textInput = element.value;
+    textInput = textInput.replace(/[^A-Za-z]/gm, ""); 
+    element.value = textInput.toUpperCase();
+  }
+
   /* Format Tanggal*/
   function myFunction() {
     var x = document.getElementById("startdate").min = "2006-05-05T16:15:23";
@@ -329,13 +342,12 @@
 
   function subFeatureSelect(){
     var idFeature = $('#idmainFeature option:selected').attr('idmain');
-    console.log(idFeature);
 
     $.ajax({
       type : "GET",
       url  : "{{asset('/getsubFeature')}}?id="+idFeature,
-      success : function(data){
-        console.log(data);
+      success : function(res){
+          let data = res.data
           $('#formSubFeature').empty();
           if(data.length !== 0){
 
@@ -376,13 +388,11 @@
       url: "{{asset('/get-depositaccount')}}",
       dataType: "JSON", 
       data: function (params) {
-        console.log(params.term);
         return {
           keyword: params.term
         };
       },
       processResults: function (data, params) {
-        console.log(data)
         return {
           results: data
         };
@@ -406,7 +416,6 @@
         };
       },
       processResults: function (data, params) {
-        console.log(data.result);
         return {
           results: data.result
         };
@@ -430,7 +439,6 @@
         };
       },
       processResults: function (data, params) {
-        console.log(data);
         return {
           results: data.result
         };
@@ -486,7 +494,6 @@
         var value = document.getElementById('signerpn').value;
         if (value.length == 3) {
         alert("123");
-        console.log("123");
         }
     }
 
