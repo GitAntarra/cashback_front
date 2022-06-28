@@ -19,7 +19,7 @@ class CheckLogin
         $value = $request->session()->get('isLogin');
 
         if(!$value){
-            return redirect('/auth-login');
+            return redirect('/logout');
         }
         return $next($request);
     }

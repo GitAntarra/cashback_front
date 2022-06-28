@@ -22,7 +22,7 @@
         <div class="col-lg-8 col-md-12 row">
           <div class="input-group">
             <form action="{{route('searhFeature.post')}}" method="POST">
-            <input type="text" name="keyword" Placeholder="Search" class="form-control" value="{{($keyword) ? $keyword : '' }}">   
+            <input type="text" name="keyword" Placeholder="Search by feature name" class="form-control" value="{{($keyword) ? $keyword : '' }}">   
             <div class="input-group-append">
               <button name="findfeature" value="1" type="submit" class="btn btn-primary" title="Find"><i class="bx bx-search text-white"> Find</i></button>
               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModalform" title="Add Feature"><i class="bx bx-plus text-white">Add Feature</i></button>
@@ -105,11 +105,12 @@
         <input type="text" name="editFeature" id="editFeature" value="editFeature" hidden> 
         <input type="text" name="idFeature" id="idFeature" value="idFeature" class="form-control" hidden>
         <div class="col-12" id="formname">
-          <label>Nama Feature </label>
+          <label>Feature Name</label>
           <div class="form-group">
-            <input name="featureName" id="featureName" type="text" placeholder="Feature Name" class="form-control" require>
+            <input name="featureName" id="featureName" type="text" placeholder="Feature Name" oninput="allow_alphabets(this)" title="Please Enter on Alphabet Only" class="form-control" required>
           </div>
         </div>
+        
         <div class="col-12" id="formurl">
             <div class="form-group">
                 <label>Description</label>
@@ -150,14 +151,9 @@
           @csrf
         <input type="text" name="addFeature" id="addFeature" value="addFeature" hidden> 
         <div class="col-12" id="formname">
-          <label>Nama Feature </label>
+          <label>Feature Name</label>
           <div class="form-group">
-                <input required class="form-control" name="featureName" id="featureName" type="text" onkeyup="
-                var start = this.selectionStart;
-                var end = this.selectionEnd;
-                this.value = this.value.toUpperCase();
-                this.setSelectionRange(start, end);
-                ">
+                <input required class="form-control" name="featureName" id="featureName" type="text" placeholder="Feature Name" oninput="allow_alphabets(this)" title="Please Enter on Alphabet Only">
           </div>
         </div>
         <div class="col-12" id="formurl">
@@ -194,6 +190,13 @@
       }
   });
 
+  function allow_alphabets(element){
+        let textInput = element.value;
+        textInput = textInput.replace(/[^A-Za-z]/gm, ""); 
+        element.value = textInput.toUpperCase();
+    }
+
+
   $(document).ready(function () {
     $('.EditFeatureButton').on('click', function (){
       
@@ -211,10 +214,6 @@
         }
       });
       return false;
-    });
-    
-    $('.prev').on('click', function (){
-      alert("123");
     });
 
   $('.confirmdel').on('click', function () {

@@ -15,7 +15,7 @@ class UsersController extends Controller
 
   //user List
   public function listUser(Request $request){
-
+    $postVar = $request->post();
     $page = $request->get('page') ? $request->get('page') : 1;
     $limit = $request->get('limit') ? $request->get('limit') : 5;
     $status_filter = $request->post('statusFilter')  ? $request->post('statusFilter') : 'ALL';
@@ -29,6 +29,13 @@ class UsersController extends Controller
       'MAIN'    => 'MAIN',
       'OPTION'  => 'OPTION'
     ];
+
+    if(isset($postVar['showAlluser']) && !empty($postVar['showAlluser']))
+    {
+      $key = '';
+      $level_filter = 'ALL';
+      $status_filter = 'ALL';
+    }
 
     $nextPage = (int) $page + 1;
     $prevPage = (int) $page - 1;

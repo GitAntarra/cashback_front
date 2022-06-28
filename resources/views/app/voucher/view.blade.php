@@ -30,12 +30,14 @@
                     <small class="text-muted">Date Due :</small>
                     <span class="text-primary font-weight-bold">{{date('d-m-Y', strtotime($data['dueDate']))}}</span>
                   </div> -->
+                  @if($data['status'] == 'APPROVED')
                   <div class="custom-control custom-switch custom-control-inline mb-1">
                     <input type="checkbox" class="custom-control-input" {{($data['isActive'] == 'ACTIVE') ? 'checked' : ''}} id="stsActive" idvoucher="{{$data['id']}}">
                     <label class="custom-control-label mr-1" for="stsActive">
                     </label>
                     <span>Active</span>
                   </div>
+                  @endif
                 </div>
               </div>
             </div>
@@ -686,13 +688,14 @@ $('#checkerpnEdit').select2({
     $.ajax({
       type : "GET",
       url  : "{{asset('/getsubFeature')}}?id="+idmain,
-      success : function(data){
+      success : function(res){
+          let data = res.data;
           $('#formSubFeature').empty();
           if(data.length !== 0){
 
             var html = `<div class="row">
                 <div class="col-3">
-                    <label>SUB FEssATURE</label>
+                    <label>SUB FEATURE</label>
                 </div>
                 <div class="col-9" id="optionSelect" required>
                   <select name="idsubFeatureoption" id="idsubFeaturepotion" class="custom-select">

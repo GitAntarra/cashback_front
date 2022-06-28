@@ -20,7 +20,7 @@
             <div class="row justify-content-end">
               <div class="col-lg-10 col-md-12 row">
                 <div class="input-group">
-                  <input type="text" class="form-control" name="keyword" id="keyword" placeholder="Search..." {{($keyword) ? 'value='.$keyword : '' }}>      
+                  <input type="text" class="form-control" name="keyword" id="keyword" placeholder="Search by account number or account name" {{($keyword) ? 'value='.$keyword : '' }}>      
                   <div class="input-group-append">
                     <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
                     <button type="button" class="btn btn-success"><i class="bx bx-plus text-white" data-toggle="modal"
@@ -39,7 +39,7 @@
         <thead>
           <tr>
               <th>Account Number</th>
-              <th>Short Number</th>
+              <th>Account Name</th>
               <th>Account Currency</th>
               <th>Remark</th>
               <th>Balance</th>
@@ -64,7 +64,7 @@
               {{$row['remark']}}
             </td>
             <td align="left">
-              <button style="height:10px; width:10px;" class="btn updatebalance" id="test{{$key}}" data-id="{{$row['account_number']}}" index="{{$key}}" data-remark="{{$row['remark']}}"><i class="btn bx bx-show-alt"></i></button>
+              <button style="height:10px; width:10px;" title="View Balance" class="btn updatebalance" id="test{{$key}}" data-id="{{$row['account_number']}}" index="{{$key}}" data-remark="{{$row['remark']}}"><i class="btn bx bx-show-alt"></i></button>
               <p class="tet{{$key}}"  index="{{$key}}" ></p>
               <!-- <?php 
               echo "Rp " . number_format($row['balance'],2,',','.');
@@ -73,17 +73,6 @@
             <td>
               {{date('d-m-Y H:i:s', strtotime($row['updated_at']))}}
             </td>
-            <!-- <td class="text-center py-1">
-              <div class="dropdown">
-                  <span
-                  class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
-                  <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" href="#"><i class="bx bx-edit-alt mr-1"></i> edit</a>
-                  <a class="dropdown-item" href="#"><i class="bx bx-trash mr-1"></i> delete</a>
-                  </div>
-              </div>
-            </td> -->
           </tr>
           @endforeach
           @else
@@ -93,6 +82,8 @@
       </table>
       <!-- table ends -->
     </div>
+    @if(!empty($meta) && isset($meta))
+    @if($meta->itemCount != 0)
     <div class="row p-2 pt-5">
       <div class="col-sm-12 col-md-5">
         <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page  of {{$meta->page}} | {{$meta->pageCount}} Total Data : {{$meta->itemCount}}</div>
@@ -110,6 +101,8 @@
         </div>
       </div>
     </div>
+    @endif
+    @endif
   </div>
 </section>
 
@@ -131,7 +124,7 @@
         <div class="col-12" id="formname">
           <label>Account Number </label>
           <div class="form-group">
-            <input name="accountNumber" id="accountNumber" pattern='.{15}' type="text" placeholder="Account Number (15 Digits)" class="form-control" require>
+            <input name="accountNumber" id="accountNumber" pattern='.{15}' oninvalid="setCustomValidity('Please enter 15 digits.')" oninput="allow_number(this)" title="Please Enter on Alphabet Only" type="text" placeholder="Account Number (15 Digits)" class="form-control" require>
           </div>
         </div>
         <div class="col-12" id="formurl">
@@ -172,6 +165,12 @@
     return new Intl.NumberFormat('id-ID',
       { style: 'currency', currency: 'IDR', minimumFractionDigits: 2 }
     ).format(money);
+  }
+
+  function allow_number(element){
+      let textInput = element.value;
+      textInput = textInput.replace(/[^0-9]/gm, ""); 
+      element.value = textInput;
   }
 
   $(document).ready(function () {

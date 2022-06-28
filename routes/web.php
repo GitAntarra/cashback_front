@@ -53,6 +53,7 @@ Route::group(['middleware' => ['isLogin']],function () {
     Route::get('/main-feature',"FeatureController@mainFeature");
     Route::post('/main-feature',"FeatureController@mainFeature")->name('searhFeature.post');
     Route::get('/sub-feature',"FeatureController@subFeature");
+    Route::post('/sub-feature',"FeatureController@subfeature")->name('searchSubFeature.post');
     Route::post('/addFeature',"FeatureController@mainFeature")->name('addFeature.post');
     Route::post('/addsubFeature',"FeatureController@subFeature")->name('addsubFeature.post');
     Route::get('/delete-feature',"FeatureController@deleteFeaturemain");

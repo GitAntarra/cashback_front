@@ -28,6 +28,7 @@ class VoucherController extends Controller
         $list_deposit = $this->HttpRequest("GET","/deposit-account?page=1",null)->json();
 
         $isLogin = session()->get('set_userdata');
+
         $sts_approval = array();
         if($isLogin['level'] == "MAKER"){
             $sts_approval['CREATED'] = "CREATED";

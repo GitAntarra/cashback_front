@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Http;
@@ -23,36 +24,38 @@ class Controller extends BaseController
     }
 
     public function HttpRequest($method, $endpoint, $bodyRequest = ""){
-        $api_url = env("API_URL").$endpoint;
-        $token = Session::get("accessToken");
-        $response = Http::acceptJson()->withToken($token);
 
-        if($method == "GET"){
-            $response = $response->get($api_url);
-        }else if($method == "POST"){
-            $response = $response->post($api_url, $bodyRequest);
-        }else if($method == "DELETE"){
-            $response = $response->delete($api_url);
-        }else if($method == "PUT"){
-            $response = $response->put($api_url, $bodyRequest);
-        }
+            $api_url = env("API_URL").$endpoint;
+            $token = Session::get("accessToken");
+            $response = Http::acceptJson()->timeout(10)->retry(3, 5000)->withToken($token);
 
-        if($response->status() == 401){
-            abort(401);
-        }elseif($response->status() == 502){
-            return Redirect::to('/auth-login');
-        }elseif($response->status() == 404){
-            abort(404);
-        }elseif($response->status() == 400){
-            abort(333, $response['message'] ? implode($response['message']) : 'unknowerror');
-            print_r($response['message'][0]); die;    
-        }elseif($response->status() == 403){
-            abort(333, $response['message'] ? $response['message'] : 'unknowerror');
-        }elseif($response->failed()){
-            abort(333, 'error');
-        }else{
-            return $response;
-        }
+            if($method == "GET"){
+                $response = $response->get($api_url)->throw();
+            }else if($method == "POST"){
+                $response = $response->post($api_url, $bodyRequest)->throw();
+            }else if($method == "DELETE"){
+                $response = $response->delete($api_url)->throw();
+            }else if($method == "PUT"){
+                $response = $response->put($api_url, $bodyRequest)->throw();
+            }
+
+            if($response->status() == 401){
+                abort(401);
+            }elseif($response->status() == 502){
+                return redirect('/auth-login');
+            }elseif($response->status() == 404){
+                return "123";
+                abort(404, $response['message'] ? implode($response['message']) : 'Not Found');
+            }elseif($response->status() == 400){
+                abort(333, $response['message'] ? implode($response['message']) : 'unknowerror');
+                print_r($response['message'][0]); die;    
+            }elseif($response->status() == 403){
+                abort(333, $response['message'] ? $response['message'] : 'unknowerror');
+            }elseif($response->failed()){
+                abort(333, 'error');
+            }else{
+                return $response;
+            }
     }
 
     public function optChannel(){
@@ -82,10 +85,6 @@ class Controller extends BaseController
         }else if($method == "PUT"){
             $response = $response->put($api_url, $bodyRequest);
         }
-
-
-        // print_r($response->body());
-        // return Response::download($response->body(), $tempName);
 
         if($response->status() == 401){
             abort(401);

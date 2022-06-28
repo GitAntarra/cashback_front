@@ -22,8 +22,8 @@
         <?php $data = (object) $detail_user;?>
         <ul class="nav nav-tabs mb-2" role="tablist">
           <li class="nav-item">
-              <a class="nav-link d-flex align-items-center active" id="account-tab" data-toggle="tab"
-                  href="#account" aria-controls="account" role="tab" aria-selected="true">
+              <a class="d-flex align-items-center active" id="account-tab" data-toggle="tab"
+                   aria-controls="account" role="tab" aria-selected="true">
                   <i class="bx bx-user mr-25"></i><span class="d-none d-sm-block">Edit User</span>
               </a>
           </li>
@@ -98,7 +98,7 @@
                         <div class="form-group">
                             <label>Description</label>
                             <fieldset class="form-group">
-                            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description">{{$data->description}}</textarea>
+                            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description" required>{{$data->description}}</textarea>
                 </fieldset>
                         </div>
                     </div>
