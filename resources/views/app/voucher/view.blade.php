@@ -260,7 +260,7 @@
           </div>
           <div class="invoice-action-btn pt-1">
 
-            @if(($sess_user['level'] == 'CHECKER' && $data['status'] == 'CREATED') || ($sess_user['level'] == 'SIGNER' && $data['status'] == 'CHECKED'))
+            @if(($sess_user['level'] == 'CHECKER' && ($data['status'] == 'CREATED' || $data['status'] == 'UPDATED')) || ($sess_user['level'] == 'SIGNER' && $data['status'] == 'CHECKED'))
             <input type="text" name="statusVoucher" id="statusVoucher" value="{{$data['status']}}" hidden />
             <button type="button" onclick="approve_btn('{{$data['id']}}')" title="Approve Voucher" class="btn btn-success btn-block">
               <i class='bx bx-check'></i>
