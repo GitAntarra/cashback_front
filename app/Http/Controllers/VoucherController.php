@@ -131,7 +131,7 @@ class VoucherController extends Controller
             'list_deposit'  => $this->optDeposit(),
             'sess_user'    => session()->get('set_userdata'),
         ];
-
+  
         return view('app.voucher.view')->with($data);
     }
 
@@ -155,6 +155,7 @@ class VoucherController extends Controller
             'signer'        => $getPost['signerpnEdit'],
             'checker'       => $getPost['checkerpnEdit'],
         ];
+
 
         $edit_url = $this->HttpRequest("PUT","/vouchers/$id", $param);
 

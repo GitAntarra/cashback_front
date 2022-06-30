@@ -552,18 +552,6 @@
               </div>
             </div>
           </div>
-          <div class="col-12 pb-1">
-            <div class="row">
-              <div class="col-3">
-                  <label>Progress</label>
-              </div>
-              <div class="col-9">
-                <fieldset class="form-group">
-                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3" placeholder="Description">{{$data['status_msg']}}</textarea>
-                </fieldset>
-              </div>
-            </div>
-          </div>
           
       </div>
       <div class="modal-footer">
@@ -615,7 +603,7 @@ $('#depositAccountEdit').select2(
         };
       },
       processResults: function (data, params) {
-        console.log(data)
+        console.log(data);
         return {
           results: data
         };
