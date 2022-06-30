@@ -689,6 +689,7 @@ $('#checkerpnEdit').select2({
       type : "GET",
       url  : "{{asset('/getsubFeature')}}?id="+idmain,
       success : function(res){
+        console.log(res);
           let data = res.data;
           $('#formSubFeature').empty();
           if(data.length !== 0){

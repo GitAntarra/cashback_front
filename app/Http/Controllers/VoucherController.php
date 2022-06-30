@@ -149,7 +149,7 @@ class VoucherController extends Controller
             'maxDayRedeem'  => (int) $getPost['maxredeemperdayEdit'],
             'description'   => $getPost['descriptionEdit'],
             'featuremain'   => $getPost['mainFeatureEdit'],
-            'featuresub'    => $getPost['idsubFeatureoption'],
+            'featuresub'    => isset($getPost['idsubFeatureoption']) ? $getPost['idsubFeatureoption'] : "",
             'channel'       => $getPost['channelEdit'],
             'depositaccount'=> $getPost['depositAccountEdit'],
             'signer'        => $getPost['signerpnEdit'],

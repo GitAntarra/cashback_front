@@ -18,9 +18,10 @@ class checkMaker
         // $value = $request->session()->get('isLogin');
         $isLogin = $request->session()->get('set_userdata');
         
-        if($isLogin['level'] != "MAKER" || $isLogin['level'] == 'SUPERADMIN'){
+        if($isLogin['level'] == "MAKER" || $isLogin == "SUPERADMIN"){
+            return $next($request);
+        }else{
             abort(403);
         }
-        return $next($request);
     }
 }
