@@ -33,7 +33,7 @@
             <!-- users edit media object start -->
             <div class="media mb-2">
                 <a class="mr-2" href="#">
-                    <img src="{{asset('images/portrait/small/avatar-s-26.jpg')}}" alt="users avatar"
+                    <img src="{{$data->foto}}" alt="users avatar"
                         class="users-avatar-shadow rounded-circle" height="64" width="64">
                 </a>
                 <div class="media-body">

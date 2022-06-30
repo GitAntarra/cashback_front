@@ -94,7 +94,7 @@
       </div>
       <div class="row pt-5">
         <div class="col-sm-12 col-md-5">
-          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$meta->page}} of {{$meta->pageCount}}  | Total Data : {{$meta->itemCount }}</div>
+          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page {{$meta->page}} of {{$meta->pageCount}}  | Total Data : {{$meta->itemCount }} </div>
         </div>
         <div class="col-sm-12 col-md-7">
         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
@@ -201,7 +201,7 @@
                     <label>QUOTA</label>
                 </div>
                 <div class="col-9">
-                    <input required type="number" name="limit" id="limit" class="touchspin">
+                    <input required type="number" name="limit" id="limit" class="form-control" min="1">
                 </div>
             </div>
         </div>
@@ -211,7 +211,7 @@
                     <label>END DATE</label>
                 </div>
                 <div class="col-9">
-                <input required type="datetime-local" name="duedate" id="duedate" class="form-control" min="1">
+                <input required type="datetime-local" name="duedate" id="duedate" min="<?= date("Y-m-d H:i") ?>" class="form-control">
                 </div>
             </div>
         </div>
@@ -251,13 +251,13 @@
                   <label>MAXIMAL REDEEM</label>
               </div>
               <div class="col-3">
-                  <input required type="number" name="maxredeem" id="maxredeem" class="touchspin" min="1" value="1">
+                  <input required type="number" name="maxredeem" id="maxredeem" class="form-control" min="1">
               </div>
               <div class="col-3">
                   <label>REDEEM PER DAY</label>
               </div>
               <div class="col-3">
-                  <input required type="number" name="maxredeemperday" id="maxredeemperday" class="touchspin" min="1" value="1">
+                  <input required type="number" name="maxredeemperday" id="maxredeemperday" class="form-control" min="1">
               </div>
           </div>
         </div>

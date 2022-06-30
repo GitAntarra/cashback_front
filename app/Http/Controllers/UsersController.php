@@ -113,6 +113,7 @@ class UsersController extends Controller
       'detail_user' => $detail_user,
     ];
 
+
     return view('settings.users.page-users-view')->with($data);
   }
 
@@ -186,6 +187,7 @@ class UsersController extends Controller
       'opt_status'    => $opt_status,
       'selectedStatus'=> $detail_user['status'] ? $detail_user['status'] : "",
     ];
+
     return view('settings.users.page-users-edit')->with($data);
   }
 

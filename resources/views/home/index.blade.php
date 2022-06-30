@@ -13,7 +13,7 @@
 @section('content')
 <!-- Dashboard Ecommerce Starts -->
 <section id="dashboard">
-    <div class="row">
+    <div class="row d-flex justify-content-center">
         <div class="col-12">
             <div class="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
             <!-- user profile nav tabs profile start -->
@@ -76,6 +76,7 @@
                 </div>
             </div>
         </div>
+        @if($user['level'] == 'SUPERADMIN')
         <div class="col-xl-3 col-sm-6 col-12">
             <div class="card bg-primary bg-lighten-1">
                 <div class="card-content">
@@ -95,6 +96,7 @@
                 </div>
             </div>
         </div>
+        @endif
         <div class="col-xl-3 col-sm-6 col-12">
             <div class="card bg-warning bg-lighten-1">
                 <div class="card-content">

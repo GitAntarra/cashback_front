@@ -66,6 +66,8 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'isLogin' => \App\Http\Middleware\CheckLogin::class,
+        'isMaker' => \App\Http\Middleware\CheckMaker::class,
+        'isChecker' => \App\Http\Middleware\CheckChecker::class,
     ];
 
     /**

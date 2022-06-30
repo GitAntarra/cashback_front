@@ -11,11 +11,15 @@ use Session;
 class DashboardController extends Controller
 {
     public function dashboard(Request $request){
+        // $user = $request->session()->get('isLogin');
+        // echo "<pre>";
+        // print_r($user['user']['level']);
+        // die;
         $dashboard = $this->HttpRequest("GET","/vouchers/count/dashbord",null)->json();
 
-        // $list_voucher = $this->HttpRequest("GET","/vouchers?page=1&take=10&status=CREATED&keyword=",null)->json();
-
+        
         $data = [
+            'title'      => "Dashboard",
             'data'       => $dashboard
         ];
 

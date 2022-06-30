@@ -12,6 +12,7 @@
 @endsection
 
 @section('content')
+<?php $user = Session::get('set_userdata'); ?>
 <!-- table Transactions start -->
 <section id="table-transactions">
   <div class="card">
@@ -27,7 +28,9 @@
             <input type="text" name="keyword" id="keyword" value="{{($keyword) ? $keyword : '' }}" Placeholder="Search by subfeature name" class="form-control">   
             <div class="input-group-append">
               <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
+              @if($user['level'] == 'SUPERADMIN' || $user['level'] == 'MAKER')
               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModalform"><i class="bx bx-plus text-white">Add Sub Feature</i></button>
+              @endif
             </div>
           </div>
         </div>
@@ -42,7 +45,9 @@
                 <th width="5%">No. </th>
                 <th width="25%">Name</th>
                 <th width="30%">Description</th>
+                @if($user['level'] == 'SUPERADMIN' ||$user['level']== 'MAKER')
                 <th width="20%">Action</th>
+                @endif
               </tr>
             </thead>
             <tbody>
@@ -53,10 +58,12 @@
                 <td>{{$a++}}</td>
                 <td>{{$row['feature_id']}}</td>
                 <td>{{$row['description']}}</td>
+                @if($user['level'] == 'SUPERADMIN' || $user['level'] == 'MAKER')
                 <td>
                   <button class="btn btn-primary btn-sm EditFeatureButton" title="Edit Feature"  idFeature="{{$row['id']}}"><i class="bx bx-edit-alt"></i></button>
                   <button class="btn btn-danger btn-sm confirmdel" idFeature="{{$row['id']}}" title="Delete Feature"><i class="bx bx-trash" id="deleteFeature"></i></button>
                 </td>
+                @endif
               </tr>
               @endforeach
               @else
@@ -114,7 +121,7 @@
             <div class="form-group">
                 <label>Description</label>
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description" required></textarea>
+                    <textarea class="form-control" id="description" minlength="10" maxlength="150" name="description" rows="3" placeholder="Description (10 - 150 characters)" required></textarea>
                 </fieldset>
             </div>
         </div>
@@ -161,7 +168,7 @@
             <div class="form-group">
                 <label>Description</label>
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3" placeholder="Description" required></textarea>
+                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3" minlength="10" maxlength="150" placeholder="Description (10 - 150 characters)" required></textarea>
                 </fieldset>
             </div>
         </div>

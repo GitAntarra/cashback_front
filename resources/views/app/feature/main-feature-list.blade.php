@@ -13,6 +13,7 @@
 
 @section('content')
 <!-- table Transactions start -->
+<?php $user = Session::get('set_userdata'); ?>
 <section id="table-transactions">
   <div class="card">
     <form method="POST">
@@ -25,7 +26,9 @@
             <input type="text" name="keyword" Placeholder="Search by feature name" class="form-control" value="{{($keyword) ? $keyword : '' }}">   
             <div class="input-group-append">
               <button name="findfeature" value="1" type="submit" class="btn btn-primary" title="Find"><i class="bx bx-search text-white"> Find</i></button>
+              @if($user['level'] == 'SUPERADMIN' || $user['level'] == 'MAKER')
               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModalform" title="Add Feature"><i class="bx bx-plus text-white">Add Feature</i></button>
+              @endif
             </div>
             </form>
           </div>
@@ -54,9 +57,11 @@
                     <td>{{$row['description']}}</td>
                     <td>
                         <a href="{{asset('/sub-feature?id=')}}{{$row['id']}}" class="btn btn-success btn-sm viewFeatureButton" title="View Feature"  idFeature="{{$row['id']}}"><i class="bx bx-show-alt"></i></a>
+                        @if($user['level'] == 'SUPERADMIN' || $user['level'] == 'MAKER')
                         <button class="btn btn-primary btn-sm EditFeatureButton" title="Edit Feature"  idFeature="{{$row['id']}}"><i class="bx bx-edit-alt"></i></button>
                         <button class="btn btn-danger btn-sm confirmdel" idFeature="{{$row['id']}}" title="Delete Feature"><i class="bx bx-trash" id="deleteFeature"></i></button>
-                    </td>
+                        @endif
+                      </td>
                 </tr>
                 @endforeach
                 @else
@@ -88,6 +93,8 @@
   </div>
 </section>
 
+
+@if($user['level'] == 'SUPERADMIN' || $user['level'] == 'MAKER')
 <!--Edit Feature Modal -->
 <div class="modal fade text-left" id="editModalForm" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -115,7 +122,7 @@
             <div class="form-group">
                 <label>Description</label>
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description"></textarea>
+                    <textarea class="form-control" id="description" pattern=".{10,100}" name="description" rows="3" placeholder="Description (10 - 150 characters)" required></textarea>
                 </fieldset>
             </div>
         </div>
@@ -160,7 +167,7 @@
             <div class="form-group">
                 <label>Description</label>
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description"></textarea>
+                    <textarea class="form-control" id="description" name="description" minlength="10" rows="3" placeholder="Description (10 - 150 characters)" required></textarea>
                 </fieldset>
             </div>
         </div>
@@ -179,6 +186,7 @@
     </div>
   </div>
 </div>
+@endif
 @endsection
 
 {{-- vendor scripts --}}

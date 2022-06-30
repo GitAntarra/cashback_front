@@ -124,14 +124,14 @@
         <div class="col-12" id="formname">
           <label>Account Number </label>
           <div class="form-group">
-            <input name="accountNumber" id="accountNumber" pattern='.{15}' oninvalid="setCustomValidity('Please enter 15 digits.')" oninput="allow_number(this)" title="Please Enter on Alphabet Only" type="text" placeholder="Account Number (15 Digits)" class="form-control" require>
+            <input name="accountNumber" id="accountNumber" pattern='.{15}' oninvalid="setCustomValidity('Please enter 15 digits.')" oninput="allow_number(this)" title="Please Enter on Number Only" type="text" placeholder="Account Number (15 Digits)" class="form-control" required>
           </div>
         </div>
         <div class="col-12" id="formurl">
             <div class="form-group">
                 <label>Remark</label>
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="remark" name="remark" rows="3" placeholder="Remark"></textarea>
+                    <textarea class="form-control" id="remark" name="remark" rows="3" placeholder="Remark (10 characters or more)" minlength="10" required></textarea>
                 </fieldset>
             </div>
         </div>

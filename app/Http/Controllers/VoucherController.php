@@ -16,18 +16,21 @@ class VoucherController extends Controller
 
     public function listVoucher(Request $request)
     {
+        
+        $getPost = $request->post();
+        $isLogin = session()->get('set_userdata');
+        
+        if($isLogin['level'] == 'SIGNER'){
+            $defaultsts = 'CHECKED';
+        }else{
+            $defaultsts = 'CREATED';
+        }
+
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 8;
-        $sts_approv = $request->post('stsApproved') ? $request->post('stsApproved') : "CREATED";
+        $sts_approv = $request->post('stsApproved') ? $request->post('stsApproved') : $defaultsts;
         $key  = $request->post('keyword') ? $request->post('keyword') : "";
 
-        $getPost = $request->post();
-        $list_voucher = $this->HttpRequest("GET","/vouchers?page=".$page."&take=".$take."&status=".$sts_approv."&keyword=".$key,null)->json();
-        $list_channel = $this->HttpRequest("GET","/channel?page=1", null)->json();
-        $list_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
-        $list_deposit = $this->HttpRequest("GET","/deposit-account?page=1",null)->json();
-
-        $isLogin = session()->get('set_userdata');
 
         $sts_approval = array();
         if($isLogin['level'] == "MAKER"){
@@ -51,6 +54,11 @@ class VoucherController extends Controller
 
         $sts_approval['APPROVED'] = "APPROVED";
         $sts_approval['REJECTED'] = "REJECTED";
+        
+        $list_voucher = $this->HttpRequest("GET","/vouchers?page=".$page."&take=".$take."&status=".$sts_approv."&keyword=".$key,null)->json();
+        $list_channel = $this->HttpRequest("GET","/channel?page=1", null)->json();
+        $list_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
+        $list_deposit = $this->HttpRequest("GET","/deposit-account?page=1",null)->json();
 
         $data = [
             'msg'   => '',
@@ -96,9 +104,9 @@ class VoucherController extends Controller
             $url_addVoucher = (object) $this->HttpRequest("POST","/vouchers", $param);
 
             if(!empty($url_addVoucher)){
-                Session::flash('success','action success');
+                Session::flash('success','Create voucher success');
             }else{
-                Session::flash('failed','action failed');
+                Session::flash('failed','Create voucher failed');
             }
 
             return Redirect::to('/list-voucher');

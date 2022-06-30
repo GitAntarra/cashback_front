@@ -20,7 +20,7 @@
                   <label class="pt-1">External ID</label>
                 </div>  
                 <div class="col-md-9">
-                <input type="text" name="externalid" id="externalid" value="{{($externalid) ? $externalid : '' }}" class="form-control" min="1">
+                <input type="text" name="externalid" id="externalid" placeholder="Search by external id" value="{{($externalid) ? $externalid : '' }}" class="form-control" min="1">
                   </fieldset>
                 </div>
               </div>
@@ -43,7 +43,7 @@
                   <label class="pt-1">Request By</label>
                 </div>  
                 <div class="col-md-9">
-                  <input type="text" name="requestby" id="requestby" value="{{($requestby) ? $requestby : '' }}" class="form-control">
+                  <input type="text" name="requestby" id="requestby" value="{{($requestby) ? $requestby : '' }}" placeholder="Search by personal number" class="form-control" oninput="allow_number(this)" title="Please Enter on Number Only">
                 </div>
               </div>
             </div>
@@ -53,7 +53,7 @@
                   <label class="pt-1">Response Code</label>
                 </div>  
                 <div class="col-md-9">
-                  <input type="number" name="responsecode" id="responsecode" value="{{($responsecode) ? $responsecode : '' }}" class="form-control">
+                  <input type="number" name="responsecode" placeholder="Search by response code" min="1" id="responsecode" value="{{($responsecode) ? $responsecode : '' }}" class="form-control">
                 </div>
               </div>
             </div>
@@ -134,3 +134,29 @@
 <!-- Contextual classes end -->
 
 @endsection
+
+
+@section('vendor-scripts')
+<script type="text/javascript">
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  });
+
+  function allow_number(element){
+      let textInput = element.value;
+      textInput = textInput.replace(/[^0-9]/gm, ""); 
+      element.value = textInput;
+  }
+
+
+</script>
+<script src="{{asset('vendors/js/charts/apexcharts.min.js')}}"></script>
+<script src="{{asset('vendors/js/extensions/swiper.min.js')}}"></script>
+@endsection
+
+@section('page-scripts')
+<script src="{{asset('js/scripts/pages/dashboard-ecommerce.js')}}"></script>
+@endsection
+

@@ -13,6 +13,7 @@
 
 @section('content')
 <!-- table Transactions start -->
+<?php $user = Session::get('set_userdata'); ?>
 <section id="table-transactions">
   <div class="card">
     <form method="POST">
@@ -29,7 +30,9 @@
             <div class="input-group-append">
               <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
               </form>
+              @if($user['level'] == 'SUPERADMIN' || $user['level'] == 'MAKER')
               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModalform" title="Add Feature"><i class="bx bx-plus text-white">Add Channel</i></button>
+              @endif
             </div>
           </div>
         </div>
@@ -46,7 +49,9 @@
                 <th width="20%">Channel Key</th>
                 <th width="15%">Description</th>
                 <th width="20%">Status</th>
+                @if($user['level'] == 'SUPERADMIN' || $user['level'] == 'MAKER')
                 <th width="20%">Action</th>
+                @endif
                 </tr>
             </thead>
             <tbody>
@@ -66,11 +71,13 @@
                       <span class="badge badge-light-danger">{{$row['status']}}</span>
                       @endif
                     </td>
+                    @if($user['level'] == 'SUPERADMIN' || $user['level'] == 'MAKER')
                     <td>
                         <!-- <a href="{{asset('/sub-feature?id=')}}{{$row['channel_id']}}" class="btn btn-success btn-sm viewFeatureButton" title="View Feature"  idFeature="{{$row['channel_id']}}"><i class="bx bx-show-alt"></i></a> -->
                         <button class="btn btn-primary btn-sm EditChannelButton" title="Edit Feature"  idChannel="{{$row['channel_id']}}"><i class="bx bx-edit-alt"></i></button>
                         <button class="btn btn-danger btn-sm confirmdel" idChannel="{{$row['channel_id']}}" title="Delete Feature"><i class="bx bx-trash" id="deleteFeature"></i></button>
                     </td>
+                    @endif
                 </tr>
                 @endforeach
                 @else
@@ -101,6 +108,9 @@
     </div>
   </div>
 </section>
+
+
+@if($user['level'] == 'SUPERADMIN' || $user['level'] == 'MAKER')
 
 <!--Add Channel Modal -->
 <div class="modal fade text-left" id="addModalform" tabindex="-1" role="dialog"
@@ -227,6 +237,7 @@
     </div>
   </div>
 </div>
+@endif
 @endsection
 
 {{-- vendor scripts --}}
