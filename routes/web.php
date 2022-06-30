@@ -60,7 +60,6 @@ Route::group(['middleware' => ['isMaker']], function(){
     Route::get('/view-subfeature',"FeatureController@getsubFeatureById");
     Route::post('/edit-feature',"FeatureController@mainFeature")->name('edit-feature.post');
     Route::post('/edit-subfeature',"FeatureController@subFeature")->name('edit-subfeature.post');
-    Route::get('/getsubFeature', "FeatureController@getsubFeature");
 
     //Voucher Route
     Route::post('create-voucher','VoucherController@listVoucher')->name("createvoucher.post");
@@ -77,6 +76,7 @@ Route::group(['middleware' => ['isChecker']],function () {
     //Feature Route
     Route::get('/main-feature',"FeatureController@mainFeature");
     Route::get('/sub-feature',"FeatureController@subFeature");
+    Route::get('/getsubFeature', "FeatureController@getsubFeature");
 
     // User Route 
     Route::get('/get-checker','VoucherController@getChecker');
