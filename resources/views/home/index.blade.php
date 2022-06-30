@@ -88,7 +88,7 @@
                     <div class="col-lg-8 col-md-12">
                     <div class="card-body text-center">
                         <h4 class="card-title white">USER</h4>
-                        <p class="card-text white">{{($data['userCount']) ? $data['userCount'] : 0}} User aktif</p>
+                        <p class="card-text white">{{($data['userCount']) ? $data['userCount'] : 0}} Active User</p>
                         <a href="{{asset('/user-management')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
                     </div>
                     </div>
@@ -108,7 +108,7 @@
                     <div class="col-lg-8 col-md-12">
                     <div class="card-body text-center">
                         <h4 class="card-title white">VOUCHER</h4>
-                        <p class="card-text white">{{($data['voucherCount']) ? $data['voucherCount'] : 0}} Voucher Aktif</p>
+                        <p class="card-text white">{{($data['voucherCount']) ? $data['voucherCount'] : 0}} {{($user['level'] == 'CHECKER' || $user['level'] == 'SIGNER') ? 'Voucher Requested' : 'Active Voucher'}} </p>
                         <a href="{{asset('/list-voucher')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
                     </div>
                     </div>
@@ -127,7 +127,7 @@
                     <div class="col-lg-8 col-md-12">
                     <div class="card-body text-center">
                         <h4 class="card-title white">CHANNEL</h4>
-                        <p class="card-text white">{{($data['channelCount']) ? $data['channelCount'] : 0}} Channel Aktif</p>
+                        <p class="card-text white">{{($data['channelCount']) ? $data['channelCount'] : 0}} Active Channel</p>
                         <a href="{{asset('/list-channel')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
                     </div>
                     </div>
@@ -146,7 +146,7 @@
                     <div class="col-lg-8 col-md-12">
                     <div class="card-body text-center">
                         <h4 class="card-title white">FEATURE</h4>
-                        <p class="card-text white">{{($data['featureCount']) ? $data['featureCount'] : 0}} Feature Aktif</p>
+                        <p class="card-text white">{{($data['featureCount']) ? $data['featureCount'] : 0}} Active Voucher</p>
                         <a href="{{asset('/main-feature')}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i> View</a>
                     </div>
                     </div>

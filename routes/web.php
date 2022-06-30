@@ -43,15 +43,12 @@ Route::group(['middleware' => ['isLogin']], function(){
 
 Route::group(['middleware' => ['isMaker']], function(){
     //Channel Routes
-    Route::post('list-channel', "ChannelController@listChannel")->name('searchChannel.post');
     Route::post('/add-channel', "ChannelController@listChannel")->name('add-channel.post');
     Route::post('/edit-channel', "ChannelController@listChannel")->name('edit-channel.post');
     Route::get('/delete-channel',"ChannelController@deleteChannel");
     Route::get('/view-channel',"ChannelController@getChannelById");
 
     //Feature Route
-    Route::post('/main-feature',"FeatureController@mainFeature")->name('searhFeature.post');
-    Route::post('/sub-feature',"FeatureController@subfeature")->name('searchSubFeature.post');
     Route::post('/addFeature',"FeatureController@mainFeature")->name('addFeature.post');
     Route::post('/addsubFeature',"FeatureController@subFeature")->name('addsubFeature.post');
     Route::get('/delete-feature',"FeatureController@deleteFeaturemain");
@@ -72,10 +69,16 @@ Route::group(['middleware' => ['isChecker']],function () {
 
     //Channel Route
     Route::get('/list-channel', 'ChannelController@listChannel');
+    Route::post('list-channel', "ChannelController@listChannel")->name('searchChannel.post');
 
     //Feature Route
     Route::get('/main-feature',"FeatureController@mainFeature");
     Route::get('/sub-feature',"FeatureController@subFeature");
+<<<<<<< HEAD
+=======
+    Route::post('/main-feature',"FeatureController@mainFeature")->name('searhFeature.post');
+    Route::post('/sub-feature',"FeatureController@subfeature")->name('searchSubFeature.post');
+>>>>>>> 21733cc9bf74a7baf5575bc65bf270e6ec98d573
     Route::get('/getsubFeature', "FeatureController@getsubFeature");
 
     // User Route 
