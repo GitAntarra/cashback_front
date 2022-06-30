@@ -74,11 +74,8 @@ Route::group(['middleware' => ['isChecker']],function () {
     //Feature Route
     Route::get('/main-feature',"FeatureController@mainFeature");
     Route::get('/sub-feature',"FeatureController@subFeature");
-<<<<<<< HEAD
-=======
     Route::post('/main-feature',"FeatureController@mainFeature")->name('searhFeature.post');
     Route::post('/sub-feature',"FeatureController@subfeature")->name('searchSubFeature.post');
->>>>>>> 21733cc9bf74a7baf5575bc65bf270e6ec98d573
     Route::get('/getsubFeature', "FeatureController@getsubFeature");
 
     // User Route 
