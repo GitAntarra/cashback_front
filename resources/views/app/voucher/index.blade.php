@@ -143,11 +143,7 @@
                     <label>TYPE</label>
                 </div>
                 <div class="col-9">
-                  <select class="custom-select" name="type" id="type" required>
-                    <option value="">-- Choose Type --</option>
-                    <option value="CASHBACK">CASHBACK</option>
-                    <option value="DISCOUNT">DISCOUNT</option>
-                  </select>
+                  <input type="text" class="form-control" id="type" name="type" value="CASHBACK" required readonly>
                 </div>
             </div>
         </div>

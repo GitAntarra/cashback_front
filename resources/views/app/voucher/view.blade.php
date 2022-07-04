@@ -387,10 +387,7 @@
                     <label>TYPE</label>
                 </div>
                 <div class="col-9">
-                  <select class="custom-select" name="typeEdit" id="typeEdit" selected="{{$data['type']}}" required>
-                    <option value="CASHBACK" <?php if($data['type'] == "CASHBACK"){ echo "selected"; } ?>>CASHBACK</option>
-                    <option value="DISCOUNT" <?php if($data['type'] == "DISCOUNT"){ echo "selected"; } ?>>DISCOUNT</option>
-                  </select>
+                  <input type="text" class="form-control" name="typeEdit" id="typeEdit" value="CASHBACK" required readonly>
                 </div>
             </div>
         </div>
