@@ -291,7 +291,7 @@
               </div>
               <div class="col-9">
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description"> </textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description" required> </textarea>
                 </fieldset>
               </div>
             </div>
@@ -300,11 +300,9 @@
       
       <div class="modal-footer">
         <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
-          <i class="bx bx-x d-block d-sm-none"></i>
           <span class="d-none d-sm-block">Close</span>
         </button>
-        <button type="submit" class="btn btn-primary ml-1">
-          <i class="bx bx-check d-block d-sm-none"></i>
+        <button id="submit_create" type="submit" value="2" class="btn btn-primary ml-1">
           <span class="d-none d-sm-block">Create</span>
         </button>
       </form>
@@ -446,7 +444,38 @@
     cache: true,
   }
 	});
-  
+
+  $("#form_input").submit(function(e) {
+    var nilai = $("#submit_create").val();
+    if (nilai == "2") {
+      e.preventDefault();
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You want to create voucher?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, create it!',
+        confirmButtonClass: 'btn btn-warning',
+        cancelButtonClass: 'btn btn-danger ml-1',
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          $("#submit_create").val('1');
+          $("#form_input").submit();
+        }
+        else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire({
+            title: 'Cancelled',
+            text: 'Voucher creation has been cancelled :)',
+            type: 'error',
+            confirmButtonClass: 'btn btn-success',
+          })
+        }
+      });
+    }
+  });
 
 
   /* Fungsi formatMinTrans */
@@ -499,6 +528,8 @@
 
   
 </script>
+<script src="{{asset('vendors/js/extensions/dragula.min.js')}}"></script>
+<script src="{{asset('vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/datatables.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('vendors/js/tables/datatable/datatables.checkboxes.min.js')}}"></script>

@@ -101,6 +101,7 @@ class VoucherController extends Controller
                 'checker'       => $getPost['checkerpn'],
                 'description'   => $getPost['description']
             ];
+
             $url_addVoucher = (object) $this->HttpRequest("POST","/vouchers", $param);
 
             if(!empty($url_addVoucher)){

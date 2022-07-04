@@ -363,7 +363,7 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{route('updateVoucher.post')}}?id={{$data['id']}}" id="form_input">
+      <form method="post" action="{{route('updateVoucher.post')}}?id={{$data['id']}}" id="form_edit">
         @csrf
         <div class="col-12 pb-1">
             <div class="row">
@@ -559,7 +559,7 @@
           <i class="bx bx-x d-block d-sm-none"></i>
           <span class="d-none d-sm-block">Close</span>
         </button>
-        <button type="submit" class="btn btn-primary ml-1">
+        <button id="submit_edit" value="2" type="submit" class="btn btn-primary ml-1">
           <i class="bx bx-check d-block d-sm-none"></i>
           <span class="d-none d-sm-block">Save</span>
         </button>
@@ -703,6 +703,38 @@ $('#checkerpnEdit').select2({
         }
     });
   }
+
+  $("#form_edit").submit(function(e) {
+    var nilai = $("#submit_edit").val();
+    if (nilai == "2") {
+      e.preventDefault();
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You want to Edit voucher?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Edit it!',
+        confirmButtonClass: 'btn btn-warning',
+        cancelButtonClass: 'btn btn-danger ml-1',
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          $("#submit_edit").val('1');
+          $("#form_edit").submit();
+        }
+        else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire({
+            title: 'Cancelled',
+            text: 'Edit Voucher has been cancelled :)',
+            type: 'error',
+            confirmButtonClass: 'btn btn-success',
+          })
+        }
+      });
+    }
+  });
   
 </script>
 <script src="{{asset('vendors/js/tables/datatable/datatables.min.js')}}"></script>

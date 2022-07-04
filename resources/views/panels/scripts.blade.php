@@ -22,6 +22,8 @@
     @else
     <script src="{{asset('js/scripts/configs/horizontal-menu.js')}}"></script>
     @endif
+    <script src="{{asset('vendors/js/extensions/dragula.min.js')}}"></script>
+    <script src="{{asset('vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
     <script src="{{asset('js/core/app-menu.js')}}"></script>
     <script src="{{asset('js/core/app.js')}}"></script>
     <script src="{{asset('js/scripts/components.js')}}"></script>
@@ -46,6 +48,31 @@
                 toastr.show(message,"Cashback");
             }           
         }
+
+        $('#buttonlogout').on('click', function () {
+        Swal.fire({
+          title: 'Are you sure you want to logout?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes',
+          confirmButtonClass: 'btn btn-warning',
+          cancelButtonClass: 'btn btn-danger ml-1',
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            window.location.assign("{{asset('logout')}}");
+          }
+          else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+              title: 'Cancelled',
+              type: 'error',
+              confirmButtonClass: 'btn btn-success',
+            })
+          }
+        });
+      });
 
     </script>
     <!-- END: Theme JS-->
