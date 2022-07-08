@@ -90,6 +90,7 @@ Route::group(['middleware' => ['isChecker']],function () {
     //Pembukuan
     Route::get('/list-pembukuan',"PembukuanController@listPembukuan");
     Route::post('/list-pembukuan',"PembukuanController@listPembukuan")->name('statuspembukuan.post');
+    Route::post('/done-pembukuan',"PembukuanController@donePembukuan")->name('donePembukuan.post');
     Route::get('/get-channelopt',"PembukuanController@getChannelopt");
     Route::get('/get-depositaccount',"PembukuanController@getDepositAccount");
     Route::get('/testdownload',"PembukuanController@testdownload");

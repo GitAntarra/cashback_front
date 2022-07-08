@@ -33,6 +33,10 @@ class PembukuanController extends Controller
                 'remarks'           => $postParam['remarkRetry'],
             ];
 
+            echo "<pre>";
+            print_r($param);
+            die;
+
             $retry_url = $this->HttpRequest("POST","/schedulers/retryfund", $param);
 
             if(!empty($retry_url)){
@@ -72,6 +76,10 @@ class PembukuanController extends Controller
                 'code'              => $postParam['codeDone'],
             ];
 
+            echo "<pre>";
+            print_r($param);
+            die;
+
             $retry_url = $this->HttpRequest("POST","/schedulers/donefund", $param);
 
             if(!empty($retry_url)){
@@ -98,6 +106,43 @@ class PembukuanController extends Controller
 
 
         return view('app.pembukuan.list-pembukuan')->with($data);
+    }
+
+    public function donePembukuan(Request $request){
+        $postParam = $request->post();
+
+        $param = [
+            'transaction_id'    => $postParam['idTransactionDone'],
+            'code'              => $postParam['codeDone'],
+        ];
+
+        $done_url = $this->HttpRequest("POST","/schedulers/donefund", $param);
+
+        if(!empty($done_url)){
+            Session::flash('success',$retry_url['message']);
+        }else{
+            Session::flash('failed','Action Failed');
+        }
+
+        return $done_url;
+    }
+
+    public function retryPembukuan(Request $request){
+        $param = [
+            'transaction_id'    => $postParam['idTransactionRetry'],
+            'code'              => $postParam['codeRetry'],
+            'remarks'           => $postParam['remarkRetry'],
+        ];
+
+        $retry_url = $this->HttpRequest("POST","/schedulers/retryfund", $param);
+
+        if(!empty($retry_url)){
+            Session::flash('success',$retry_url['message']);
+        }else{
+            Session::flash('failed','Action Failed');
+        }
+
+        return $retry_url;
     }
 
     public function getChannelopt(Request $request){
