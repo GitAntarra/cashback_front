@@ -64,7 +64,6 @@ Route::group(['middleware' => ['isMaker']], function(){
 });
 
 Route::group(['middleware' => ['isChecker']],function () {
-    
     Route::get('/','DashboardController@dashboard');
 
     //Channel Route
@@ -116,6 +115,8 @@ Route::group(['middleware' => ['isChecker']],function () {
     Route::post('/edit-deposit',"DepositAccountController@updateDeposit")->name('editdeposit.post');
 
 });
+
+    
 
     // Authentication  Route
     Route::get('/auth-login','AuthenticationController@loginPage')->name('loginform');

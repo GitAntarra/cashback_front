@@ -74,7 +74,7 @@
                   <div class="col-md-3">
                   </div>  
                   <div class="col-md-9">
-                  <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i><i class="bx bx-refresh"></i><i class="bx bx-check"></i> </button>
+                  <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i> </button>
                   <button type="submit" name="downloadexcel" value="1" class="btn btn-success"><i class="bx bx-spreadsheet text-white"> Excel</i></button>
                   </div>
                 </div>
@@ -119,21 +119,17 @@
                   <?php if($row['statusBook'] == "FAILED"){
                     ?>
                     <td>
-                      <div class="row">
-                        <div class="row">
-                        <button class="btn btn-primary btn-sm retrybutton" id="{{$row['id']}}" code="{{$row['code']}}"> Retry</button>
+                        <div class="input-group-append">
+                        <button class="btn btn-primary btn-sm retrybutton" title="Retry" id="{{$row['id']}}" code="{{$row['code']}}"><i class="bx bx-refresh"></i></button>
                         <form action="{{route('statuspembukuan.post')}}" method="POST" class="pl-1">
                           @csrf
                           <input type="text" name="statusRedeem" value="FAILED" hidden />
                           <input type="text" name="donePembukuan" id="donePembukuan" value="donePembukuan" hidden />
                           <input type="text" name="idTransactionDone" id="idTransactionDone" value="{{$row['id']}}" hidden/>
                           <input type="text" name="codeDone" id="codeDone" value="{{$row['code']}}" hidden/>
-                          <button type="submit" class="btn btn-success btn-sm doneButton">Done</button>
+                          <button type="submit" title="Done" class="btn btn-success btn-sm doneButton"><i class="bx bx-check"></i></button>
                         </form>
                         </div>
-                        
-                      </div>
-                    
                     </td>
                     
                   <?php
