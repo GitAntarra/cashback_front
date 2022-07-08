@@ -16,9 +16,6 @@ class DashboardController extends Controller
         // print_r($user['user']['level']);
         // die;
         $dashboard = $this->HttpRequest("GET","/vouchers/count/dashbord",null)->json();
-        
-
-        
         $data = [
             'title'      => "Dashboard",
             'data'       => $dashboard

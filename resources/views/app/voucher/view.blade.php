@@ -12,6 +12,8 @@
 @endsection
 @section('content')
     <!-- app invoice View Page -->
+<?php $user = Session::get('set_userdata');?>
+
 <section class="invoice-view-wrapper">
   <div class="row">
     <!-- invoice view page -->
@@ -21,24 +23,16 @@
           <div class="card-body pb-0 mx-25">
             <!-- header section -->
             <div class="row">
-              <div class="col-xl-4 col-md-12">
+              <div class="col-xl-12 col-md-12 d-flex align-items-center justify-content-<?= ($data['status'] == 'APPROVED') ? 'between' : 'start'?>">
               <a href="{{asset('/list-voucher')}}" class="btn btn-primary"><i class="bx bx-left-arrow-alt"></i> Back</a>
+              @if($data['status'] == 'APPROVED' && ($user['level'] == "MAKER" || $user['level'] == "SUPERADMIN"))
+              <div class="custom-control custom-switch custom-control-inline mb-1">
+                <input type="checkbox" nilai="2" class="custom-control-input" {{($data['isActive'] == 'ACTIVE') ? 'checked' : ''}} id="stsActive" idvoucher="{{$data['id']}}">
+                <label class="custom-control-label mr-1" for="stsActive">
+                </label>
+                <span>{{($data['isActive'] == 'ACTIVE') ? 'Active' : 'Deactive'}}</span>
               </div>
-              <div class="col-xl-8 col-md-12">
-                <div class="d-flex align-items-center justify-content-xl-end flex-wrap">
-                  <!-- <div>
-                    <small class="text-muted">Date Due :</small>
-                    <span class="text-primary font-weight-bold">{{date('d-m-Y', strtotime($data['dueDate']))}}</span>
-                  </div> -->
-                  @if($data['status'] == 'APPROVED')
-                  <div class="custom-control custom-switch custom-control-inline mb-1">
-                    <input type="checkbox" class="custom-control-input" {{($data['isActive'] == 'ACTIVE') ? 'checked' : ''}} id="stsActive" idvoucher="{{$data['id']}}">
-                    <label class="custom-control-label mr-1" for="stsActive">
-                    </label>
-                    <span>Active</span>
-                  </div>
-                  @endif
-                </div>
+              @endif
               </div>
             </div>
             <!-- logo and title -->
@@ -659,11 +653,56 @@ $('#checkerpnEdit').select2({
 
   $("#stsActive").click(function(e) {
     let idvoucher = $(this).attr("idvoucher");
-    console.log(idvoucher);
-    // $.ajax({
-    //   type: "GET",
-    //   url : 
-    // });
+    let nilai = $(this).attr("nilai");
+
+    if (nilai == "2") {
+      e.preventDefault();
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You want to Change Activation voucher?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Do it!',
+        confirmButtonClass: 'btn btn-warning',
+        cancelButtonClass: 'btn btn-danger ml-1',
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          $.ajax({
+            type: "GET",
+            url : "{{asset('/active-inActive')}}?id="+idvoucher,
+            success: function(response) {
+                console.log(response.msg);
+                Swal.fire({
+                  type: "success",
+                  title: 'Activation Changed!',
+                  text: response.msg,
+                  confirmButtonClass: 'btn btn-success',
+                }).then((w) =>{
+                    location.reload(true);
+                });
+              },
+              failure: function (response) {
+                  swal(
+                  "Internal Error",
+                  "Oops, your note was not saved.", // had a missing comma
+                  "error"
+                  )
+              }
+          });
+        }
+        else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire({
+            title: 'Cancelled',
+            text: 'Voucher Activation has been canceled :)',
+            type: 'error',
+            confirmButtonClass: 'btn btn-success',
+          })
+        }
+      });
+    }
   });
 
   showsubFeature();

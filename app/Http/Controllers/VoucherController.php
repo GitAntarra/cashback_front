@@ -263,11 +263,17 @@ class VoucherController extends Controller
         return $data_user;
     }
 
-    public function activeInactive()
+    public function activeInactive(Request $request)
     {
-        $id = $request->get('idvoucher');
+        $id = $request->get('id');
 
-        $update_activeinactive = $this->HttpRequest("PUT","vouchers/$id/activeChange", null);
+        $update_activeinactive = $this->HttpRequest("PUT","/vouchers/$id/activeChange", null)->json();
+
+        if(!empty($update_activeinactive)){
+            Session::flash('success','Voucher activation changed');
+        }else{
+            Session::flash('failed', $update_activeinactive['msg']);
+        }
 
         return $update_activeinactive;
     }
