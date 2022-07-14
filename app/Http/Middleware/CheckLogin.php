@@ -20,9 +20,10 @@ class CheckLogin
         // $value = $request->session()->get('isLogin');
         $isLogin = $request->session()->get('set_userdata');
         
-        if(isset($isLogin) && $isLogin['level'] != "SUPERADMIN"){
-            abort(403);
-        }else if(!$isLogin){
+        // if(isset($isLogin) && $isLogin['level'] != "SUPERADMIN"){
+        //     abort(403);
+        // }else 
+        if(!$isLogin){
             return redirect('/logout');
         }
         return $next($request);

@@ -9,6 +9,28 @@
 @section('page-styles')
 <link rel="stylesheet" type="text/css" href="{{asset('css/pages/dashboard-ecommerce.css')}}">
 @endsection
+<style>
+.loader {
+  border: 15px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 15px solid #3498db;
+  width: 2px;
+  height: 20px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
 @section('content')
 <!-- Dashboard Ecommerce Starts -->
 <section id="deposit-account">
@@ -63,7 +85,7 @@
             <td>
               {{$row['remark']}}
             </td>
-            <td align="left">
+            <td align="left" id="balance{{$key}}">
               <button style="height:10px; width:10px;" title="View Balance" class="btn updatebalance" id="test{{$key}}" data-id="{{$row['account_number']}}" index="{{$key}}" data-remark="{{$row['remark']}}"><i class="btn bx bx-show-alt"></i></button>
               <p class="tet{{$key}}"  index="{{$key}}" ></p>
               <!-- <?php 
@@ -179,6 +201,8 @@
       let ta = $(this).attr("data-remark");
       let index = $(this).attr("index");
 
+      $(`#balance${index}`).empty();
+      $(`#balance${index}`).append('<div class="loader"></div>');
       console.log(t);
       console.log(ta);
 
@@ -190,18 +214,23 @@
           remarkEdit : ta
         },
         success : function(data){
-          console.log(data.AVAILABLE_BAL);
+          console.log("sqd");
           if(data.AVAILABLE_BAL){
             $(`.tet${index}`).text(formatRupiah(data.AVAILABLE_BAL));
             $(`#test${index}`).hide();
           }else{
-            $(`.tet${index}`).text("Undifned");
+            $(`.tet${index}`).text("Undefined");
             $(`#test${index}`).hide();
             console.log("123");
           }
           $(`.tet${index}`).text(formatRupiah("123"));
           $(`.tet${index}`).text(formatRupiah(data.AVAILABLE_BAL));
           $(`#test${index}`).hide();
+        },
+        error: function (error) {
+            $(`#balance${index}`).empty();
+            $(`#balance${index}`).text("Undefined");
+            toastr.warning("ESB Error","Cashback");
         }
       });
       

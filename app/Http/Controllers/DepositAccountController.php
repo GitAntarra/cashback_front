@@ -78,6 +78,12 @@ class DepositAccountController extends Controller
 
         $edit = $this->HttpRequest("POST", "/deposit-account/view", $param)->json();
 
+        if(!empty($edit)){
+                Session::flash('success','action success');
+            }else{
+                Session::flash('failed','action failed');
+            }
+
         return $edit;
     }
 }
