@@ -90,7 +90,7 @@
                 <div class="col-6">
                   <div class="row">
                     <div class="col-6">
-                      <h6 class="invoice-from">Limit</h6>
+                      <h6 class="invoice-from">Quota</h6>
                     </div>
                     <div class="col-6">
                       <h6 class="text-primary font-weight-bold"><b>: {{$data['limit']}}</b></h6>
@@ -289,7 +289,7 @@
         <input type="text" value="" id="idapprove" name="idapprove" hidden />
         <div class="col-12 pb-1">
           <fieldset class="form-group">
-              <textarea class="form-control" id="remarkApproval" name="msg" rows="3" placeholder="Minimum 10 Characters"></textarea>
+              <textarea class="form-control" id="remarkApproval" name="msg" rows="3" placeholder="Minimum 10 Characters" minlength="10" required></textarea>
           </fieldset>
         </div>
       </div>
@@ -325,7 +325,7 @@
         <input type="text" value="" id="idreject" name="idreject" hidden />
         <div class="col-12 pb-1">
           <fieldset class="form-group">
-              <textarea class="form-control" name="msg" rows="3" placeholder="Minimum 10 Characters"></textarea>
+              <textarea class="form-control" name="msg" rows="3" placeholder="Minimum 10 Characters" minlength="10" required></textarea>
           </fieldset>
         </div>
       </div>

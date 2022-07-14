@@ -144,6 +144,7 @@ Route::get('/publish', function () {
 
 // dashboard Routes
 Route::get('/dashboard-analytics','DashboardController@dashboardAnalytics');
+Route::get('/testtt','PembukuanController@tst');
 
 //Application Routes
 Route::get('/app-email','ApplicationController@emailApplication');

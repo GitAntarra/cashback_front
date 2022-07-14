@@ -287,7 +287,7 @@
               </div>
               <div class="col-9">
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description" required> </textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Minimum 10 Characters" minlength="10" required> </textarea>
                 </fieldset>
               </div>
             </div>

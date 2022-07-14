@@ -15,11 +15,14 @@ class CheckChecker
      */
     public function handle($request, Closure $next)
     {
-        $value = $request->session()->get('isLogin');
-        // $isLogin = $request->session()->get('set_userdata');
+        // $value = $request->session()->get('isLogin');
+        $isLogin = $request->session()->get('set_userdata');
         
-        if(!$value){
-            abort(403);
+        // if(isset($isLogin) && ($isLogin['level'] != "MAKER" || $isLogin != "CHECKER" || $isLogin != "SUPERADMIN")){
+        //     abort(403);
+        // }else 
+        if(!$isLogin){
+            return redirect('/logout');
         }
         return $next($request);
     }

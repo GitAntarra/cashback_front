@@ -33,10 +33,6 @@ class PembukuanController extends Controller
                 'remarks'           => $postParam['remarkRetry'],
             ];
 
-            echo "<pre>";
-            print_r($param);
-            die;
-
             $retry_url = $this->HttpRequest("POST","/schedulers/retryfund", $param);
 
             if(!empty($retry_url)){
@@ -75,10 +71,6 @@ class PembukuanController extends Controller
                 'transaction_id'    => $postParam['idTransactionDone'],
                 'code'              => $postParam['codeDone'],
             ];
-
-            echo "<pre>";
-            print_r($param);
-            die;
 
             $retry_url = $this->HttpRequest("POST","/schedulers/donefund", $param);
 
