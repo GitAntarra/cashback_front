@@ -36,7 +36,7 @@
               @endforeach    
             </select>       
             <div class="input-group-append">
-              <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white">find</i></button>
+              <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>
               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#large"><i class="bx bx-sort text-white">Sorted</i></button>
             </div>
           </div>

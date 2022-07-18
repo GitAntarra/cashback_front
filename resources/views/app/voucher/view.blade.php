@@ -538,7 +538,7 @@
               </div>
               <div class="col-9">
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3" placeholder="Description">{{$data['description']}}</textarea>
+                    <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="3" placeholder="Minimum 10 Characters" minlength="10" required>{{$data['description']}}</textarea>
                 </fieldset>
               </div>
             </div>

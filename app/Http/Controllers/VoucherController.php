@@ -27,7 +27,7 @@ class VoucherController extends Controller
         }
 
         $page = $request->get('page') ? $request->get('page') : 1;
-        $take = $request->get('take') ? $request->get('take') : 8;
+        $take = $request->get('take') ? $request->get('take') : 12;
         $sts_approv = $request->post('stsApproved') ? $request->post('stsApproved') : $defaultsts;
         $key  = $request->post('keyword') ? $request->post('keyword') : "";
 
@@ -56,8 +56,8 @@ class VoucherController extends Controller
         $sts_approval['REJECTED'] = "REJECTED";
         
         $list_voucher = $this->HttpRequest("GET","/vouchers?page=".$page."&take=".$take."&status=".$sts_approv."&keyword=".$key,null)->json();
-        $list_channel = $this->HttpRequest("GET","/channel?page=1", null)->json();
-        $list_feature = $this->HttpRequest("GET", "/feature?page=1", null)->json();
+        $list_channel = $this->HttpRequest("GET","/channel?page=1&take=50", null)->json();
+        $list_feature = $this->HttpRequest("GET", "/feature?page=1&take=50", null)->json();
         $list_deposit = $this->HttpRequest("GET","/deposit-account?page=1",null)->json();
 
         $data = [

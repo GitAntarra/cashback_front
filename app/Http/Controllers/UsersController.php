@@ -73,6 +73,7 @@ class UsersController extends Controller
       'DEVELOPER'     => 'DEVELOPER'
     ];  
 
+    $data['data_user'] = session()->get('set_userdata');
     return view('settings.users.page-users-list')->with($data);
   }
 

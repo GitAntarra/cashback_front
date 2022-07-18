@@ -28,7 +28,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Undian BRI 1.0.0</title>
+    <title>Promo Cashback 1.0.0</title>
     <link rel="apple-touch-icon" href="{{asset('images/ico/apple-icon-120.png')}}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo/test.png')}}">
 
@@ -39,7 +39,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
   <!-- BEGIN: Body-->
   <body class="vertical-layout 1-column navbar-sticky {{$configData['bodyCustomClass']}} footer-static blank-page
-  @if($configData['theme'] === 'dark'){{'dark-layout'}} @elseif($configData['theme'] === 'semi-dark'){{'semi-dark-layout'}} @else {{'light-layout'}} @endif" data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
+  @if($configData['theme'] === 'dark'){{'dark-layout'}} @elseif($configData['theme'] === 'semi-dark'){{'semi-dark-layout'}} @else {{'semi-dark-layout'}} @endif" data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
     <!-- BEGIN: Content-->
 
     @if ($message = Session::get('success'))

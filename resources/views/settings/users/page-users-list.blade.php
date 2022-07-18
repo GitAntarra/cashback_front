@@ -94,9 +94,10 @@
               </thead>
               <tbody>
                 <?php if($users){ $userData = $users['data']; } ?>
-                <tr>
                 @if(!empty($userData) && isset($userData))
                 @foreach ($userData as $row)
+                  @if($row['pernr'] != $data_user['pernr'])
+                <tr>
                   <td>{{$row['pernr']}}</td>
                   <td><a href="{{asset('/page-users-view?id=')}}{{$row['id']}}" data="{{$row['pernr']}}">{{$row['name']}}</a>
                   </td>
@@ -116,12 +117,15 @@
                   <td>
                     <a class="btn btn-primary" title="Edit User" href="{{asset('/page-users-edit?id=')}}{{$row['id']}}"><i
                     class="bx bx-edit-alt"></i></a></td>
-                    </tr>
-                      @endforeach
+                </tr>
+                @endif
+                @endforeach
                 @else
-                <td colspan="8" align="center">
-                No Result Data!
-                </td>
+                <tr>
+                  <td colspan="8" align="center">
+                  No Result Data!
+                  </td>
+                </tr>
                 @endif
               </tbody>
             </table>

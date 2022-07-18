@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 namespace App\Http\Controllers;
 use App\HttpRequest;
 use Illuminate\Http\Request;
@@ -47,7 +46,6 @@ class MonitoringController extends Controller
         $response_code = $type != 'all' ? $request->post('responsecode') : '';
 
         $dateFormat = date('Y-m-d', strtotime($date));
-        // print_r($dateFormat); die();
 
         $data_monit = $this->HttpRequest("GET","/esb-log?page=".$page."&take=".$take."&externalid=".$externalid."&date=".$dateFormat."&requestby=".$requestby."&responsecode=".$response_code, null)->json();
 

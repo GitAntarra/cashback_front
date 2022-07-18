@@ -204,7 +204,7 @@
         <div class="col-12 pb-1">
             <div class="row">
                 <div class="col-3">
-                    <label>END DATE</label>
+                    <label>EXPIRED DATE</label>
                 </div>
                 <div class="col-9">
                 <input required type="datetime-local" name="duedate" id="duedate" min="<?= date("Y-m-d H:i") ?>" class="form-control">
@@ -287,7 +287,7 @@
               </div>
               <div class="col-9">
                 <fieldset class="form-group">
-                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Minimum 10 Characters" minlength="10" required> </textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Minimum 10 Characters" minlength="10" required></textarea>
                 </fieldset>
               </div>
             </div>
