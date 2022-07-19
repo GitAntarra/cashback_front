@@ -27,7 +27,7 @@ class VoucherController extends Controller
         }
 
         $page = $request->get('page') ? $request->get('page') : 1;
-        $take = $request->get('take') ? $request->get('take') : 12;
+        $take = $request->get('take') ? $request->get('take') : 6;
         $sts_approv = $request->post('stsApproved') ? $request->post('stsApproved') : $defaultsts;
         $key  = $request->post('keyword') ? $request->post('keyword') : "";
 

@@ -1,4 +1,3 @@
-
 @extends('layouts.contentLayoutMaster')
 {{-- page Title --}}
 @section('title','Monitoring')

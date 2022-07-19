@@ -86,9 +86,10 @@
         <div class="card-body">
           <!-- Table with outer spacing -->
           <div class="table-responsive">
-            <table class="table">
+            <table class="table row-grouping">
               <thead>
                 <tr>
+                  <th>EXTERNAL ID</th>
                   <th>CODE</th>
                   <th>CHANNEL</th>
                   <th>ID TRANSAKSI</th>
@@ -104,6 +105,7 @@
                 @if(!empty($pembukuan) && isset($pembukuan))
                 @foreach($pembukuan as $key => $row)
                 <tr>
+                  <td>{{$row['external_id']}}</td>
                   <td>{{$row['code']}}</td>
                   <td>{{$row['channel']}}</td>
                   <td>{{$row['id']}}</td>
