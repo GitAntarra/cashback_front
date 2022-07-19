@@ -83,9 +83,6 @@ class PembukuanController extends Controller
 
         $data_pembukuan = $this->HttpRequest("GET","/bookkeeping?page=".$page."&take=".$take."&status=".$status."&keyword=".$keyword."&channel=".$channel."&debit_account=".$debit_account, null)->json();
 
-        // echo "<pre>";
-        // print_r($data_pembukuan);
-        // die;
 
         $data = [
             'pembukuan'     => $data_pembukuan['data'],

@@ -14,6 +14,7 @@ class AuthenticationController extends Controller
   public function loginPage(){
     
     $value = Session::get('isLogin');
+    Session::flash('warning','Please Login First');
     if($value){
       return redirect::to('/')->withErrors(['msg' => 'The Message']);
     }
@@ -43,6 +44,7 @@ class AuthenticationController extends Controller
 
   public function attemplogin(Request $request)
     {
+      Session::flush();
 
       $req_param = [
         'pernr'   => $request->post('pernr'),

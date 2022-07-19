@@ -65,6 +65,8 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 		</div>
 	@endif
   </div>
+ 
+
   <div class="sidenav-overlay"></div>
   <div class="drag-target"></div>
 

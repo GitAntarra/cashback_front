@@ -22,7 +22,7 @@ class CheckChecker
         //     abort(403);
         // }else 
         if(!$isLogin){
-            return redirect('/logout');
+            return redirect('/auth-login');
         }
         return $next($request);
     }
