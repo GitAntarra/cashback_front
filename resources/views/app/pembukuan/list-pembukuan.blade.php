@@ -107,7 +107,7 @@
                 <tr>
                   <td>{{ $row['eksternal_id'] ? $row['eksternal_id'] : ""}}</td>
                   <td>{{$row['code']}}</td>
-                  <td>{{$row['channel']}}</td>
+                  <td>{{$row['channel']}}</td>      
                   <td>{{$row['id']}}</td>
                   <td>{{$row['debit_account']}}</td>
                   <td>{{$row['credit_account']}}</td>
