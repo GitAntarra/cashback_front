@@ -24,13 +24,13 @@
                     <div class="card-body">
                         <div class="row">
                         <div class="col-12">
-                            <div class="row justify-content-between">
+                            <div class="row justify-content-flex-start">
                                 <?php $user = Session::get('set_userdata'); ?>
-                                <div class="col-2 col-sm-2 text-center mb-1 mb-sm-0">
+                                <div class="col-3 col-sm-3 text-center mb-1 mb-sm-0">
                                     <img src="{{ $user['foto'] }}" class="rounded"
                                     alt="group image" height="120" width="120" />
                                 </div>
-                                <div class="col-10 col-sm-10">
+                                <div class="col-8 col-sm-8">
                                     <div class="profile-widget-description pb-0">
                                         <div class="row p-0 m-0">
                                             <div class="col-md-2 p-0 m-0 profile-widget-name"> Name  </div>
@@ -49,7 +49,7 @@
                                             <div class="col-md-10 text-left m-0 p-0">: <?= $user['branch'] ?> - {{$user['brdesc']}}({{$user['uker']}})</div>
                                         </div>
                                         <div class="row p-0 m-0">
-                                            <div class="col-md-2 p-0 m-0 profile-widget-name"> Posision  </div>
+                                            <div class="col-md-2 p-0 m-0 profile-widget-name"> Position  </div>
                                             <div class="col-md-10 text-left m-0 p-0">: <?= $user['position'] ?> </div>
                                         </div>
                                         <div class="row p-0 m-0">

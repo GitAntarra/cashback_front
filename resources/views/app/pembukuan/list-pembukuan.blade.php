@@ -105,9 +105,9 @@
                 @if(!empty($pembukuan) && isset($pembukuan))
                 @foreach($pembukuan as $key => $row)
                 <tr>
-                  <td>{{$row['external_id']}}</td>
+                  <td>{{$row['external_id'] ? $row['external_id'] : ""}}</td>
                   <td>{{$row['code']}}</td>
-                  <td>{{$row['channel']}}</td>
+                  <td>{{$row['channel']}}</td>      
                   <td>{{$row['id']}}</td>
                   <td>{{$row['debit_account']}}</td>
                   <td>{{$row['credit_account']}}</td>

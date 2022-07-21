@@ -14,12 +14,12 @@
     <div class="col-12 col-sm-7">
       <div class="media mb-2">
         <a class="mr-1" href="#">
-          <img src="{{asset('images/portrait/small/avatar-s-26.jpg')}}" alt="users view avatar"
+          <img src="<?php if(isset($detail_user['foto']) && !empty($detail_user['foto'])){ echo $detail_user['foto']; }else{ if($detail_user['gender'] == "P"){ echo asset('images/woman_avatar.png'); }else{ echo asset('images/user_avatar.png'); } } ?>" alt="users view avatar"
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
           <h4 class="media-heading"><span>
-            {{$data->name}}
+            {{$data->name}}{{$data->gender}}
           </span></h4>
           <span>Personal Number:</span>
           <span>{{$data->pernr}}</span>
