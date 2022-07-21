@@ -14,7 +14,7 @@
     <div class="col-12 col-sm-7">
       <div class="media mb-2">
         <a class="mr-1" href="#">
-          <img src="{{asset('images/portrait/small/avatar-s-26.jpg')}}" alt="users view avatar"
+          <img src="<?= $detail_user['foto'] ?>" alt="users view avatar"
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
