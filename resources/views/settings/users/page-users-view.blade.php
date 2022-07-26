@@ -19,7 +19,7 @@
         </a>
         <div class="media-body pt-25">
           <h4 class="media-heading"><span>
-            {{$data->name}}{{$data->gender}}
+            {{$data->name}}
           </span></h4>
           <span>Personal Number:</span>
           <span>{{$data->pernr}}</span>
