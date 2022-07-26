@@ -33,7 +33,7 @@
             <!-- users edit media object start -->
             <div class="media mb-2">
                 <a class="mr-2" href="#">
-                    <img src="<?php if(isset($data->foto) && !empty($data->foto)){ echo $data->ofto; }else{ if($data->gender == "P"){ echo asset('images/woman_avatar.png'); }else{ echo asset('images/user_avatar.png'); } } ?>" alt="users avatar"
+                    <img src="<?php if(isset($data->foto) && !empty($data->foto)){ echo $data->foto; }else{ if($data->gender == "P"){ echo asset('images/woman_avatar.png'); }else{ echo asset('images/user_avatar.png'); } } ?>" alt="users avatar"
                         class="users-avatar-shadow rounded-circle" height="64" width="64">
                 </a>
                 <div class="media-body">
