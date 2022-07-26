@@ -20,7 +20,7 @@ class DepositAccountController extends Controller
         
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 5;
-        $keyword = $request->post('keyword') ? $request->post('keyword') : '';
+        $keyword = $request->get('keyword') ? $request->get('keyword') : '';
 
         $postParam = $request->post();
 

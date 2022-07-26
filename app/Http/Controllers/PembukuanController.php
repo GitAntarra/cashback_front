@@ -17,14 +17,12 @@ class PembukuanController extends Controller
     }
 
     public function listPembukuan(Request $request){
-        $postParam = $request->post();
-
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 5;
-        $status = $request->post('statusRedeem') ? $request->post('statusRedeem') : "SUCCESS";
-        $keyword = $request->post('keyword') ? $request->post('keyword') : "";
-        $channel = $request->post('channelopt') ? $request->post('channelopt') : "";
-        $debit_account = $request->post('debit_account') ? $request->post('debit_account') : "";
+        $status = $request->get('status') ? $request->get('status') : "SUCCESS";
+        $keyword = $request->get('keyword') ? $request->get('keyword') : "";
+        $channel = $request->get('channel') ? $request->get('channel') : "";
+        $debit_account = $request->get('debit_account') ? $request->get('debit_account') : "";
         
         if(isset($postParam['retryPembukuan'])){
             $param = [

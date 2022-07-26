@@ -15,23 +15,20 @@
 <!-- table Transactions start -->
 <section id="table-transactions">
   <div class="card">
-    <form method="POST">
-      @csrf
+    <form action="{{route('searchVoucher.post')}}" method="GET">
     <div class="card-header">
       <div class="row justify-content-end">
         <div class="col-lg-8 col-md-12 row">
           <div class="input-group">
-            <form action="{{route('searchVoucher.post')}}" method="POST">
-              @csrf
             <input type="text" name="keyword" id="keyword" value="{{$keys}}" Placeholder="Search by voucher code" class="form-control">
-            <select name="stsApproved" id="stsApproved" class="custom-select">
+            <select name="status" id="status" class="custom-select">
               @foreach($sts_approved as $key=>$row)
                 <option value="{{$key}}" {{($sts_aprv == $key) ? 'selected' : ''}}>{{$row}}</option>
               @endforeach
             </select>
             <div class="input-group-append">
               <button type="submit" class="btn btn-primary" title="Find"><i class="bx bx-search text-white"> Find</i></button>
-            </form>
+
               @if($sess_user['level'] == 'SUPERADMIN' || $sess_user['level'] == 'MAKER')
               <button type="button" class="btn btn-info" data-toggle="modal"
               data-target="#addVoucherModal" title="Add Feature"><i class="bx bx-plus text-white">Add Voucher</i></button>
@@ -100,10 +97,10 @@
         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
           <ul class="pagination">
             <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false ){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
-                <a class="page-link" href="{{asset('/list-voucher?page=')}}{{$prevPage}}"><i class='bx bx-chevrons-left'></i>Prev</a>
+                <a class="page-link" href="{{asset('/list-voucher?page=')}}{{$prevPage}}&status={{$sts_aprv}}"><i class='bx bx-chevrons-left'></i>Prev</a>
             </li>
             <li class="paginate_button page-item next <?php if($meta->hasNextPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
-                <a class="page-link" href="{{asset('/list-voucher?page=')}}{{$nextPage}}">Next<i class='bx bx-chevrons-right'></i></a>
+                <a class="page-link" href="{{asset('/list-voucher?page=')}}{{$nextPage}}&status={{$sts_aprv}}">Next<i class='bx bx-chevrons-right'></i></a>
             </li>
           </ul>
         </div>
@@ -325,7 +322,7 @@
 
   function allow_alphabets(element){
     let textInput = element.value;
-    textInput = textInput.replace(/[^A-Za-z]/gm, ""); 
+    textInput = textInput.replace(/[^A-Za-z0-9]/gm, ""); 
     element.value = textInput.toUpperCase();
   }
 

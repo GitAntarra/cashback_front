@@ -9,8 +9,7 @@
       <div class="card-content">
         <div class="card-header">
           <div class="col-7">
-            <form action="{{route('statuspembukuan.post')}}" method="POST">
-              @csrf
+            <form action="{{route('statuspembukuan.post')}}" method="GET">
               <div class="col-12 pt-1">
                 <div class="row">
                   <div class="col-md-3">
@@ -18,7 +17,7 @@
                   </div>
                   <div class="col-md-9">
                     <fieldset class="form-group">
-                      <select class="form-control" name="channelopt" id="channelopt">
+                      <select class="form-control" name="channel" id="channel">
                         @if(isset($channel) && !empty($channel))
                           <option value="{{$channel}}">{{$channel}}</option>
                         @endif
@@ -34,7 +33,7 @@
                   </div>  
                   <div class="col-md-9">
                     <fieldset class="form-group">
-                      <select class="custom-select" name="statusRedeem" id="statusRedeem">
+                      <select class="custom-select" name="status" id="status">
                         <option value="SUCCESS" {{ ($status == 'SUCCESS') ? 'selected' : '' }}>SUCCESS</option>
                         <option value="NOTYET" {{ ($status == 'NOTYET') ? 'selected' : '' }}>NOT YET</option>
                         <option value="FAILED" {{ ($status == 'FAILED') ? 'selected' : '' }}>FAILED</option>
@@ -156,10 +155,10 @@
               <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                 <ul class="pagination">
                   <li class="paginate_button page-item previous {{ ($meta->hasPreviousPage == false) ? 'disabled' : '' }}" id="DataTables_Table_0_previous">
-                      <a class="page-link" href="<?php echo asset('/list-pembukuan').'?page='.$prevPage; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
+                      <a class="page-link" href="<?php echo asset('/list-pembukuan').'?page='.$prevPage.'&debit_account='.$debit_account.'&keyword'.$keyword.'&status='.$status.'&channel='.$channel; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
                   </li>
                   <li class="paginate_button page-item next {{ ($meta->hasNextPage == false) ? 'disabled' : '' }}" id="DataTables_Table_0_next">
-                      <a class="page-link" href="<?php echo asset('/list-pembukuan').'?page='.$nextPage; ?>">Next<i class='bx bx-chevrons-right'></i></a>
+                      <a class="page-link" href="<?php echo asset('/list-pembukuan').'?page='.$nextPage.'&debit_account='.$debit_account.'&keyword'.$keyword.'&status='.$status.'&channel='.$channel; ?>">Next<i class='bx bx-chevrons-right'></i></a>
                   </li>
                 </ul>
               </div>
@@ -305,7 +304,7 @@
   $.fn.select2.defaults.set( "theme", "bootstrap");
   
 
-  $('#channelopt').select2(
+  $('#channel').select2(
     {
     width: '100%',
     placeholder: 'Search for a Channel',

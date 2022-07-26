@@ -37,7 +37,7 @@
   <!-- Marketing Campaigns Starts -->
   <div class="card marketing-campaigns">
     <div class="card-header">
-        <form method="POST" action="{{route('searhDepositAccount.post')}}">
+        <form method="GET" action="{{route('searhDepositAccount.post')}}">
             @csrf
             <div class="row justify-content-end">
               <div class="col-lg-10 col-md-12 row">
@@ -114,10 +114,10 @@
         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
           <ul class="pagination">
             <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
-                <a class="page-link" href="<?php echo asset('/deposit-account?page=').$prevPage; ?>"><i class='bx bx-chevrons-left'></i> Prev</a>
+                <a class="page-link" href="<?php echo asset('/deposit-account?page=').$prevPage.'&keyword='.$keyword; ?>"><i class='bx bx-chevrons-left'></i> Prev</a>
             </li>
             <li class="paginate_button page-item next <?php if($meta->hasNextPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
-                <a class="page-link" href="<?php echo asset('/deposit-account?page=').$nextPage; ?>">Next<i class='bx bx-chevrons-right'></i></a>
+                <a class="page-link" href="<?php echo asset('/deposit-account?page=').$nextPage.'&keyword='.$keyword; ?>">Next<i class='bx bx-chevrons-right'></i></a>
             </li>
           </ul>
         </div>

@@ -16,8 +16,7 @@
 <!-- table Transactions start -->
 <section id="table-transactions">
   <div class="card">
-    <form method="POST" action="{{route('searchSubFeature.post')}}?id={{$main_featureid}}">
-    @csrf
+    <form method="GET" action="{{route('searchSubFeature.post')}}?id={{$main_featureid}}">
     <div class="card-header pl-0">
       <div class="row justify-content-end">
         <div class="col-lg-4 p-0">
@@ -81,11 +80,11 @@
           <div class="col-sm-12 col-md-7">
             <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
             <ul class="pagination">
-              <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
-                  <a class="page-link" href="<?php echo asset('/sub-feature').'?id='.$main_featureid.'&page='.$prevPage.'&take='.$take; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
+              <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage == null){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
+                  <a class="page-link" href="<?php echo asset('/sub-feature').'?id='.$main_featureid.'&page='.$prevPage.'&take='.$take.'&keyword='.$keyword; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
               </li>
-              <li class="paginate_button page-item next <?php if($meta->hasNextPage == false){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
-                  <a class="page-link" href="<?php echo asset('/sub-feature').'?id='.$main_featureid.'&page='.$nextPage.'&take='.$take; ?>">Next<i class='bx bx-chevrons-right'></i></a>
+              <li class="paginate_button page-item next <?php if($meta->hasNextPage == null){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
+                  <a class="page-link" href="<?php echo asset('/sub-feature').'?id='.$main_featureid.'&page='.$nextPage.'&take='.$take.'&keyword='.$keyword; ?>">Next<i class='bx bx-chevrons-right'></i></a>
               </li>
             </ul>
             </div>
@@ -200,7 +199,7 @@
 
   function allow_alphabets(element){
     let textInput = element.value;
-    textInput = textInput.replace(/[^A-Za-z]/gm, ""); 
+    textInput = textInput.replace(/[^A-Za-z0-9 ]/gm, ""); 
     element.value = textInput.toUpperCase();
   }
 

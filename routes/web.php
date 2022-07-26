@@ -16,7 +16,7 @@ Route::group(['middleware' => ['isLogin']], function(){
 
     //User Manegement Route
     Route::get('/user-management','UsersController@listuser');
-    Route::post('/user-management','UsersController@listuser')->name('searchUser.post');
+    Route::get('/user-management','UsersController@listuser')->name('searchUser.post');
     Route::get('/page-users-view','UsersController@viewUser');
     Route::get('/page-users-edit','UsersController@editUser');
     Route::get('/page-users-add','UsersController@addUser');
@@ -68,13 +68,13 @@ Route::group(['middleware' => ['isChecker']],function () {
 
     //Channel Route
     Route::get('/list-channel', 'ChannelController@listChannel');
-    Route::post('list-channel', "ChannelController@listChannel")->name('searchChannel.post');
+    Route::get('list-channel', "ChannelController@listChannel")->name('searchChannel.post');
 
     //Feature Route
     Route::get('/main-feature',"FeatureController@mainFeature");
     Route::get('/sub-feature',"FeatureController@subFeature");
-    Route::post('/main-feature',"FeatureController@mainFeature")->name('searhFeature.post');
-    Route::post('/sub-feature',"FeatureController@subfeature")->name('searchSubFeature.post');
+    Route::get('/main-feature',"FeatureController@mainFeature")->name('searhFeature.post');
+    Route::get('/sub-feature',"FeatureController@subfeature")->name('searchSubFeature.post');
     Route::get('/getsubFeature', "FeatureController@getsubFeature");
 
     // User Route 
@@ -88,7 +88,7 @@ Route::group(['middleware' => ['isChecker']],function () {
 
     //Pembukuan
     Route::get('/list-pembukuan',"PembukuanController@listPembukuan");
-    Route::post('/list-pembukuan',"PembukuanController@listPembukuan")->name('statuspembukuan.post');
+    Route::get('/list-pembukuan',"PembukuanController@listPembukuan")->name('statuspembukuan.post');
     Route::post('/done-pembukuan',"PembukuanController@donePembukuan")->name('donePembukuan.post');
     Route::get('/get-channelopt',"PembukuanController@getChannelopt");
     Route::get('/get-depositaccount',"PembukuanController@getDepositAccount");
@@ -97,7 +97,7 @@ Route::group(['middleware' => ['isChecker']],function () {
 
     //Voucher Route
     Route::get('/list-voucher','VoucherController@listVoucher');
-    Route::post('/list-voucher',"VoucherController@listVoucher")->name("searchVoucher.post");
+    Route::get('/list-voucher',"VoucherController@listVoucher")->name("searchVoucher.post");
     Route::get('/view-voucher','VoucherController@viewVoucher');
     Route::post('/update-voucher','VoucherController@updateVoucher')->name("updateVoucher.post");
     Route::post('/approve-voucher','VoucherController@ApproveVoucher')->name("approveVoucher.post");
@@ -110,7 +110,7 @@ Route::group(['middleware' => ['isChecker']],function () {
 
     //Deposit Account
     Route::get('/deposit-account',"DepositAccountController@listDepositAccount");
-    Route::post('/deposit-account',"DepositAccountController@listDepositAccount")->name('searhDepositAccount.post');
+    Route::get('/deposit-account',"DepositAccountController@listDepositAccount")->name('searhDepositAccount.post');
     Route::post('/add-deposit',"DepositAccountController@listDepositAccount")->name('addDeposit.post');
     Route::post('/edit-deposit',"DepositAccountController@updateDeposit")->name('editdeposit.post');
 

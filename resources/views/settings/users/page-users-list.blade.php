@@ -17,8 +17,7 @@
       <div class="card-content">
         <div class="card-header">
           <div class="col-7">
-            <form action="{{route('searchUser.post')}}" method="POST">
-              @csrf
+            <form action="{{route('searchUser.post')}}" method="GET">
               <div class="col-12 pt-1">
                 <div class="row">
                   <div class="col-md-3">
@@ -26,9 +25,9 @@
                   </div>  
                   <div class="col-md-9">
                     <fieldset class="form-group">
-                      <select class="custom-select" name="levelFilter" id="basicSelect">
+                      <select class="custom-select" name="level" id="basicSelect">
                         @foreach($opt_level as $key => $value)
-                          <option value="{{$key}}" {{($level_filter == $key) ? 'selected' : '' }}>{{$value}}</option>
+                          <option value="{{$key}}" {{($value == $level) ? 'selected' : '' }}>{{$value}}</option>
                         @endforeach
                       </select>
                     </fieldset>
@@ -42,9 +41,9 @@
                   </div>  
                   <div class="col-md-9">
                     <fieldset class="form-group">
-                      <select class="custom-select" name="statusFilter" id="statusFilter">
+                      <select class="custom-select" name="status" id="status">
                         @foreach ($status as $key => $value)
-                          <option value="{{$key}}" {{($status_filter == $key) ? 'selected' : '' }}>{{$value}}</option>
+                          <option value="{{$key}}" {{($key == $status_filter) ? 'selected' : '' }}>{{$value}}</option>
                         @endforeach
                       </select>
                     </fieldset>
@@ -138,10 +137,10 @@
           <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
             <ul class="pagination">
               <li class="paginate_button page-item previous <?php if($meta->hasPreviousPage != 1){ echo "disabled"; } ?>" id="DataTables_Table_0_previous">
-                  <a class="page-link" href="<?php echo asset('/user-management').'?page='.$prevPage.'&take='.$limit; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
+                  <a class="page-link" href="<?php echo asset('/user-management').'?page='.$prevPage.'&level='.$level.'&status='.$status_filter.'&keyword='.$keyword; ?>"><i class='bx bx-chevrons-left'></i>Prev</a>
               </li>
               <li class="paginate_button page-item next <?php if($meta->hasNextPage != 1){ echo "disabled"; } ?>" id="DataTables_Table_0_next">
-                  <a class="page-link" href="<?php echo asset('/user-management').'?page='.$nextPage.'&take='.$limit; ?>">Next<i class='bx bx-chevrons-right'></i></a>
+                  <a class="page-link" href="<?php echo asset('/user-management').'?page='.$nextPage.'&level='.$level.'&status='.$status_filter.'&keyword='.$keyword;; ?>">Next<i class='bx bx-chevrons-right'></i></a>
               </li>
             </ul>
           </div>

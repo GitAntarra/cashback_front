@@ -15,12 +15,10 @@ class UsersController extends Controller
 
   //user List
   public function listUser(Request $request){
-    $postVar = $request->post();
     $page = $request->get('page') ? $request->get('page') : 1;
-    $limit = $request->get('limit') ? $request->get('limit') : 5;
-    $status_filter = $request->post('statusFilter')  ? $request->post('statusFilter') : 'ALL';
-    $level_filter = $request->post('levelFilter') ? $request->post('levelFilter') : 'ALL';
-    $key  = $request->post('keyword') ? $request->post('keyword') : '';
+    $status_filter = $request->get('status')  ? $request->get('status') : 'ALL';
+    $level_filter = $request->get('level') ? $request->get('level') : 'ALL';
+    $key  = $request->get('keyword') ? $request->get('keyword') : '';
 
     $url_api = env('API_URL');
 
@@ -40,20 +38,19 @@ class UsersController extends Controller
     $nextPage = (int) $page + 1;
     $prevPage = (int) $page - 1;
 
-    $data_user = $this->HttpRequest("GET", "/users?page=".$page."&take=".$limit."&level=".$level_filter."&status=".$status_filter."&keyword=".$key, null)->json();
+    $data_user = $this->HttpRequest("GET", "/users?page=".$page."&take=5&level=".$level_filter."&status=".$status_filter."&keyword=".$key, null)->json();
 
     $data = [
       'msg'   => '',
       'users' => $data_user,
       'meta'  => (object) $data_user['meta'],
-      'limit' => $limit,
       'page'  => $page,
       'status_filter'    => $status_filter,
-      'level_filter'  =>$level_filter,
+      'level'  => $level_filter,
       'keyword'   => $key,
       'nextPage'  => $nextPage,
       'prevPage'  => $prevPage, 
-      'number'    => (int) ($page * $limit) - ($limit - 1),
+      // 'number'    => (int) ($page * $limit) - ($limit - 1),
    ];
 
     $data['status'] = [

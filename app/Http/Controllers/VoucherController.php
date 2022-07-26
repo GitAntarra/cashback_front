@@ -17,7 +17,6 @@ class VoucherController extends Controller
     public function listVoucher(Request $request)
     {
         
-        $getPost = $request->post();
         $isLogin = session()->get('set_userdata');
         
         if($isLogin['level'] == 'SIGNER'){
@@ -26,10 +25,10 @@ class VoucherController extends Controller
             $defaultsts = 'CREATED';
         }
 
+        $take = $request->get('take') ? $request->get('take') : 8;
+        $sts_approv = $request->get('status') ? $request->get('status') : $defaultsts;
         $page = $request->get('page') ? $request->get('page') : 1;
-        $take = $request->get('take') ? $request->get('take') : 6;
-        $sts_approv = $request->post('stsApproved') ? $request->post('stsApproved') : $defaultsts;
-        $key  = $request->post('keyword') ? $request->post('keyword') : "";
+        $key  = $request->get('keyword') ? $request->get('keyword') : "";
 
 
         $sts_approval = array();

@@ -16,10 +16,9 @@ class FeatureController extends Controller
 
     public function mainFeature(Request $request)
     {
-        $postParam = $request->post();
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 5;
-        $key  = $request->post('keyword') ? $request->post('keyword') : '';
+        $key  = $request->get('keyword') ? $request->get('keyword') : '';
 
         $data_feature = $this->HttpRequest("GET", "/feature?page=".$page."&take=".$take."&keyword=".$key, null)->json();
 
@@ -79,12 +78,10 @@ class FeatureController extends Controller
 
     public function subFeature(Request $request)
     {
-        $postParam = $request->post();
         $idmain =  $request->get('id');
-
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 5;
-        $key  = $request->post('keyword') ? $request->post('keyword') : '';
+        $key  = $request->get('keyword') ? $request->get('keyword') : '';
 
         // Add Sub Feature
         if(isset($postParam['addsubFeature'])){
@@ -130,11 +127,11 @@ class FeatureController extends Controller
 
         }
    
-        $data_subfeature = $this->HttpRequest("GET","/feature/".$request->get('id')."/sub?page=".$page."&take=".$take."&keyword=".$key,null)->json();
+        $data_subfeature = $this->HttpRequest("GET","/feature/5ee38a1e-5e97-408b-b4f1-6eb7070ab244/sub?page=".$page."&take=".$take."&keyword=".$key,null)->json();
 
 
         $data = [
-            'main_featureid'    => $idmain ? $idmain : $param['id'],
+            'main_featureid'    => $idmain,
             'data_subfeature'   => $data_subfeature['data'],
             'meta'              => (object) $data_subfeature['meta'],
             'keyword'           => $key,
