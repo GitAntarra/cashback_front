@@ -126,7 +126,7 @@ class FeatureController extends Controller
 
         }
    
-        $data_subfeature = $this->HttpRequest("GET","/feature/5ee38a1e-5e97-408b-b4f1-6eb7070ab244/sub?page=".$page."&take=".$take."&keyword=".$key,null)->json();
+        $data_subfeature = $this->HttpRequest("GET","/feature/".$idmain."/sub?page=".$page."&take=".$take."&keyword=".$key,null)->json();
 
 
         $data = [
