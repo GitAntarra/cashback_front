@@ -24,6 +24,7 @@
         </div>
         <div class="col-lg-8 col-md-12 row">
           <div class="input-group">
+            <input type="text" name="id" id="id" value="{{$main_featureid}}" hidden>
             <input type="text" name="keyword" id="keyword" value="{{($keyword) ? $keyword : '' }}" Placeholder="Search by subfeature name" class="form-control">   
             <div class="input-group-append">
               <button type="submit" class="btn btn-primary"><i class="bx bx-search text-white"> Find</i></button>

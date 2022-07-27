@@ -16,7 +16,7 @@ class VoucherController extends Controller
 
     public function listVoucher(Request $request)
     {
-        
+        $getPost = $request->post();
         $isLogin = session()->get('set_userdata');
         
         if($isLogin['level'] == 'SIGNER'){

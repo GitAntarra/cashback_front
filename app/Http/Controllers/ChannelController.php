@@ -16,6 +16,7 @@ class ChannelController extends Controller
 
     public function listChannel(Request $request)
     {
+        $postParam = $request->post();
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 5;
         $key  = $request->get('keyword') ? $request->get('keyword') : '';

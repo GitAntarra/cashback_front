@@ -16,6 +16,7 @@ class FeatureController extends Controller
 
     public function mainFeature(Request $request)
     {
+        $postParam = $request->post();
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 5;
         $key  = $request->get('keyword') ? $request->get('keyword') : '';
@@ -78,6 +79,8 @@ class FeatureController extends Controller
 
     public function subFeature(Request $request)
     {
+        $postParam = $request->post();
+
         $idmain =  $request->get('id');
         $page = $request->get('page') ? $request->get('page') : 1;
         $take = $request->get('take') ? $request->get('take') : 5;
@@ -85,16 +88,12 @@ class FeatureController extends Controller
 
         // Add Sub Feature
         if(isset($postParam['addsubFeature'])){
-
             $params = [
                 'id'         => $postParam['idmainFeature'],
                 'feature_id' => $postParam['subfeatureName'],
                 'description'=> $postParam['description']
             ];
-
-            $add_subfeature = $this->HttpRequest("POST","/feature/sub",$params);
-
-
+            $add_subfeature = $this->HttpRequest("POST","/feature/sub",$params)->json();
 
             if(!empty($add_subfeature)){
                 Session::flash('success','action success');
